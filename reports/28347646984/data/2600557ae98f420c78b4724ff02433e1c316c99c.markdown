@@ -1,0 +1,239 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: src/app/sections/[jwId]/test.ts >> /sections/[jwId] 班级详情页 >> 今天按钮将日历导航到当前日期而非班级开始日期
+- Location: tests/e2e/src/app/sections/[jwId]/test.ts:286:3
+
+# Error details
+
+```
+Error: expect(locator).toHaveAttribute(expected) failed
+
+Locator:  getByRole('tablist', { name: /授课班级|Teaching section/i }).getByRole('tab', { name: /日历|Calendar/i }).first()
+Expected: "true"
+Received: "false"
+Timeout:  5000ms
+
+Call log:
+  - Expect "toHaveAttribute" with timeout 5000ms
+  - waiting for getByRole('tablist', { name: /授课班级|Teaching section/i }).getByRole('tab', { name: /日历|Calendar/i }).first()
+    13 × locator resolved to <button role="tab" tabindex="-1" type="button" aria-selected="false" data-slot="tabs-button" id="section-detail-calendar-tab" aria-controls="section-detail-calendar-panel" class="inline-flex h-9 shrink-0 items-center justify-center whitespace-nowrap rounded-md px-3 font-medium text-sm transition hover:bg-base-200 text-base-content/65 ">…</button>
+       - unexpected value "false"
+
+```
+
+```yaml
+- tab "Calendar"
+```
+
+# Test source
+
+```ts
+  193 |       .first();
+  194 |     await expect(async () => {
+  195 |       await expect(moreSummary).toBeVisible();
+  196 |       if ((await moreDetails.getAttribute("open")) === null) {
+  197 |         await moreSummary.click();
+  198 |       }
+  199 |       await expect(teachLanguage).toBeVisible({ timeout: 2_000 });
+  200 |       await expect(roomType).toBeVisible({ timeout: 2_000 });
+  201 |     }).toPass({
+  202 |       timeout: 10_000,
+  203 |       intervals: [250, 500, 1_000],
+  204 |     });
+  205 | 
+  206 |     // section.teachLanguage.namePrimary (locale-dependent)
+  207 |     await expect(teachLanguage).toBeVisible({ timeout: 8_000 });
+  208 |     // section.roomType.namePrimary (locale-dependent)
+  209 |     await expect(roomType).toBeVisible({ timeout: 8_000 });
+  210 | 
+  211 |     await captureStepScreenshot(page, testInfo, "section/teach-lang-roomtype");
+  212 |   });
+  213 | 
+  214 |   test("显示行政班级（可折叠）", async ({ page }, testInfo) => {
+  215 |     await gotoAndWaitForReady(page, SECTION_URL);
+  216 | 
+  217 |     // section.adminClasses[] — expand collapsible if needed
+  218 |     const adminClasses = page
+  219 |       .locator('details[data-slot="accordion-item"]')
+  220 |       .filter({ hasText: /行政班级|Admin Classes/i })
+  221 |       .first();
+  222 |     if ((await adminClasses.count()) > 0) {
+  223 |       const adminClassTrigger = adminClasses.locator("summary").first();
+  224 |       const adminClassText = page
+  225 |         .getByText(DEV_SEED.section.adminClassNameCn)
+  226 |         .or(page.getByText(DEV_SEED.section.adminClassNameEn));
+  227 |       if ((await adminClasses.getAttribute("open")) === null) {
+  228 |         await adminClassTrigger.click();
+  229 |       }
+  230 |       await expect(adminClassText.first()).toBeVisible();
+  231 |     }
+  232 | 
+  233 |     await captureStepScreenshot(page, testInfo, "section/admin-classes");
+  234 |   });
+  235 | 
+  236 |   test("日历标签页显示课表、教室、教学楼与教师", async ({ page }, testInfo) => {
+  237 |     await gotoAndWaitForReady(page, SECTION_URL);
+  238 | 
+  239 |     await expect(async () => {
+  240 |       const calendarTab = getSectionTab(page, /日历|Calendar/i);
+  241 |       await calendarTab.click();
+  242 |       await expect(calendarTab).toHaveAttribute("aria-selected", "true");
+  243 |     }).toPass({
+  244 |       timeout: 10_000,
+  245 |       intervals: [250, 500, 1_000],
+  246 |     });
+  247 | 
+  248 |     const classEvent = page
+  249 |       .locator("article")
+  250 |       .filter({ hasText: /上课事件|Class event/i })
+  251 |       .first();
+  252 |     await expect(classEvent).toBeVisible();
+  253 | 
+  254 |     // schedule.room.namePrimary and schedule.room.building.namePrimary
+  255 |     // are rendered in the event detail cards.
+  256 |     await expect(
+  257 |       classEvent
+  258 |         .getByText(DEV_SEED.room.nameCn, { exact: false })
+  259 |         .or(classEvent.getByText(DEV_SEED.room.nameEn, { exact: false }))
+  260 |         .first(),
+  261 |     ).toBeVisible();
+  262 |     await expect(
+  263 |       classEvent
+  264 |         .getByText(DEV_SEED.building.nameCn, { exact: false })
+  265 |         .or(classEvent.getByText(DEV_SEED.building.nameEn, { exact: false }))
+  266 |         .first(),
+  267 |     ).toBeVisible();
+  268 |     await expect(
+  269 |       classEvent
+  270 |         .getByText(DEV_SEED.campus.nameCn, { exact: false })
+  271 |         .or(classEvent.getByText(DEV_SEED.campus.nameEn, { exact: false }))
+  272 |         .first(),
+  273 |     ).toBeVisible();
+  274 | 
+  275 |     // schedule.teachers[].namePrimary appears in the sidebar (always visible)
+  276 |     await expect(
+  277 |       page
+  278 |         .getByText(DEV_SEED.teacher.nameCn)
+  279 |         .or(page.getByText(DEV_SEED.teacher.nameEn))
+  280 |         .first(),
+  281 |     ).toBeVisible();
+  282 | 
+  283 |     await captureStepScreenshot(page, testInfo, "section/schedule-calendar");
+  284 |   });
+  285 | 
+  286 |   test("今天按钮将日历导航到当前日期而非班级开始日期", async ({
+  287 |     page,
+  288 |   }, testInfo) => {
+  289 |     await gotoAndWaitForReady(page, SECTION_URL);
+  290 | 
+  291 |     const calendarTab = getSectionTab(page, /日历|Calendar/i);
+  292 |     await calendarTab.click();
+> 293 |     await expect(calendarTab).toHaveAttribute("aria-selected", "true");
+      |                               ^ Error: expect(locator).toHaveAttribute(expected) failed
+  294 | 
+  295 |     const monthView = getSectionCalendarMonthView(page);
+  296 |     const monthHeading = monthView.locator("h3").first();
+  297 |     const initialMonthLabel = (await monthHeading.innerText()).trim();
+  298 | 
+  299 |     await monthView.getByRole("button", { name: /下个月|Next month/i }).click();
+  300 |     await expect(monthHeading).not.toHaveText(initialMonthLabel);
+  301 | 
+  302 |     await monthView.getByRole("button", { name: /今天|Today/i }).click();
+  303 |     await expect(monthView.locator('[aria-current="date"]')).toHaveCount(1);
+  304 |     await expect(monthHeading).not.toHaveText(initialMonthLabel);
+  305 | 
+  306 |     await captureStepScreenshot(page, testInfo, "section/calendar-today");
+  307 |   });
+  308 | 
+  309 |   test("日历标签页显示考试信息（examBatch、examRooms）", async ({
+  310 |     page,
+  311 |   }, testInfo) => {
+  312 |     await gotoAndWaitForReady(page, SECTION_URL);
+  313 | 
+  314 |     await expect(async () => {
+  315 |       const calendarTab = getSectionTab(page, /日历|Calendar/i);
+  316 |       await calendarTab.click();
+  317 |       await expect(calendarTab).toHaveAttribute("aria-selected", "true");
+  318 |     }).toPass({
+  319 |       timeout: 10_000,
+  320 |       intervals: [250, 500, 1_000],
+  321 |     });
+  322 | 
+  323 |     // Navigate forward to find exam event — exam batch name or room should appear
+  324 |     await expect(
+  325 |       page
+  326 |         .getByText(DEV_SEED.examBatch.nameCn, { exact: false })
+  327 |         .or(page.getByText(DEV_SEED.examBatch.nameEn, { exact: false }))
+  328 |         .first(),
+  329 |     )
+  330 |       .toBeVisible({ timeout: 10_000 })
+  331 |       .catch(() => {
+  332 |         // exam may not be in current month view; acceptable if basic calendar renders
+  333 |       });
+  334 | 
+  335 |     await captureStepScreenshot(page, testInfo, "section/exam-calendar");
+  336 |   });
+  337 | 
+  338 |   test("可见文本中不显示 jwId（仅 URL 规则）", async ({ page }) => {
+  339 |     await gotoAndWaitForReady(page, SECTION_URL);
+  340 |     // The page content should not contain the raw jwId as visible text
+  341 |     const content = await page.locator("#main-content").innerText();
+  342 |     // jwId should not appear as a standalone number in the visible UI
+  343 |     expect(content).not.toMatch(new RegExp(`\\b${DEV_SEED.section.jwId}\\b`));
+  344 |   });
+  345 | 
+  346 |   test("关注按钮使用订阅用语而非选课用语", async ({ page }) => {
+  347 |     // section.yml subscription-not-enrollment rule:
+  348 |     // Subscribe button must say "subscribe/follow", not "enroll".
+  349 |     // Disclaimer text MAY reference enrollment to contrast subscription vs enrollment.
+  350 |     await gotoAndWaitForReady(page, SECTION_URL);
+  351 | 
+  352 |     // There must be NO button that says "enroll" as a positive action
+  353 |     await expect(
+  354 |       page.getByRole("button", { name: /enroll|报名选课/i }),
+  355 |     ).toHaveCount(0);
+  356 | 
+  357 |     // The subscription button uses subscribe/follow language
+  358 |     const subscribeBtn = page
+  359 |       .getByRole("button", {
+  360 |         name: /关注班级|Subscribe to section|Follow section/i,
+  361 |       })
+  362 |       .or(
+  363 |         page.getByRole("button", {
+  364 |           name: /取消关注|Unsubscribe from section/i,
+  365 |         }),
+  366 |       )
+  367 |       .first();
+  368 |     await expect(subscribeBtn).toBeVisible();
+  369 |   });
+  370 | 
+  371 |   // ── Navigation ──────────────────────────────────────────────────────────────
+  372 | 
+  373 |   test("标签切换可用", async ({ page }, testInfo) => {
+  374 |     await gotoAndWaitForReady(page, SECTION_URL);
+  375 | 
+  376 |     const tabList = page
+  377 |       .getByRole("tablist", { name: /授课班级|Teaching section/i })
+  378 |       .first();
+  379 |     await expect(tabList).toBeVisible();
+  380 |     const targetTab = tabList.getByRole("tab").nth(1);
+  381 |     const targetTabId = await targetTab.getAttribute("id");
+  382 |     const panelId = await targetTab.getAttribute("aria-controls");
+  383 |     expect(targetTabId).toBeTruthy();
+  384 |     expect(panelId).toBeTruthy();
+  385 |     if (!targetTabId || !panelId) {
+  386 |       throw new Error("Expected section tab id and aria-controls");
+  387 |     }
+  388 | 
+  389 |     await targetTab.click();
+  390 |     await expect(targetTab).toHaveAttribute("aria-selected", "true");
+  391 |     const targetPanel = page.locator(`#${panelId}`);
+  392 |     await expect(targetPanel).toHaveAttribute("role", "tabpanel");
+  393 |     await expect(targetPanel).toHaveAttribute("aria-labelledby", targetTabId);
+```
