@@ -1,0 +1,316 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: src/app/bus/test.ts >> 校车面板标签页 >> 登录规划器自动保存到校车偏好设置
+- Location: tests/e2e/src/app/bus/test.ts:252:3
+
+# Error details
+
+```
+Test timeout of 30000ms exceeded.
+```
+
+```
+Error: apiRequestContext.post: Test timeout of 30000ms exceeded.
+```
+
+# Page snapshot
+
+```yaml
+- generic [ref=e3]:
+  - banner [ref=e4]:
+    - generic [ref=e5]:
+      - link "Life@USTC" [ref=e7] [cursor=pointer]:
+        - /url: /
+        - img [ref=e8]
+        - generic [ref=e9]: Life@USTC
+      - navigation "Primary navigation" [ref=e10]:
+        - link "Courses" [ref=e11] [cursor=pointer]:
+          - /url: /courses
+        - link "Sections" [ref=e12] [cursor=pointer]:
+          - /url: /sections
+        - link "Teachers" [ref=e13] [cursor=pointer]:
+          - /url: /teachers
+      - button "Profile menu" [ref=e15]:
+        - img "Dev User" [ref=e16]
+  - main [ref=e17]:
+    - generic [ref=e18]:
+      - group "Dashboard section switcher" [ref=e20]:
+        - link "Overview" [ref=e21] [cursor=pointer]:
+          - /url: /dashboard/overview
+        - link "Calendar 19" [ref=e22] [cursor=pointer]:
+          - /url: /dashboard/calendar
+          - text: Calendar
+          - generic [ref=e23]: "19"
+        - link "Homework 6" [ref=e24] [cursor=pointer]:
+          - /url: /dashboard/homeworks
+          - text: Homework
+          - generic [ref=e25]: "6"
+        - link "Todos 5" [ref=e26] [cursor=pointer]:
+          - /url: /dashboard/todos
+          - text: Todos
+          - generic [ref=e27]: "5"
+        - link "Exams" [ref=e28] [cursor=pointer]:
+          - /url: /dashboard/exams
+        - link "Section Management 4" [ref=e29] [cursor=pointer]:
+          - /url: /dashboard/subscriptions
+          - text: Section Management
+          - generic [ref=e30]: "4"
+        - link "Shuttle Bus" [ref=e31] [cursor=pointer]:
+          - /url: /dashboard/bus
+        - link "Websites" [ref=e32] [cursor=pointer]:
+          - /url: /dashboard/links
+      - generic [ref=e33]:
+        - generic [ref=e35]:
+          - generic [ref=e36]:
+            - generic [ref=e37]:
+              - heading "Campus shuttle" [level=2] [ref=e38]
+              - paragraph [ref=e39]: Static Structured Bus Timetable
+            - link "Transit map" [ref=e40] [cursor=pointer]:
+              - /url: /bus-map
+          - generic [ref=e41]:
+            - generic [ref=e42]:
+              - heading "东区 -> 北区 -> 西区" [level=3] [ref=e43]
+              - table [ref=e47]:
+                - rowgroup [ref=e48]:
+                  - row "东区 北区 西区" [ref=e49]:
+                    - columnheader "东区" [ref=e50]
+                    - columnheader "北区" [ref=e51]
+                    - columnheader "西区" [ref=e52]
+                - rowgroup [ref=e53]:
+                  - row "18:40 ~18:45 18:50" [ref=e54]:
+                    - cell "18:40" [ref=e55]
+                    - cell "~18:45" [ref=e56]
+                    - cell "18:50" [ref=e57]
+                  - row "21:15 ~21:20 21:25" [ref=e58]:
+                    - cell "21:15" [ref=e59]
+                    - cell "~21:20" [ref=e60]
+                    - cell "21:25" [ref=e61]
+            - generic [ref=e62]:
+              - heading "东区 -> 西区 -> 先研院 -> 高新" [level=3] [ref=e63]
+              - table [ref=e67]:
+                - rowgroup [ref=e68]:
+                  - row "东区 西区" [ref=e69]:
+                    - columnheader "东区" [ref=e70]
+                    - columnheader "西区" [ref=e71]
+                - rowgroup [ref=e72]:
+                  - row "21:20 21:30" [ref=e73]:
+                    - cell "21:20" [ref=e74]
+                    - cell "21:30" [ref=e75]
+          - generic [ref=e76]:
+            - link "校车运营数据仅供测试使用。" [ref=e77] [cursor=pointer]:
+              - /url: https://github.com/Life-USTC/static
+            - paragraph [ref=e78]: ~ marks an estimated time inferred from nearby stops on the same trip.
+        - generic [ref=e80]:
+          - generic [ref=e81]:
+            - generic [ref=e82]:
+              - heading "Start stop" [level=3] [ref=e83]
+              - generic [ref=e84]:
+                - button "东区" [pressed] [ref=e85]
+                - button "西区" [ref=e86]
+                - button "北区" [ref=e87]
+                - button "南区" [ref=e88]
+                - button "先研院" [ref=e89]
+                - button "高新" [ref=e90]
+            - button "Reverse" [ref=e92]:
+              - img
+              - text: Reverse
+            - generic [ref=e93]:
+              - heading "End stop" [level=3] [ref=e94]
+              - generic [ref=e95]:
+                - button "东区" [ref=e96]
+                - button "西区" [pressed] [ref=e97]
+                - button "北区" [ref=e98]
+                - button "南区" [ref=e99]
+                - button "先研院" [ref=e100]
+                - button "高新" [ref=e101]
+          - generic [ref=e102]:
+            - group "Schedule type" [ref=e103]:
+              - radio "Weekday" [checked] [ref=e104]
+              - radio "Weekend" [ref=e105]
+            - group [ref=e106]:
+              - generic [ref=e108]: Show departed trips
+              - switch "Show departed trips" [ref=e109]
+          - status [ref=e110]: Signed-in changes are saved automatically.
+  - contentinfo [ref=e111]:
+    - generic [ref=e112]:
+      - navigation [ref=e113]:
+        - link "Terms of Service" [ref=e114] [cursor=pointer]:
+          - /url: /terms
+        - link "Privacy Policy" [ref=e115] [cursor=pointer]:
+          - /url: /privacy
+        - link "GitHub" [ref=e116] [cursor=pointer]:
+          - /url: https://github.com/Life-USTC/server
+        - link "Mobile App" [ref=e117] [cursor=pointer]:
+          - /url: /mobile-app
+      - generic [ref=e118]:
+        - button "Language selector" [ref=e120]:
+          - generic [ref=e121]: 文
+        - button "Switch to light mode" [ref=e122]
+```
+
+# Test source
+
+```ts
+  217 |     expect(expandedRows).toBeGreaterThanOrEqual(initialRows);
+  218 | 
+  219 |     await departedToggle.click();
+  220 |     await expect(page.locator("table").first()).toBeVisible();
+  221 |   });
+  222 | 
+  223 |   test("工作日/周末切换更新所选线路时刻表", async ({ page }, testInfo) => {
+  224 |     await gotoAndWaitForReady(page, "/?tab=bus", {
+  225 |       testInfo,
+  226 |       screenshotLabel: "bus",
+  227 |     });
+  228 | 
+  229 |     await page
+  230 |       .getByRole("switch", { name: /Show departed trips|显示已发车班次/ })
+  231 |       .click();
+  232 | 
+  233 |     await page
+  234 |       .getByRole("radio", { name: /Weekday|工作日/ })
+  235 |       .first()
+  236 |       .click();
+  237 |     const weekdayRows = await page.locator("tbody tr:visible").count();
+  238 |     expect(weekdayRows).toBeGreaterThan(0);
+  239 | 
+  240 |     await page
+  241 |       .getByRole("radio", { name: /Weekend|周末/ })
+  242 |       .first()
+  243 |       .click();
+  244 |     await expect(page.locator("tbody tr:visible").first()).toBeVisible();
+  245 |     const weekendRows = await page.locator("tbody tr:visible").count();
+  246 |     expect(weekendRows).toBeGreaterThan(0);
+  247 |     expect(weekendRows).not.toBe(weekdayRows);
+  248 | 
+  249 |     await captureStepScreenshot(page, testInfo, "bus-planner-daytype");
+  250 |   });
+  251 | 
+  252 |   test("登录规划器自动保存到校车偏好设置", async ({ page }, testInfo) => {
+  253 |     await signInAsDebugUser(page, "/dashboard/bus");
+  254 |     const originalResponse = await page.request.get("/api/bus/preferences");
+  255 |     expect(originalResponse.status()).toBe(200);
+  256 |     const original = (await originalResponse.json()) as {
+  257 |       preference?: {
+  258 |         preferredDestinationCampusId?: number | null;
+  259 |         preferredOriginCampusId?: number | null;
+  260 |         showDepartedTrips?: boolean;
+  261 |       };
+  262 |     };
+  263 | 
+  264 |     try {
+  265 |       await page.request.post("/api/bus/preferences", {
+  266 |         data: {
+  267 |           preferredOriginCampusId: null,
+  268 |           preferredDestinationCampusId: null,
+  269 |           showDepartedTrips: false,
+  270 |         },
+  271 |       });
+  272 |       await gotoAndWaitForReady(page, "/dashboard/bus", {
+  273 |         testInfo,
+  274 |         screenshotLabel: "bus",
+  275 |       });
+  276 | 
+  277 |       const departedToggle = page.getByRole("checkbox", {
+  278 |         name: /Show departed trips|显示已发车班次/,
+  279 |       });
+  280 |       const [toggleSaveResponse] = await Promise.all([
+  281 |         page.waitForResponse(
+  282 |           (response) =>
+  283 |             response.url().includes("/api/bus/preferences") &&
+  284 |             response.request().method() === "POST",
+  285 |         ),
+  286 |         departedToggle.click(),
+  287 |       ]);
+  288 |       expect(toggleSaveResponse.ok()).toBe(true);
+  289 | 
+  290 |       const endSouthButton = page
+  291 |         .locator("[data-testid='bus-end-stop-group']")
+  292 |         .getByRole("button", { name: /南区/ });
+  293 |       if ((await endSouthButton.getAttribute("aria-pressed")) !== "true") {
+  294 |         const [stopSaveResponse] = await Promise.all([
+  295 |           page.waitForResponse(
+  296 |             (response) =>
+  297 |               response.url().includes("/api/bus/preferences") &&
+  298 |               response.request().method() === "POST",
+  299 |           ),
+  300 |           endSouthButton.click(),
+  301 |         ]);
+  302 |         expect(stopSaveResponse.ok()).toBe(true);
+  303 |       }
+  304 | 
+  305 |       const response = await page.request.get("/api/bus/preferences");
+  306 |       const body = (await response.json()) as {
+  307 |         preference?: {
+  308 |           preferredOriginCampusId?: number | null;
+  309 |           preferredDestinationCampusId?: number | null;
+  310 |         };
+  311 |       };
+  312 |       expect(body.preference?.preferredOriginCampusId).toBe(1);
+  313 |       expect(body.preference?.preferredDestinationCampusId).toBe(4);
+  314 | 
+  315 |       await captureStepScreenshot(page, testInfo, "bus-planner-autosave");
+  316 |     } finally {
+> 317 |       const restoreResponse = await page.request.post("/api/bus/preferences", {
+      |                                                  ^ Error: apiRequestContext.post: Test timeout of 30000ms exceeded.
+  318 |         data: {
+  319 |           preferredOriginCampusId:
+  320 |             original.preference?.preferredOriginCampusId ?? null,
+  321 |           preferredDestinationCampusId:
+  322 |             original.preference?.preferredDestinationCampusId ?? null,
+  323 |           showDepartedTrips: original.preference?.showDepartedTrips ?? false,
+  324 |         },
+  325 |       });
+  326 |       expect(restoreResponse.status()).toBe(200);
+  327 |     }
+  328 |   });
+  329 | 
+  330 |   test("登录规划器显示偏好保存失败", async ({ page }, testInfo) => {
+  331 |     await signInAsDebugUser(page, "/dashboard/bus");
+  332 |     await page.route("**/api/bus/preferences", async (route) => {
+  333 |       if (route.request().method() !== "POST") {
+  334 |         await route.continue();
+  335 |         return;
+  336 |       }
+  337 | 
+  338 |       await route.fulfill({
+  339 |         body: JSON.stringify({ error: "e2e preference save failure" }),
+  340 |         contentType: "application/json",
+  341 |         status: 500,
+  342 |       });
+  343 |     });
+  344 | 
+  345 |     await gotoAndWaitForReady(page, "/dashboard/bus", {
+  346 |       testInfo,
+  347 |       screenshotLabel: "bus-save-error",
+  348 |     });
+  349 | 
+  350 |     const departedToggle = page.getByRole("checkbox", {
+  351 |       name: /Show departed trips|显示已发车班次/,
+  352 |     });
+  353 |     const [saveResponse] = await Promise.all([
+  354 |       page.waitForResponse(
+  355 |         (response) =>
+  356 |           response.url().includes("/api/bus/preferences") &&
+  357 |           response.request().method() === "POST",
+  358 |       ),
+  359 |       departedToggle.click(),
+  360 |     ]);
+  361 | 
+  362 |     expect(saveResponse.status()).toBe(500);
+  363 |     await expect(
+  364 |       page
+  365 |         .getByRole("alert")
+  366 |         .filter({ hasText: /偏好保存失败|Failed to save preferences/i }),
+  367 |     ).toBeVisible();
+  368 |     await captureStepScreenshot(page, testInfo, "bus-planner-autosave-error");
+  369 |   });
+  370 | });
+  371 | 
+```
