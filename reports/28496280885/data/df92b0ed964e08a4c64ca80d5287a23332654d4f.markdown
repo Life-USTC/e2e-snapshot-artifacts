@@ -1,0 +1,344 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: src/app/dashboard/homeworks/test.ts >> 仪表盘作业 >> 完成状态更新失败显示本地化仪表盘错误
+- Location: tests/e2e/src/app/dashboard/homeworks/test.ts:253:3
+
+# Error details
+
+```
+Test timeout of 30000ms exceeded.
+```
+
+```
+Error: page.waitForResponse: Test timeout of 30000ms exceeded.
+```
+
+# Page snapshot
+
+```yaml
+- generic [ref=e3]:
+  - banner [ref=e4]:
+    - generic [ref=e5]:
+      - link "Life@USTC" [ref=e7] [cursor=pointer]:
+        - /url: /
+        - img [ref=e8]
+        - generic [ref=e9]: Life@USTC
+      - navigation "Primary navigation" [ref=e10]:
+        - link "Courses" [ref=e11] [cursor=pointer]:
+          - /url: /courses
+        - link "Sections" [ref=e12] [cursor=pointer]:
+          - /url: /sections
+        - link "Teachers" [ref=e13] [cursor=pointer]:
+          - /url: /teachers
+      - button "Profile menu" [ref=e15]:
+        - img "Dev User" [ref=e16]
+  - main [ref=e17]:
+    - generic [ref=e18]:
+      - group "Dashboard section switcher" [ref=e20]:
+        - link "Overview" [ref=e21] [cursor=pointer]:
+          - /url: /dashboard/overview
+        - link "Calendar 19" [ref=e22] [cursor=pointer]:
+          - /url: /dashboard/calendar
+          - text: Calendar
+          - generic [ref=e23]: "19"
+        - link "Homework 6" [ref=e24] [cursor=pointer]:
+          - /url: /dashboard/homeworks
+          - text: Homework
+          - generic [ref=e25]: "6"
+        - link "Todos 5" [ref=e26] [cursor=pointer]:
+          - /url: /dashboard/todos
+          - text: Todos
+          - generic [ref=e27]: "5"
+        - link "Exams" [ref=e28] [cursor=pointer]:
+          - /url: /dashboard/exams
+        - link "Section Management 4" [ref=e29] [cursor=pointer]:
+          - /url: /dashboard/subscriptions
+          - text: Section Management
+          - generic [ref=e30]: "4"
+        - link "Shuttle Bus" [ref=e31] [cursor=pointer]:
+          - /url: /dashboard/bus
+        - link "Websites" [ref=e32] [cursor=pointer]:
+          - /url: /dashboard/links
+      - generic [ref=e33]:
+        - generic [ref=e34]:
+          - generic [ref=e35]:
+            - group "Homework view" [ref=e36]:
+              - button "Card" [pressed] [ref=e37]:
+                - img [ref=e38]
+                - text: Card
+              - button "List" [ref=e43]:
+                - img [ref=e44]
+                - text: List
+            - group "Homework" [ref=e45]:
+              - button "Incomplete" [pressed] [ref=e46]
+              - button "Completed" [ref=e47]
+              - button "All" [ref=e48]
+          - button "Add homework" [ref=e50]
+        - generic [ref=e51]:
+          - generic [ref=e53]:
+            - button "历史学期复盘作业" [ref=e55]
+            - paragraph [ref=e56]: "Advanced Linear Algebra · Due: Mar 20, 8:00 PM"
+            - generic [ref=e58]: Overdue
+            - button "Mark as complete" [ref=e60]
+          - generic [ref=e62]:
+            - button "逾期实验数据补交" [ref=e64]
+            - paragraph [ref=e65]: "Cryptographic Engineering: Principles and Practice · Due: Apr 28, 10:00 PM"
+            - generic [ref=e66]:
+              - generic [ref=e67]: Overdue
+              - generic [ref=e68]: Major assignment
+            - button "Mark as complete" [ref=e70]
+          - generic [ref=e72]:
+            - button "今日课堂反馈整理" [ref=e74]
+            - paragraph [ref=e75]: "Cryptographic Engineering: Principles and Practice · Due: Apr 29, 11:00 PM"
+            - generic [ref=e77]: Overdue
+            - button "Mark as complete" [ref=e79]
+          - generic [ref=e81]:
+            - button "实验报告与误差分析" [ref=e83]
+            - paragraph [ref=e84]: "Environmental Microbiology · Due: May 2, 9:00 PM"
+            - generic [ref=e85]:
+              - generic [ref=e86]: Overdue
+              - generic [ref=e87]: Major assignment
+              - generic [ref=e88]: Team required
+            - button "Mark as complete" [ref=e90]
+          - generic [ref=e92]:
+            - button "迭代二系统设计评审" [ref=e94]
+            - paragraph [ref=e95]: "Cryptographic Engineering: Principles and Practice · Due: May 3, 11:00 PM"
+            - generic [ref=e96]:
+              - generic [ref=e97]: Overdue
+              - generic [ref=e98]: Major assignment
+              - generic [ref=e99]: Team required
+            - button "Mark as complete" [active] [ref=e101]
+          - generic [ref=e103]:
+            - button "特征值综合练习" [ref=e105]
+            - paragraph [ref=e106]: "Introduction to Astrophysics · Due: May 5, 10:00 PM"
+            - generic [ref=e108]: Overdue
+            - button "Mark as complete" [ref=e110]
+  - contentinfo [ref=e111]:
+    - generic [ref=e112]:
+      - navigation [ref=e113]:
+        - link "Terms of Service" [ref=e114] [cursor=pointer]:
+          - /url: /terms
+        - link "Privacy Policy" [ref=e115] [cursor=pointer]:
+          - /url: /privacy
+        - link "GitHub" [ref=e116] [cursor=pointer]:
+          - /url: https://github.com/Life-USTC/server
+        - link "Mobile App" [ref=e117] [cursor=pointer]:
+          - /url: /mobile-app
+      - generic [ref=e118]:
+        - button "Language selector" [ref=e120]:
+          - generic [ref=e121]: 文
+        - button "Switch to light mode" [ref=e122]
+```
+
+# Test source
+
+```ts
+  187 |     await ensureSeedSectionSubscription(page);
+  188 |     await gotoAndWaitForReady(page, "/dashboard/homeworks", {
+  189 |       testInfo,
+  190 |       screenshotLabel: "homeworks",
+  191 |     });
+  192 | 
+  193 |     // Switch to "all" filter
+  194 |     await page
+  195 |       .getByRole("button", { name: /全部|All/i })
+  196 |       .first()
+  197 |       .click();
+  198 | 
+  199 |     await expect(page.getByRole("switch")).toHaveCount(0);
+  200 | 
+  201 |     const card = page
+  202 |       .locator('[data-slot="card"]')
+  203 |       .filter({ hasText: DEV_SEED.homeworks.title })
+  204 |       .first();
+  205 |     await expect(card).toBeVisible();
+  206 |     await card.hover();
+  207 | 
+  208 |     const completionButton = card
+  209 |       .getByRole("button", {
+  210 |         name: /标记为完成|取消完成|Mark as complete|Mark as incomplete/i,
+  211 |       })
+  212 |       .first();
+  213 |     await expect(completionButton).toHaveCSS("opacity", "1");
+  214 | 
+  215 |     const homeworksTab = page
+  216 |       .getByRole("link", { name: /作业|Homework/i })
+  217 |       .first();
+  218 |     const homeworksBadge = homeworksTab.locator('[data-slot="badge"]');
+  219 |     const beforeBadge = Number((await homeworksBadge.textContent())?.trim());
+  220 |     expect(Number.isFinite(beforeBadge)).toBe(true);
+  221 |     const before = (await completionButton.textContent())?.trim() ?? "";
+  222 |     const marksComplete = /标记为完成|Mark as complete/i.test(before);
+  223 | 
+  224 |     const completionResponse = page.waitForResponse(
+  225 |       (r) =>
+  226 |         r.url().includes("/api/homeworks/") &&
+  227 |         r.url().includes("/completion") &&
+  228 |         r.status() === 200,
+  229 |     );
+  230 |     await completionButton.click();
+  231 |     await completionResponse;
+  232 |     await expect(completionButton).not.toHaveText(before, { timeout: 15_000 });
+  233 | 
+  234 |     const after = (await completionButton.textContent())?.trim() ?? "";
+  235 |     expect(after).not.toBe(before);
+  236 |     await expect(homeworksBadge).toHaveText(
+  237 |       String(marksComplete ? beforeBadge - 1 : beforeBadge + 1),
+  238 |     );
+  239 |     await captureStepScreenshot(page, testInfo, "homeworks/completion-toggled");
+  240 | 
+  241 |     // Restore
+  242 |     const restoreResponse = page.waitForResponse(
+  243 |       (r) =>
+  244 |         r.url().includes("/api/homeworks/") &&
+  245 |         r.url().includes("/completion") &&
+  246 |         r.status() === 200,
+  247 |     );
+  248 |     await completionButton.click();
+  249 |     await restoreResponse;
+  250 |     await expect(homeworksBadge).toHaveText(String(beforeBadge));
+  251 |   });
+  252 | 
+  253 |   test("完成状态更新失败显示本地化仪表盘错误", async ({ page }, testInfo) => {
+  254 |     await signInAsDebugUser(page, "/dashboard/homeworks");
+  255 |     await ensureSeedSectionSubscription(page);
+  256 |     await page.route(/\/api\/homeworks\/[^/]+\/completion$/, async (route) => {
+  257 |       await route.fulfill({
+  258 |         body: JSON.stringify({ error: { message: "forced failure" } }),
+  259 |         contentType: "application/json",
+  260 |         status: 500,
+  261 |       });
+  262 |     });
+  263 |     await gotoAndWaitForReady(page, "/dashboard/homeworks", {
+  264 |       testInfo,
+  265 |       screenshotLabel: "homeworks",
+  266 |     });
+  267 | 
+  268 |     await page
+  269 |       .getByRole("button", { name: /全部|All/i })
+  270 |       .first()
+  271 |       .click();
+  272 | 
+  273 |     const card = page
+  274 |       .locator('[data-slot="card"]')
+  275 |       .filter({ hasText: DEV_SEED.homeworks.title })
+  276 |       .first();
+  277 |     await expect(card).toBeVisible();
+  278 |     await card.hover();
+  279 | 
+  280 |     const completionButton = card
+  281 |       .getByRole("button", {
+  282 |         name: /标记为完成|取消完成|Mark as complete|Mark as incomplete/i,
+  283 |       })
+  284 |       .first();
+  285 |     await expect(completionButton).toHaveCSS("opacity", "1");
+  286 | 
+> 287 |     const completionResponse = page.waitForResponse(
+      |                                     ^ Error: page.waitForResponse: Test timeout of 30000ms exceeded.
+  288 |       (r) =>
+  289 |         r.url().includes("/api/homeworks/") &&
+  290 |         r.url().includes("/completion") &&
+  291 |         r.status() === 500,
+  292 |     );
+  293 |     await completionButton.click();
+  294 |     await completionResponse;
+  295 | 
+  296 |     await expect(
+  297 |       page.getByText(/更新完成状态失败|Couldn't update completion/i),
+  298 |     ).toBeVisible();
+  299 |     await captureStepScreenshot(page, testInfo, "homeworks/completion-error");
+  300 |   });
+  301 | 
+  302 |   test("查看详情链接到带作业锚点的班级页面", async ({ page }, testInfo) => {
+  303 |     await signInAsDebugUser(page, "/dashboard/homeworks");
+  304 |     await ensureSeedSectionSubscription(page);
+  305 |     await gotoAndWaitForReady(page, "/dashboard/homeworks", {
+  306 |       testInfo,
+  307 |       screenshotLabel: "homeworks",
+  308 |     });
+  309 | 
+  310 |     await page
+  311 |       .getByRole("button", { name: /全部|All/i })
+  312 |       .first()
+  313 |       .click();
+  314 | 
+  315 |     const detailLink = page
+  316 |       .locator('[data-slot="card"]')
+  317 |       .filter({ hasText: DEV_SEED.homeworks.title })
+  318 |       .first();
+  319 |     await detailLink
+  320 |       .getByRole("button", { name: new RegExp(DEV_SEED.homeworks.title) })
+  321 |       .first()
+  322 |       .click();
+  323 |     const popout = page.locator('[data-slot="dialog-popup"]').first();
+  324 |     await expect(popout).toBeVisible();
+  325 |     const sectionLink = popout
+  326 |       .locator(`a[href*="/sections/${DEV_SEED.section.jwId}#homework-"]`)
+  327 |       .first();
+  328 |     await expect(sectionLink).toBeVisible();
+  329 |     await sectionLink.click();
+  330 | 
+  331 |     await expect(page).toHaveURL(/\/sections\/\d+#homework-/);
+  332 |     await captureStepScreenshot(page, testInfo, "homeworks/view-details");
+  333 |   });
+  334 | 
+  335 |   test("可以创建新作业", async ({ page }, testInfo) => {
+  336 |     test.setTimeout(60_000);
+  337 |     await signInAsDebugUser(page, "/dashboard/homeworks");
+  338 |     await ensureSeedSectionSubscription(page);
+  339 |     await gotoAndWaitForReady(page, "/dashboard/homeworks", {
+  340 |       testInfo,
+  341 |       screenshotLabel: "homeworks",
+  342 |     });
+  343 | 
+  344 |     const addButton = page.getByTestId("dashboard-homeworks-add").first();
+  345 |     const title = `e2e-dashboard-homework-${Date.now()}`;
+  346 |     const titleInput = page.getByTestId("dashboard-homework-title");
+  347 |     await expect(async () => {
+  348 |       await expect(addButton).toBeVisible({ timeout: 3_000 });
+  349 |       await addButton.click();
+  350 |       await expect(titleInput).toBeVisible({ timeout: 3_000 });
+  351 |     }).toPass({
+  352 |       timeout: 10_000,
+  353 |       intervals: [250, 500, 1_000],
+  354 |     });
+  355 |     const createDialog = page.locator('[data-slot="dialog-popup"]').first();
+  356 |     await expect(
+  357 |       createDialog.getByRole("group", { name: /说明|Details/i }),
+  358 |     ).toBeVisible();
+  359 |     await expect(
+  360 |       createDialog.getByRole("group", {
+  361 |         name: /提交截止|Submission due/i,
+  362 |       }),
+  363 |     ).toBeVisible();
+  364 |     await titleInput.fill(title);
+  365 |     await page.getByTestId("dashboard-homework-create").click();
+  366 | 
+  367 |     await expect(page.getByText(title).first()).toBeVisible({
+  368 |       timeout: 15_000,
+  369 |     });
+  370 |     await captureStepScreenshot(page, testInfo, "homeworks/created");
+  371 |   });
+  372 | 
+  373 |   test("创建作业时可设置重要、组队、截止日期和说明", async ({
+  374 |     page,
+  375 |   }, testInfo) => {
+  376 |     test.setTimeout(60_000);
+  377 |     await signInAsDebugUser(page, "/dashboard/homeworks");
+  378 |     await ensureSeedSectionSubscription(page);
+  379 |     await gotoAndWaitForReady(page, "/dashboard/homeworks", {
+  380 |       testInfo,
+  381 |       screenshotLabel: "homeworks",
+  382 |     });
+  383 | 
+  384 |     const addButton = page.getByTestId("dashboard-homeworks-add").first();
+  385 |     const title = `e2e-dashboard-hw-full-${Date.now()}`;
+  386 |     const description = `e2e-dashboard-hw-description-${Date.now()}`;
+  387 |     const dueAt = "2026-12-31T23:59";
+```
