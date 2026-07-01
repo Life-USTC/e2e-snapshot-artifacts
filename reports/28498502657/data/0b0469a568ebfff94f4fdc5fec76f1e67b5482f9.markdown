@@ -1,0 +1,284 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: src/app/oauth/device/test.ts >> /oauth/device 资源绑定令牌可访问 REST 与 MCP
+- Location: tests/e2e/src/app/oauth/device/test.ts:359:1
+
+# Error details
+
+```
+Error: expect(received).toBeUndefined()
+
+Received: "mdQDakwLQr7YzPi2JzZYfPkt_NBcUfo0ULyRmf9ZLxQ"
+```
+
+# Page snapshot
+
+```yaml
+- generic [ref=e2]:
+  - generic [ref=e3]:
+    - banner [ref=e4]:
+      - generic [ref=e5]:
+        - link "Life@USTC" [ref=e7] [cursor=pointer]:
+          - /url: /
+          - img [ref=e8]
+          - generic [ref=e9]: Life@USTC
+        - navigation "Primary navigation" [ref=e10]:
+          - link "Courses" [ref=e11] [cursor=pointer]:
+            - /url: /courses
+          - link "Sections" [ref=e12] [cursor=pointer]:
+            - /url: /sections
+          - link "Teachers" [ref=e13] [cursor=pointer]:
+            - /url: /teachers
+        - button "Profile menu" [ref=e15]:
+          - img "Dev User" [ref=e16]
+    - main [ref=e17]:
+      - generic [ref=e18]:
+        - generic [ref=e21]:
+          - generic [ref=e22]: OAuth
+          - heading "Device Login" [level=1] [ref=e23]
+          - paragraph [ref=e24]: Enter the code displayed on your device.
+        - generic [ref=e25]:
+          - generic [ref=e26]:
+            - generic [ref=e28]:
+              - img "Life@USTC" [ref=e29]
+              - generic [ref=e30]:
+                - generic [ref=e31]: OAuth
+                - paragraph [ref=e32]: Device Login
+            - generic [ref=e34]:
+              - img [ref=e35]
+              - paragraph [ref=e37]: Device Code
+          - generic [ref=e40]:
+            - generic [ref=e41]: Approved
+            - generic [ref=e42]:
+              - heading "Device Approved" [level=2] [ref=e43]
+              - paragraph [ref=e44]: You have authorized the device. You can close this page.
+    - contentinfo [ref=e45]:
+      - generic [ref=e46]:
+        - navigation [ref=e47]:
+          - link "Terms of Service" [ref=e48] [cursor=pointer]:
+            - /url: /terms
+          - link "Privacy Policy" [ref=e49] [cursor=pointer]:
+            - /url: /privacy
+          - link "GitHub" [ref=e50] [cursor=pointer]:
+            - /url: https://github.com/Life-USTC/server
+          - link "Mobile App" [ref=e51] [cursor=pointer]:
+            - /url: /mobile-app
+        - generic [ref=e52]:
+          - button "Language selector" [ref=e54]:
+            - generic [ref=e55]: 文
+          - button "Switch to light mode" [ref=e56]
+  - generic [ref=e58]: Device Login - Life@USTC
+```
+
+# Test source
+
+```ts
+  284 |           origin: PLAYWRIGHT_BASE_URL,
+  285 |         },
+  286 |         form: {
+  287 |           client_id: clientId,
+  288 |           scope: "openid profile",
+  289 |         },
+  290 |       },
+  291 |     );
+  292 | 
+  293 |     const responseText = await response.text();
+  294 |     expect(response.status(), responseText).toBe(400);
+  295 |     expect(JSON.parse(responseText)).toMatchObject({
+  296 |       error: "unauthorized_client",
+  297 |       error_description: "Client is not registered for device authorization",
+  298 |     });
+  299 |   } finally {
+  300 |     await deleteOAuthClientsByName(clientName);
+  301 |   }
+  302 | });
+  303 | 
+  304 | test("/oauth/device 未登录的待批准请求重定向到登录页", async ({
+  305 |   page,
+  306 |   request,
+  307 | }, testInfo) => {
+  308 |   const clientName = `device-e2e-redirect-${Date.now()}`;
+  309 |   try {
+  310 |     const result = await requestDeviceCode(request, clientName);
+  311 |     const verificationPath = getVerificationPath(
+  312 |       result.verificationUriComplete,
+  313 |     );
+  314 | 
+  315 |     await gotoAndWaitForReady(page, verificationPath, {
+  316 |       expectMainContent: false,
+  317 |     });
+  318 | 
+  319 |     await expect(page).toHaveURL(/\/signin(?:\?.*)?$/, { timeout: 10_000 });
+  320 |     expect(new URL(page.url()).searchParams.get("callbackUrl")).toBe(
+  321 |       verificationPath,
+  322 |     );
+  323 |     await captureStepScreenshot(
+  324 |       page,
+  325 |       testInfo,
+  326 |       "oauth/device/redirect-to-signin",
+  327 |     );
+  328 |   } finally {
+  329 |     await deleteOAuthClientsByName(clientName);
+  330 |   }
+  331 | });
+  332 | 
+  333 | test("/oauth/device 已登录用户看到批准界面", async ({
+  334 |   page,
+  335 |   request,
+  336 | }, testInfo) => {
+  337 |   const clientName = `device-e2e-approval-${Date.now()}`;
+  338 |   try {
+  339 |     const result = await requestDeviceCode(request, clientName);
+  340 |     const verificationPath = getVerificationPath(
+  341 |       result.verificationUriComplete,
+  342 |     );
+  343 | 
+  344 |     await signInAsDebugUser(page, verificationPath);
+  345 | 
+  346 |     await expect(
+  347 |       page
+  348 |         .getByRole("button", { name: /允许|Allow|批准|Approve/i })
+  349 |         .or(page.getByRole("button", { name: /拒绝|Deny/i }))
+  350 |         .first(),
+  351 |     ).toBeVisible({ timeout: 15_000 });
+  352 | 
+  353 |     await captureStepScreenshot(page, testInfo, "oauth/device/approval-screen");
+  354 |   } finally {
+  355 |     await deleteOAuthClientsByName(clientName);
+  356 |   }
+  357 | });
+  358 | 
+  359 | test("/oauth/device 资源绑定令牌可访问 REST 与 MCP", async ({
+  360 |   page,
+  361 |   request,
+  362 | }, testInfo) => {
+  363 |   const clientName = `device-e2e-resource-token-${Date.now()}`;
+  364 |   const restResource = `${PLAYWRIGHT_BASE_URL}/api/auth`;
+  365 |   const mcpResource = `${PLAYWRIGHT_BASE_URL}/api/mcp`;
+  366 |   const resources = [restResource, mcpResource];
+  367 |   try {
+  368 |     const result = await requestDeviceCode(request, clientName, {
+  369 |       clientScopes: DEVICE_MCP_CLIENT_SCOPES,
+  370 |       resources,
+  371 |       scope: DEVICE_MCP_CLIENT_SCOPES.join(" "),
+  372 |     });
+  373 | 
+  374 |     await approveDeviceCode(page, result, {
+  375 |       screenshot: { label: "resource-approval", testInfo },
+  376 |       visibleResources: resources,
+  377 |     });
+  378 |     const { accessToken, refreshToken } = await exchangeDeviceToken(
+  379 |       request,
+  380 |       result,
+  381 |       resources,
+  382 |     );
+  383 |     expect(accessToken.split(".")).toHaveLength(3);
+> 384 |     expect(refreshToken).toBeUndefined();
+      |                          ^ Error: expect(received).toBeUndefined()
+  385 | 
+  386 |     const todosResponse = await request.get("/api/todos", {
+  387 |       headers: {
+  388 |         Authorization: `Bearer ${accessToken}`,
+  389 |       },
+  390 |     });
+  391 |     expect(todosResponse.status()).toBe(200);
+  392 | 
+  393 |     const mcpResponse = await request.post("/api/mcp", {
+  394 |       data: {
+  395 |         jsonrpc: "2.0",
+  396 |         id: 1,
+  397 |         method: "initialize",
+  398 |         params: {
+  399 |           protocolVersion: "2025-03-26",
+  400 |           capabilities: {},
+  401 |           clientInfo: {
+  402 |             name: "device-flow-e2e-client",
+  403 |             version: "1.0.0",
+  404 |           },
+  405 |         },
+  406 |       },
+  407 |       headers: {
+  408 |         Accept: "application/json, text/event-stream",
+  409 |         Authorization: `Bearer ${accessToken}`,
+  410 |         "MCP-Protocol-Version": "2025-03-26",
+  411 |       },
+  412 |     });
+  413 |     expect(mcpResponse.status()).toBe(200);
+  414 |   } finally {
+  415 |     await deleteOAuthClientsByName(clientName);
+  416 |   }
+  417 | });
+  418 | 
+  419 | test("/oauth/device 仅 profile 的 REST 令牌被受保护 REST 拒绝", async ({
+  420 |   page,
+  421 |   request,
+  422 | }) => {
+  423 |   const clientName = `device-e2e-profile-rest-token-${Date.now()}`;
+  424 |   const restResource = `${PLAYWRIGHT_BASE_URL}/api/auth`;
+  425 |   const scopes = ["openid", "profile"];
+  426 |   try {
+  427 |     const result = await requestDeviceCode(request, clientName, {
+  428 |       clientScopes: scopes,
+  429 |       resources: [restResource],
+  430 |       scope: scopes.join(" "),
+  431 |     });
+  432 | 
+  433 |     await approveDeviceCode(page, result, {
+  434 |       visibleResources: [restResource],
+  435 |     });
+  436 |     const { accessToken } = await exchangeDeviceToken(request, result, [
+  437 |       restResource,
+  438 |     ]);
+  439 |     expect(accessToken.split(".")).toHaveLength(3);
+  440 | 
+  441 |     const todosResponse = await request.get("/api/todos", {
+  442 |       headers: {
+  443 |         Authorization: `Bearer ${accessToken}`,
+  444 |       },
+  445 |     });
+  446 |     expect(todosResponse.status()).toBe(401);
+  447 |     await expect(todosResponse.json()).resolves.toEqual({
+  448 |       error: "Unauthorized",
+  449 |     });
+  450 |   } finally {
+  451 |     await deleteOAuthClientsByName(clientName);
+  452 |   }
+  453 | });
+  454 | 
+  455 | test("/oauth/device 含其他 feature scope 但无 todo scope 的令牌被 todo REST 拒绝", async ({
+  456 |   page,
+  457 |   request,
+  458 | }) => {
+  459 |   const clientName = `device-e2e-feature-rest-token-${Date.now()}`;
+  460 |   const restResource = `${PLAYWRIGHT_BASE_URL}/api/auth`;
+  461 |   const scopes = ["openid", "profile", restReadScope("schedule")];
+  462 |   const resources = [restResource];
+  463 |   try {
+  464 |     const result = await requestDeviceCode(request, clientName, {
+  465 |       clientScopes: scopes,
+  466 |       resources,
+  467 |       scope: scopes.join(" "),
+  468 |     });
+  469 | 
+  470 |     await approveDeviceCode(page, result, {
+  471 |       visibleResources: resources,
+  472 |     });
+  473 |     const { accessToken } = await exchangeDeviceToken(
+  474 |       request,
+  475 |       result,
+  476 |       resources,
+  477 |     );
+  478 |     expect(accessToken.split(".")).toHaveLength(3);
+  479 | 
+  480 |     const todosResponse = await request.get("/api/todos", {
+  481 |       headers: {
+  482 |         Authorization: `Bearer ${accessToken}`,
+  483 |       },
+  484 |     });
+```
