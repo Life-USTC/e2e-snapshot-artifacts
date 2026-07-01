@@ -1,0 +1,16 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: src/app/settings/accounts/test.ts >> /settings?tab=accounts 关联账号设置 >> 仅关联一个账号时断开连接被禁用
+- Location: tests/e2e/src/app/settings/accounts/test.ts:102:3
+
+# Error details
+
+```
+Test timeout of 30000ms exceeded.
+```
