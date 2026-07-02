@@ -1,0 +1,239 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: src/app/courses/[jwId]/test.ts >> /courses/[jwId] 课程详情 >> 标签切换正常工作
+- Location: tests/e2e/src/app/courses/[jwId]/test.ts:165:3
+
+# Error details
+
+```
+Error: expect(locator).toHaveAttribute(expected) failed
+
+Locator:  getByRole('tablist').first().getByRole('tab').nth(1)
+Expected: "true"
+Received: "false"
+Timeout:  5000ms
+
+Call log:
+  - Expect "toHaveAttribute" with timeout 5000ms
+  - waiting for getByRole('tablist').first().getByRole('tab').nth(1)
+    14 × locator resolved to <button role="tab" tabindex="-1" type="button" aria-selected="false" data-slot="tabs-button" id="description-history-tab" aria-controls="description-history-panel" class="inline-flex h-9 shrink-0 items-center justify-center whitespace-nowrap rounded-md px-3 font-medium text-sm transition hover:bg-base-200 text-base-content/65 ">…</button>
+       - unexpected value "false"
+
+```
+
+```yaml
+- tab "Edit History (0)"
+```
+
+# Test source
+
+```ts
+  75  |     const headingText = (await heading.textContent())?.trim();
+  76  |     const expectedSubtitle =
+  77  |       headingText === DEV_SEED.course.nameEn
+  78  |         ? DEV_SEED.course.nameCn
+  79  |         : DEV_SEED.course.nameEn;
+  80  |     await expect(
+  81  |       heading.locator("xpath=following-sibling::*[1]"),
+  82  |     ).toContainText(expectedSubtitle);
+  83  |     // course.code (monospace badge)
+  84  |     await expect(visibleText(page, DEV_SEED.course.code)).toBeVisible();
+  85  | 
+  86  |     await captureStepScreenshot(page, testInfo, "course/heading-and-code");
+  87  |   });
+  88  | 
+  89  |   test("显示培养层次、课程类别和教学班类型", async ({ page }, testInfo) => {
+  90  |     await gotoAndWaitForReady(page, COURSE_URL);
+  91  | 
+  92  |     // course.educationLevel.namePrimary (locale-dependent)
+  93  |     await expect(
+  94  |       page
+  95  |         .getByText(DEV_SEED.course.educationLevelNameCn)
+  96  |         .or(page.getByText(DEV_SEED.course.educationLevelNameEn))
+  97  |         .filter({ visible: true })
+  98  |         .first(),
+  99  |     ).toBeVisible();
+  100 |     // course.category.namePrimary (locale-dependent)
+  101 |     await expect(
+  102 |       page
+  103 |         .getByText(DEV_SEED.course.categoryNameCn)
+  104 |         .or(page.getByText(DEV_SEED.course.categoryNameEn))
+  105 |         .filter({ visible: true })
+  106 |         .first(),
+  107 |     ).toBeVisible();
+  108 |     // course.classType.namePrimary (locale-dependent)
+  109 |     await expect(
+  110 |       page
+  111 |         .getByText(DEV_SEED.course.classTypeNameCn)
+  112 |         .or(page.getByText(DEV_SEED.course.classTypeNameEn))
+  113 |         .filter({ visible: true })
+  114 |         .first(),
+  115 |     ).toBeVisible();
+  116 | 
+  117 |     await captureStepScreenshot(page, testInfo, "course/basic-info");
+  118 |   });
+  119 | 
+  120 |   test("班级表格显示学期、班级代码、教师、校区和容量", async ({
+  121 |     page,
+  122 |   }, testInfo) => {
+  123 |     await gotoAndWaitForReady(page, COURSE_URL);
+  124 | 
+  125 |     // section.semester.nameCn
+  126 |     await expect(visibleText(page, DEV_SEED.semesterNameCn)).toBeVisible();
+  127 |     // section.code badge
+  128 |     await expect(visibleText(page, DEV_SEED.section.code)).toBeVisible();
+  129 |     // section.teachers[].namePrimary (locale-dependent)
+  130 |     await expect(
+  131 |       page
+  132 |         .getByText(DEV_SEED.teacher.nameCn)
+  133 |         .or(page.getByText(DEV_SEED.teacher.nameEn))
+  134 |         .filter({ visible: true })
+  135 |         .first(),
+  136 |     ).toBeVisible();
+  137 |     // section.campus.namePrimary (locale-dependent)
+  138 |     await expect(
+  139 |       page
+  140 |         .getByText(DEV_SEED.campus.nameCn)
+  141 |         .or(page.getByText(DEV_SEED.campus.nameEn))
+  142 |         .filter({ visible: true })
+  143 |         .first(),
+  144 |     ).toBeVisible();
+  145 |     // section.stdCount / section.limitCount
+  146 |     await expect(
+  147 |       visibleText(
+  148 |         page,
+  149 |         `${DEV_SEED.section.stdCount} / ${DEV_SEED.section.limitCount}`,
+  150 |       ),
+  151 |     ).toBeVisible();
+  152 | 
+  153 |     await captureStepScreenshot(page, testInfo, "course/sections-table");
+  154 |   });
+  155 | 
+  156 |   test("jwId 不在课程可见界面中显示", async ({ page }) => {
+  157 |     await gotoAndWaitForReady(page, COURSE_URL);
+  158 |     const content = await page.locator("#main-content").innerText();
+  159 |     // Raw jwId should not appear as visible text
+  160 |     expect(content).not.toMatch(new RegExp(`\\b${DEV_SEED.course.jwId}\\b`));
+  161 |   });
+  162 | 
+  163 |   // ── Navigation ──────────────────────────────────────────────────────────────
+  164 | 
+  165 |   test("标签切换正常工作", async ({ page }, testInfo) => {
+  166 |     await gotoAndWaitForReady(page, COURSE_URL);
+  167 | 
+  168 |     const tabList = page.getByRole("tablist").first();
+  169 |     await expect(tabList).toBeVisible();
+  170 |     const targetTab = tabList.getByRole("tab").nth(1);
+  171 |     const panelId = await targetTab.getAttribute("aria-controls");
+  172 |     expect(panelId).toBeTruthy();
+  173 | 
+  174 |     await targetTab.click();
+> 175 |     await expect(targetTab).toHaveAttribute("aria-selected", "true");
+      |                             ^ Error: expect(locator).toHaveAttribute(expected) failed
+  176 |     await expect(page.locator(`#${panelId}`)).toHaveAttribute(
+  177 |       "role",
+  178 |       "tabpanel",
+  179 |     );
+  180 |     await captureStepScreenshot(page, testInfo, "course/tab-switch");
+  181 |   });
+  182 | 
+  183 |   test("面包屑可返回课程列表", async ({ page }, testInfo) => {
+  184 |     await gotoAndWaitForReady(page, COURSE_URL);
+  185 |     const breadcrumb = page.locator('a[href="/courses"]').first();
+  186 |     await expect(breadcrumb).toBeVisible();
+  187 |     await breadcrumb.click();
+  188 |     await expect(page).toHaveURL(/\/courses(?:\?.*)?$/);
+  189 |     await captureStepScreenshot(page, testInfo, "course/breadcrumb-back");
+  190 |   });
+  191 | 
+  192 |   test("班级行链接到班级详情", async ({ page }, testInfo) => {
+  193 |     await gotoAndWaitForReady(page, COURSE_URL);
+  194 |     const sectionLink = page
+  195 |       .locator(`a[href="/sections/${DEV_SEED.section.jwId}"]:visible`)
+  196 |       .or(page.locator("tbody a[href^='/sections/']:visible"))
+  197 |       .first();
+  198 |     await expect(sectionLink).toBeVisible();
+  199 |     await sectionLink.click();
+  200 |     await expect(page).toHaveURL(/\/sections\/\d+/);
+  201 |     await captureStepScreenshot(page, testInfo, "course/section-link");
+  202 |   });
+  203 | 
+  204 |   // ── Description ─────────────────────────────────────────────────────────────
+  205 | 
+  206 |   test("同路由导航重置目标范围内的简介状态", async ({ page }, testInfo) => {
+  207 |     await gotoAndWaitForReady(page, COURSE_WITH_DESCRIPTION_URL);
+  208 |     await expect(page.getByText(COURSE_WITH_DESCRIPTION_TEXT)).toBeVisible();
+  209 | 
+  210 |     await page.evaluate((href) => {
+  211 |       const link = document.createElement("a");
+  212 |       link.href = href;
+  213 |       link.dataset.e2eSameRouteLink = "true";
+  214 |       link.textContent = "same-route target";
+  215 |       document.body.append(link);
+  216 |     }, COURSE_URL);
+  217 | 
+  218 |     await page.locator("[data-e2e-same-route-link]").click();
+  219 |     await expect(page).toHaveURL(new RegExp(`${COURSE_URL}$`));
+  220 |     await expect(visibleText(page, DEV_SEED.course.code)).toBeVisible();
+  221 |     await expect(page.getByText(COURSE_WITH_DESCRIPTION_TEXT)).toHaveCount(0);
+  222 |     await captureStepScreenshot(page, testInfo, "course/same-route-reset");
+  223 |   });
+  224 | 
+  225 |   test("登录用户可以编辑课程简介", async ({ page }, testInfo) => {
+  226 |     test.setTimeout(60_000);
+  227 |     await signInAsDebugUser(page, COURSE_URL);
+  228 |     const snapshot = await snapshotDescriptionTargetForE2e(
+  229 |       page.request,
+  230 |       { courseJwId: DEV_SEED.course.jwId, targetType: "course" },
+  231 |       ["description_edit"],
+  232 |     );
+  233 | 
+  234 |     try {
+  235 |       const descCard = page
+  236 |         .locator('[data-slot="card"]')
+  237 |         .filter({ has: page.getByText(/简介|Description/i) })
+  238 |         .first();
+  239 |       await expect(descCard).toBeVisible();
+  240 | 
+  241 |       const content = `e2e-course-desc-${Date.now()}`;
+  242 |       const editor = descCard.locator("textarea").first();
+  243 |       await expect(async () => {
+  244 |         await descCard.getByRole("button", { name: /^编辑$|^Edit$/i }).click();
+  245 |         await expect(editor).toBeVisible({ timeout: 3_000 });
+  246 |       }).toPass({
+  247 |         timeout: 10_000,
+  248 |         intervals: [250, 500, 1_000],
+  249 |       });
+  250 |       await editor.fill(content);
+  251 | 
+  252 |       const saveResponse = page.waitForResponse(
+  253 |         (r) =>
+  254 |           r.url().includes("/api/descriptions") &&
+  255 |           r.request().method() === "POST" &&
+  256 |           r.status() === 200,
+  257 |       );
+  258 |       await descCard.getByRole("button", { name: /保存|Save/i }).click();
+  259 |       await saveResponse;
+  260 |       await expect(
+  261 |         descCard
+  262 |           .getByRole("tabpanel", { name: /简介|Description/i })
+  263 |           .getByText(content),
+  264 |       ).toBeVisible();
+  265 |       await captureStepScreenshot(page, testInfo, "course/description-updated");
+  266 |     } finally {
+  267 |       if (snapshot.original) {
+  268 |         await waitForDescriptionAuditRows(snapshot.original, 1);
+  269 |       }
+  270 |       await restoreDescriptionTargetSnapshot(page.request, snapshot);
+  271 |     }
+  272 |   });
+  273 | 
+  274 |   // ── Comment CRUD ─────────────────────────────────────────────────────────────
+  275 | 
+```

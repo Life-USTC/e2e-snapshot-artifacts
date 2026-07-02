@@ -1,0 +1,333 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: src/app/sections/[jwId]/test.ts >> /sections/[jwId] 班级详情页 >> 显示行政班级（可折叠）
+- Location: tests/e2e/src/app/sections/[jwId]/test.ts:214:3
+
+# Error details
+
+```
+Error: expect(locator).toBeVisible() failed
+
+Locator:  getByText('计算机01').or(getByText('CS Class 01')).first()
+Expected: visible
+Received: hidden
+Timeout:  5000ms
+
+Call log:
+  - Expect "toBeVisible" with timeout 5000ms
+  - waiting for getByText('计算机01').or(getByText('CS Class 01')).first()
+    13 × locator resolved to <span data-slot="badge" class="inline-flex items-center rounded-full border px-2 py-0.5 font-medium text-xs leading-5 border-base-300 bg-base-100 text-base-content ">…</span>
+       - unexpected value "hidden"
+
+```
+
+```yaml
+- banner:
+  - link "Life@USTC":
+    - /url: /
+  - navigation "Primary navigation":
+    - link "Courses":
+      - /url: /courses
+    - link "Sections":
+      - /url: /sections
+    - link "Teachers":
+      - /url: /teachers
+  - link "Sign In":
+    - /url: /signin
+- main:
+  - navigation "Breadcrumb":
+    - list:
+      - listitem:
+        - link "Home":
+          - /url: /
+      - listitem:
+        - link "Sections":
+          - /url: /sections
+      - listitem: IS3003.01
+  - text: Teaching section
+  - 'heading "Cryptographic Engineering: Principles and Practice" [level=1]'
+  - paragraph: 密码工程原理与实践
+  - button "Add to Calendar"
+  - button "Subscribe to section"
+  - text: IS3003.01 2026年春季学期 East Campus 58 / 80
+  - heading "Description" [level=2]
+  - paragraph: Last edited Apr 28, 2026, 9:00 PM · Edited by Dev User
+  - link "Sign in to edit":
+    - /url: /signin
+  - tablist "Description":
+    - tab "Description" [selected]
+    - tab "Edit History (1)"
+  - tabpanel "Description":
+    - heading "课程建议" [level=1]
+    - list:
+      - listitem: 每周提前阅读需求文档
+      - listitem: 课堂展示前先做一次组内彩排
+  - tablist "Teaching section":
+    - tab "Calendar"
+    - tab "Homework" [selected]
+    - tab "Comments"
+  - tabpanel "Homework":
+    - link "Sign in to create":
+      - /url: /signin?callbackUrl=%2Fsections%2F9902001
+    - button "Edit records"
+    - group "Homework view":
+      - button "Cards" [pressed]
+      - button "List"
+    - button "迭代一需求拆解 Standard Due 4/27/26, 8:00 PM 作业要求：提交仓库链接和测试截图。"
+    - button "逾期实验数据补交 Major assignment Standard Due 4/28/26, 10:00 PM 逾期补交实验数据，保留原始记录并说明补交原因。"
+    - button "今日课堂反馈整理 Standard Due 4/29/26, 11:00 PM 整理今日课堂反馈，标注需要二次确认的问题。"
+    - button "迭代二系统设计评审 Major assignment Team required Standard Due 5/3/26, 11:00 PM 完成系统设计文档，包含模块划分与接口说明，并在评审会上做 10 分钟展示。"
+  - complementary:
+    - heading "April 2026" [level=2]
+    - paragraph: Class and exam dates at a glance.
+    - text: S M T W T F S 29 30 31 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 1 2 3 4 5 6 7 8 9 Class Exam
+    - heading "Section Information" [level=2]
+    - paragraph: Imported section metadata.
+    - term: Section Code
+    - definition: IS3003.01
+    - term: Semester
+    - definition: 2026年春季学期
+    - term: Credits
+    - definition: "2.5"
+    - term: Course Period
+    - definition: 40 / N/A
+    - term: Exam Mode
+    - definition: Closed Book
+    - term: Remark
+    - definition: 结合密码协议与工程实现，强调课堂演示和实验复盘。
+    - group: More Details
+    - group: Admin Classes
+    - link "View All Sections":
+      - /url: /courses/9901001
+    - heading "Teachers" [level=2]
+    - paragraph: People associated with this section.
+    - link "Lin Jingqiang (林璟锵) School of Cyber Science and Technology":
+      - /url: /teachers/1
+    - link "Wang Wei (王伟) School of Cyber Science and Technology":
+      - /url: /teachers/2
+- contentinfo:
+  - navigation:
+    - link "Terms of Service":
+      - /url: /terms
+    - link "Privacy Policy":
+      - /url: /privacy
+    - link "GitHub":
+      - /url: https://github.com/Life-USTC/server
+    - link "Mobile App":
+      - /url: /mobile-app
+  - button "Language selector"
+  - button "Switch to light mode"
+```
+
+# Test source
+
+```ts
+  130 |         .getByText(DEV_SEED.teacher.nameCn)
+  131 |         .or(page.getByText(DEV_SEED.teacher.nameEn))
+  132 |         .first(),
+  133 |     ).toBeVisible();
+  134 | 
+  135 |     await captureStepScreenshot(
+  136 |       page,
+  137 |       testInfo,
+  138 |       "section/semester-campus-teacher",
+  139 |     );
+  140 |   });
+  141 | 
+  142 |   test("显示学分、考试方式与备注", async ({ page }, testInfo) => {
+  143 |     await gotoAndWaitForReady(page, SECTION_URL);
+  144 | 
+  145 |     const creditsValue = page
+  146 |       .getByText(/学分|Credits/i)
+  147 |       .first()
+  148 |       .locator("xpath=parent::*/*[last()]");
+  149 |     const examModeValue = page
+  150 |       .getByText(/考试方式|Exam Mode/i)
+  151 |       .first()
+  152 |       .locator("xpath=parent::*/*[last()]");
+  153 |     const remarkValue = page
+  154 |       .getByText(/备注|Remark/i)
+  155 |       .first()
+  156 |       .locator("xpath=parent::*/*[last()]");
+  157 | 
+  158 |     // section.credits
+  159 |     await expect(creditsValue).toHaveText(String(DEV_SEED.section.credits));
+  160 |     // section.examMode.namePrimary (locale-dependent)
+  161 |     await expect(examModeValue).toContainText(
+  162 |       new RegExp(
+  163 |         `${DEV_SEED.section.examModeNameCn}|${DEV_SEED.section.examModeNameEn}`,
+  164 |         "i",
+  165 |       ),
+  166 |     );
+  167 |     // section.remark (whitespace-preserved, language-neutral text)
+  168 |     await expect(remarkValue).toContainText(DEV_SEED.section.remark);
+  169 | 
+  170 |     await captureStepScreenshot(
+  171 |       page,
+  172 |       testInfo,
+  173 |       "section/credits-exammode-remark",
+  174 |     );
+  175 |   });
+  176 | 
+  177 |   test("基本信息中显示授课语言与教室类型", async ({ page }, testInfo) => {
+  178 |     await gotoAndWaitForReady(page, SECTION_URL);
+  179 | 
+  180 |     // Expand "More Details" inner collapsible to reveal teachLanguage and roomType
+  181 |     const moreDetails = page
+  182 |       .locator('details[data-slot="accordion-item"]')
+  183 |       .filter({ hasText: /更多信息|More Details/i })
+  184 |       .first();
+  185 |     const moreSummary = moreDetails.locator("summary").first();
+  186 |     const teachLanguage = page
+  187 |       .getByText(DEV_SEED.section.teachLanguageNameCn)
+  188 |       .or(page.getByText(DEV_SEED.section.teachLanguageNameEn))
+  189 |       .first();
+  190 |     const roomType = page
+  191 |       .getByText(DEV_SEED.section.roomTypeNameCn)
+  192 |       .or(page.getByText(DEV_SEED.section.roomTypeNameEn))
+  193 |       .first();
+  194 |     await expect(async () => {
+  195 |       await expect(moreSummary).toBeVisible();
+  196 |       if ((await moreDetails.getAttribute("open")) === null) {
+  197 |         await moreSummary.click();
+  198 |       }
+  199 |       await expect(teachLanguage).toBeVisible({ timeout: 2_000 });
+  200 |       await expect(roomType).toBeVisible({ timeout: 2_000 });
+  201 |     }).toPass({
+  202 |       timeout: 10_000,
+  203 |       intervals: [250, 500, 1_000],
+  204 |     });
+  205 | 
+  206 |     // section.teachLanguage.namePrimary (locale-dependent)
+  207 |     await expect(teachLanguage).toBeVisible({ timeout: 8_000 });
+  208 |     // section.roomType.namePrimary (locale-dependent)
+  209 |     await expect(roomType).toBeVisible({ timeout: 8_000 });
+  210 | 
+  211 |     await captureStepScreenshot(page, testInfo, "section/teach-lang-roomtype");
+  212 |   });
+  213 | 
+  214 |   test("显示行政班级（可折叠）", async ({ page }, testInfo) => {
+  215 |     await gotoAndWaitForReady(page, SECTION_URL);
+  216 | 
+  217 |     // section.adminClasses[] — expand collapsible if needed
+  218 |     const adminClasses = page
+  219 |       .locator('details[data-slot="accordion-item"]')
+  220 |       .filter({ hasText: /行政班级|Admin Classes/i })
+  221 |       .first();
+  222 |     if ((await adminClasses.count()) > 0) {
+  223 |       const adminClassTrigger = adminClasses.locator("summary").first();
+  224 |       const adminClassText = page
+  225 |         .getByText(DEV_SEED.section.adminClassNameCn)
+  226 |         .or(page.getByText(DEV_SEED.section.adminClassNameEn));
+  227 |       if ((await adminClasses.getAttribute("open")) === null) {
+  228 |         await adminClassTrigger.click();
+  229 |       }
+> 230 |       await expect(adminClassText.first()).toBeVisible();
+      |                                            ^ Error: expect(locator).toBeVisible() failed
+  231 |     }
+  232 | 
+  233 |     await captureStepScreenshot(page, testInfo, "section/admin-classes");
+  234 |   });
+  235 | 
+  236 |   test("日历标签页显示课表、教室、教学楼与教师", async ({ page }, testInfo) => {
+  237 |     await gotoAndWaitForReady(page, SECTION_URL);
+  238 | 
+  239 |     await expect(async () => {
+  240 |       const calendarTab = getSectionTab(page, /日历|Calendar/i);
+  241 |       await calendarTab.click();
+  242 |       await expect(calendarTab).toHaveAttribute("aria-selected", "true");
+  243 |     }).toPass({
+  244 |       timeout: 10_000,
+  245 |       intervals: [250, 500, 1_000],
+  246 |     });
+  247 | 
+  248 |     // Class schedule information is now rendered as chips inside the calendar
+  249 |     // month grid, not as a separate list of cards.
+  250 |     const monthView = getSectionCalendarMonthView(page);
+  251 |     const classEventChip = monthView
+  252 |       .locator("a")
+  253 |       .filter({ hasText: /上课事件|Class event/i })
+  254 |       .first();
+  255 |     await expect(classEventChip).toBeVisible();
+  256 | 
+  257 |     // schedule.room.namePrimary and schedule.room.building.namePrimary
+  258 |     // are rendered in the chip meta text.
+  259 |     await expect(
+  260 |       classEventChip
+  261 |         .getByText(DEV_SEED.room.nameCn, { exact: false })
+  262 |         .or(classEventChip.getByText(DEV_SEED.room.nameEn, { exact: false }))
+  263 |         .first(),
+  264 |     ).toBeVisible();
+  265 |     await expect(
+  266 |       classEventChip
+  267 |         .getByText(DEV_SEED.building.nameCn, { exact: false })
+  268 |         .or(
+  269 |           classEventChip.getByText(DEV_SEED.building.nameEn, { exact: false }),
+  270 |         )
+  271 |         .first(),
+  272 |     ).toBeVisible();
+  273 |     await expect(
+  274 |       classEventChip
+  275 |         .getByText(DEV_SEED.campus.nameCn, { exact: false })
+  276 |         .or(classEventChip.getByText(DEV_SEED.campus.nameEn, { exact: false }))
+  277 |         .first(),
+  278 |     ).toBeVisible();
+  279 | 
+  280 |     // schedule.teachers[].namePrimary appears in the sidebar (always visible)
+  281 |     await expect(
+  282 |       page
+  283 |         .getByText(DEV_SEED.teacher.nameCn)
+  284 |         .or(page.getByText(DEV_SEED.teacher.nameEn))
+  285 |         .first(),
+  286 |     ).toBeVisible();
+  287 | 
+  288 |     await captureStepScreenshot(page, testInfo, "section/schedule-calendar");
+  289 |   });
+  290 | 
+  291 |   test("今天按钮将日历导航到当前日期而非班级开始日期", async ({
+  292 |     page,
+  293 |   }, testInfo) => {
+  294 |     await gotoAndWaitForReady(page, SECTION_URL);
+  295 | 
+  296 |     const calendarTab = getSectionTab(page, /日历|Calendar/i);
+  297 |     await calendarTab.click();
+  298 |     await expect(calendarTab).toHaveAttribute("aria-selected", "true");
+  299 | 
+  300 |     const monthView = getSectionCalendarMonthView(page);
+  301 |     const monthHeading = monthView.locator("h3").first();
+  302 |     const initialMonthLabel = (await monthHeading.innerText()).trim();
+  303 | 
+  304 |     await monthView.getByRole("button", { name: /下个月|Next month/i }).click();
+  305 |     await expect(monthHeading).not.toHaveText(initialMonthLabel);
+  306 | 
+  307 |     await monthView.getByRole("button", { name: /今天|Today/i }).click();
+  308 |     await expect(monthView.locator('[aria-current="date"]')).toHaveCount(1);
+  309 |     await expect(monthHeading).not.toHaveText(initialMonthLabel);
+  310 | 
+  311 |     await captureStepScreenshot(page, testInfo, "section/calendar-today");
+  312 |   });
+  313 | 
+  314 |   test("日历标签页显示考试信息（examBatch、examRooms）", async ({
+  315 |     page,
+  316 |   }, testInfo) => {
+  317 |     await gotoAndWaitForReady(page, SECTION_URL);
+  318 | 
+  319 |     await expect(async () => {
+  320 |       const calendarTab = getSectionTab(page, /日历|Calendar/i);
+  321 |       await calendarTab.click();
+  322 |       await expect(calendarTab).toHaveAttribute("aria-selected", "true");
+  323 |     }).toPass({
+  324 |       timeout: 10_000,
+  325 |       intervals: [250, 500, 1_000],
+  326 |     });
+  327 | 
+  328 |     // Navigate forward to find exam event — exam batch name or room should appear
+  329 |     await expect(
+  330 |       page
+```

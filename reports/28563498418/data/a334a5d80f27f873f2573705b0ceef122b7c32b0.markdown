@@ -1,0 +1,317 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: src/app/test.ts >> / shell 菜单可一键切换
+- Location: tests/e2e/src/app/test.ts:78:1
+
+# Error details
+
+```
+Error: expect(locator).toBeVisible() failed
+
+Locator: getByRole('menuitem', { name: /设置|Settings/i })
+Expected: visible
+Timeout: 5000ms
+Error: element(s) not found
+
+Call log:
+  - Expect "toBeVisible" with timeout 5000ms
+  - waiting for getByRole('menuitem', { name: /设置|Settings/i })
+
+```
+
+```yaml
+- banner:
+  - link "Life@USTC":
+    - /url: /
+  - button "Menu"
+  - button "Profile menu":
+    - img "Dev User"
+- main:
+  - group "Dashboard section switcher":
+    - link "Overview":
+      - /url: /dashboard/overview
+    - link "Calendar 12":
+      - /url: /dashboard/calendar
+    - link "Homework 3":
+      - /url: /dashboard/homeworks
+    - link "Todos 5":
+      - /url: /dashboard/todos
+    - link "Exams":
+      - /url: /dashboard/exams
+    - link "Section Management 3":
+      - /url: /dashboard/subscriptions
+    - link "Shuttle Bus":
+      - /url: /dashboard/bus
+    - link "Websites":
+      - /url: /dashboard/links
+  - button "Academic Affairs System Course selection, grades, and teaching affairs.":
+    - text: Academic Affairs System
+    - paragraph: Course selection, grades, and teaching affairs.
+  - button "Unpin"
+  - button "Confession Wall Anonymous campus discussion platform.":
+    - text: Confession Wall
+    - paragraph: Anonymous campus discussion platform.
+  - button "Unpin"
+  - button "USTC Email USTC email service.":
+    - text: USTC Email
+    - paragraph: USTC email service.
+  - button "Unpin"
+  - button "USTC Official Site University news and announcements.":
+    - text: USTC Official Site
+    - paragraph: University news and announcements.
+  - button "Unpin"
+  - heading "Today" [level=2]:
+    - link "Today":
+      - /url: /dashboard/calendar
+  - text: No classes scheduled for today.
+  - heading "Overdue" [level=2]:
+    - link "Overdue":
+      - /url: /dashboard/homeworks
+  - link "Homework 实验报告与误差分析 Environmental Microbiology Overdue":
+    - /url: /sections/9902003#homework-cmqw1srez0008bqt467yuqdec
+  - link "Homework 特征值综合练习 Introduction to Astrophysics Overdue":
+    - /url: /sections/9902002#homework-cmqw1srez0007bqt4p55o2ara
+  - link "To-do 补交培养方案确认 High Pending Apr 28, 9:00 AM":
+    - /url: /dashboard/todos
+  - link "To-do 期末报告提交 High Pending Apr 29, 11:59 PM":
+    - /url: /dashboard/todos
+  - link "To-do 三天内复习安排 Medium Pending May 1, 6:00 PM":
+    - /url: /dashboard/todos
+  - link "To-do 下周小组展示准备 Low Pending May 6, 11:59 PM":
+    - /url: /dashboard/todos
+  - heading "Homework" [level=2]:
+    - link "Homework":
+      - /url: /dashboard/homeworks
+  - link "实验报告与误差分析 Environmental Microbiology Overdue May 2, 9:00 PM":
+    - /url: /sections/9902003#homework-cmqw1srez0008bqt467yuqdec
+  - link "特征值综合练习 Introduction to Astrophysics Overdue May 5, 10:00 PM":
+    - /url: /sections/9902002#homework-cmqw1srez0007bqt4p55o2ara
+  - heading "Todos" [level=2]:
+    - link "Todos":
+      - /url: /dashboard/todos
+  - text: Due today 0 Due in 3 days 0
+  - link "补交培养方案确认 High Pending Apr 28, 9:00 AM":
+    - /url: /dashboard/todos
+  - link "期末报告提交 High Pending Apr 29, 11:59 PM":
+    - /url: /dashboard/todos
+  - link "三天内复习安排 Medium Pending May 1, 6:00 PM":
+    - /url: /dashboard/todos
+  - link "下周小组展示准备 Low Pending May 6, 11:59 PM":
+    - /url: /dashboard/todos
+  - link "整理课程资料 Medium Pending":
+    - /url: /dashboard/todos
+  - heading "Exams" [level=2]:
+    - link "Exams":
+      - /url: /dashboard/exams
+  - text: 0 No exams in the next 7 days.
+  - heading "This week" [level=2]:
+    - link "This week":
+      - /url: /dashboard/calendar
+  - text: Jun 28 Sun Open Jun 29 Mon Open Jun 30 Tue Open Jul 1 Wed Open Jul 2 Thu Open Jul 3 Fri Open Jul 4 Sat Open
+- contentinfo:
+  - navigation:
+    - link "Terms of Service":
+      - /url: /terms
+    - link "Privacy Policy":
+      - /url: /privacy
+    - link "GitHub":
+      - /url: https://github.com/Life-USTC/server
+    - link "Mobile App":
+      - /url: /mobile-app
+  - button "Language selector"
+  - button "Switch to light mode"
+```
+
+# Test source
+
+```ts
+  1   | import { expect, test } from "@playwright/test";
+  2   | import { signInAsDebugUser } from "../../utils/auth";
+  3   | import { DEV_SEED } from "../../utils/dev-seed";
+  4   | import {
+  5   |   getCurrentSessionUser,
+  6   |   getUserProfileById,
+  7   |   getUserSubscribedSectionIds,
+  8   |   replaceUserSubscribedSectionIds,
+  9   |   updateUserProfileById,
+  10  | } from "../../utils/e2e-db";
+  11  | import { gotoAndWaitForReady, waitForUiSettled } from "../../utils/page-ready";
+  12  | import { captureStepScreenshot } from "../../utils/screenshot";
+  13  | import { assertPageContract } from "./_shared/page-contract";
+  14  | 
+  15  | test.describe.configure({ mode: "serial" });
+  16  | 
+  17  | test("/", async ({ page }, testInfo) => {
+  18  |   await assertPageContract(page, { routePath: "/", testInfo });
+  19  | });
+  20  | 
+  21  | test("/ 首页快速入口可见", async ({ page }, testInfo) => {
+  22  |   await gotoAndWaitForReady(page, "/", { testInfo, screenshotLabel: "home" });
+  23  | 
+  24  |   await expect(page.locator("#app-logo")).toBeVisible();
+  25  |   await expect(page.locator("#app-user-menu")).toHaveCount(0);
+  26  |   // Bus is the default public tab; both bus and links tabs are visible in nav
+  27  |   await expect(
+  28  |     page.getByRole("link", { name: /^(校车|Shuttle Bus)$/i }),
+  29  |   ).toBeVisible();
+  30  |   await expect(
+  31  |     page.getByRole("link", { name: /^(网站|Websites)$/i }),
+  32  |   ).toBeVisible();
+  33  |   await expect(
+  34  |     page.getByRole("link", { name: /^(登录|Sign in)$/i }).first(),
+  35  |   ).toBeVisible();
+  36  |   await captureStepScreenshot(page, testInfo, "home-shortcuts");
+  37  | });
+  38  | 
+  39  | test("/ 主题切换可写入 localStorage", async ({ page }, testInfo) => {
+  40  |   await gotoAndWaitForReady(page, "/", { testInfo, screenshotLabel: "home" });
+  41  | 
+  42  |   const themeButton = page.getByRole("button", {
+  43  |     name: /切换到浅色模式|切换到深色模式|使用系统偏好|Switch to light mode|Switch to dark mode|Use system preference/i,
+  44  |   });
+  45  |   await expect(themeButton).toBeVisible();
+  46  | 
+  47  |   await expect(async () => {
+  48  |     await themeButton.click();
+  49  |     await expect
+  50  |       .poll(
+  51  |         async () =>
+  52  |           page.evaluate(() => localStorage.getItem("life-ustc-theme")),
+  53  |         { timeout: 2_000 },
+  54  |       )
+  55  |       .toBe("light");
+  56  |   }).toPass({
+  57  |     timeout: 10_000,
+  58  |     intervals: [250, 500, 1_000],
+  59  |   });
+  60  |   await captureStepScreenshot(page, testInfo, "theme-light");
+  61  | 
+  62  |   await expect(async () => {
+  63  |     await themeButton.click();
+  64  |     await expect
+  65  |       .poll(
+  66  |         async () =>
+  67  |           page.evaluate(() => localStorage.getItem("life-ustc-theme")),
+  68  |         { timeout: 2_000 },
+  69  |       )
+  70  |       .toBe("dark");
+  71  |   }).toPass({
+  72  |     timeout: 10_000,
+  73  |     intervals: [250, 500, 1_000],
+  74  |   });
+  75  |   await captureStepScreenshot(page, testInfo, "theme-dark");
+  76  | });
+  77  | 
+  78  | test("/ shell 菜单可一键切换", async ({ page }) => {
+  79  |   await page.setViewportSize({ width: 390, height: 800 });
+  80  |   await signInAsDebugUser(page, "/");
+  81  | 
+  82  |   const profileMenuButton = page.getByRole("button", {
+  83  |     name: /个人菜单|Profile menu/i,
+  84  |   });
+  85  |   await profileMenuButton.click();
+  86  |   await expect(
+  87  |     page.getByRole("menuitem", { name: /设置|Settings/i }),
+> 88  |   ).toBeVisible();
+      |     ^ Error: expect(locator).toBeVisible() failed
+  89  | 
+  90  |   await page.getByRole("button", { name: /^菜单$|^Menu$/i }).click();
+  91  | 
+  92  |   await expect(
+  93  |     page
+  94  |       .locator('[data-slot="menu"]')
+  95  |       .getByRole("menuitem", { name: /课程|Courses/i }),
+  96  |   ).toBeVisible();
+  97  |   await expect(
+  98  |     page.getByRole("menuitem", { name: /设置|Settings/i }),
+  99  |   ).toHaveCount(0);
+  100 | });
+  101 | 
+  102 | test("/ shell 菜单支持键盘菜单语义", async ({ page }) => {
+  103 |   await signInAsDebugUser(page, "/");
+  104 | 
+  105 |   const profileMenuButton = page.getByRole("button", {
+  106 |     name: /个人菜单|Profile menu/i,
+  107 |   });
+  108 |   await profileMenuButton.focus();
+  109 |   await page.keyboard.press("Enter");
+  110 | 
+  111 |   const menu = page.getByRole("menu");
+  112 |   await expect(menu).toBeVisible();
+  113 |   const homeItem = page.getByRole("menuitem", { name: /首页|Home/i });
+  114 |   await expect(homeItem).toBeFocused();
+  115 |   await page.evaluate(
+  116 |     () => new Promise((resolve) => requestAnimationFrame(resolve)),
+  117 |   );
+  118 | 
+  119 |   await page.keyboard.press("ArrowDown");
+  120 |   await expect(
+  121 |     page.getByRole("menuitem", { name: /^(我的|Me)$/i }),
+  122 |   ).toBeFocused();
+  123 | 
+  124 |   await page.keyboard.press("Escape");
+  125 |   await expect(menu).toBeHidden();
+  126 |   await expect(profileMenuButton).toBeFocused();
+  127 | 
+  128 |   const languageButton = page.getByRole("button", {
+  129 |     name: /语言|Language/i,
+  130 |   });
+  131 |   await languageButton.focus();
+  132 |   await page.keyboard.press("Enter");
+  133 | 
+  134 |   await expect(page.getByRole("menu")).toBeVisible();
+  135 |   const radioItems = page.getByRole("menuitemradio");
+  136 |   await expect(radioItems).toHaveCount(2);
+  137 |   const checkedStates = await radioItems.evaluateAll((items) =>
+  138 |     items.map((item) => item.getAttribute("aria-checked")),
+  139 |   );
+  140 |   expect(checkedStates.filter((state) => state === "true")).toHaveLength(1);
+  141 | });
+  142 | 
+  143 | test("/ 登录用户在空状态总览页可看到班级发现入口", async ({
+  144 |   page,
+  145 | }, testInfo) => {
+  146 |   test.setTimeout(300_000);
+  147 |   await signInAsDebugUser(page, "/");
+  148 | 
+  149 |   const sessionUser = await getCurrentSessionUser(page);
+  150 |   const originalProfile = await getUserProfileById(sessionUser.id);
+  151 |   const originalSectionIds = await getUserSubscribedSectionIds(sessionUser.id);
+  152 | 
+  153 |   await updateUserProfileById(sessionUser.id, {
+  154 |     name: originalProfile.name ?? DEV_SEED.debugName,
+  155 |     username: originalProfile.username ?? DEV_SEED.debugUsername,
+  156 |     image: originalProfile.image,
+  157 |   });
+  158 |   await replaceUserSubscribedSectionIds(sessionUser.id, []);
+  159 |   expect(await getUserSubscribedSectionIds(sessionUser.id)).toEqual([]);
+  160 | 
+  161 |   try {
+  162 |     await page.reload({ waitUntil: "domcontentloaded" });
+  163 |     await waitForUiSettled(page);
+  164 |     await expect(page.locator("#main-content")).toBeVisible();
+  165 | 
+  166 |     await expect(
+  167 |       page.getByRole("link", { name: /浏览班级|Browse Sections/i }),
+  168 |     ).toBeVisible();
+  169 |     await expect(
+  170 |       page.getByRole("link", { name: /浏览课程|Browse Courses/i }),
+  171 |     ).toBeVisible();
+  172 |     await expect(
+  173 |       page.getByRole("link", { name: /按代码匹配|Match by Code/i }),
+  174 |     ).toBeVisible();
+  175 | 
+  176 |     await captureStepScreenshot(page, testInfo, "dashboard-overview-empty");
+  177 |   } finally {
+  178 |     await updateUserProfileById(sessionUser.id, originalProfile);
+  179 |     await replaceUserSubscribedSectionIds(sessionUser.id, originalSectionIds);
+  180 |   }
+  181 | });
+  182 | 
+```
