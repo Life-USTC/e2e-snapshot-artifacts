@@ -1,0 +1,326 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: src/app/admin/bus/test.ts >> /admin/bus 管理首页入口可见且可跳转
+- Location: tests/e2e/src/app/admin/bus/test.ts:80:1
+
+# Error details
+
+```
+Error: expect(locator).toBeVisible() failed
+
+Locator: getByRole('link', { name: /校车管理|Shuttle Bus/i })
+Expected: visible
+Error: strict mode violation: getByRole('link', { name: /校车管理|Shuttle Bus/i }) resolved to 2 elements:
+    1) <a href="/dashboard/bus" class="shell-sidebar-link flex min-h-9 items-center gap-2 rounded-md px-2.5 py-2 text-sm transition-colors text-base-content/70 hover:bg-base-200/70 hover:text-base-content svelte-qzxj2e">…</a> aka getByRole('link', { name: 'Shuttle Bus', exact: true })
+    2) <a href="/admin/bus" class="group flex items-start gap-4 rounded-lg p-3 no-underline transition hover:bg-base-200/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30">…</a> aka getByRole('link', { name: 'Shuttle Bus 1 · Campus bus' })
+
+Call log:
+  - Expect "toBeVisible" with timeout 5000ms
+  - waiting for getByRole('link', { name: /校车管理|Shuttle Bus/i })
+
+```
+
+# Page snapshot
+
+```yaml
+- generic [ref=e3]:
+  - complementary [ref=e4]:
+    - link "Life@USTC" [ref=e6] [cursor=pointer]:
+      - /url: /
+      - img [ref=e7]
+      - generic [ref=e8]: Life@USTC
+    - navigation "Primary navigation" [ref=e9]:
+      - generic [ref=e10]:
+        - region "Workspace" [ref=e11]:
+          - paragraph [ref=e12]: Workspace
+          - link "Overview" [ref=e13] [cursor=pointer]:
+            - /url: /dashboard/overview
+            - img [ref=e14]
+            - generic [ref=e19]: Overview
+          - link "Calendar" [ref=e20] [cursor=pointer]:
+            - /url: /dashboard/calendar
+            - img [ref=e21]
+            - generic [ref=e23]: Calendar
+          - link "Homework" [ref=e24] [cursor=pointer]:
+            - /url: /dashboard/homeworks
+            - img [ref=e25]
+            - generic [ref=e28]: Homework
+          - link "Todos" [ref=e29] [cursor=pointer]:
+            - /url: /dashboard/todos
+            - img [ref=e30]
+            - generic [ref=e33]: Todos
+          - link "Exams" [ref=e34] [cursor=pointer]:
+            - /url: /dashboard/exams
+            - img [ref=e35]
+            - generic [ref=e38]: Exams
+          - link "Section Management" [ref=e39] [cursor=pointer]:
+            - /url: /dashboard/subscriptions
+            - img [ref=e40]
+            - generic [ref=e44]: Section Management
+        - region "Public tools" [ref=e45]:
+          - paragraph [ref=e46]: Public tools
+          - link "Shuttle Bus" [ref=e47] [cursor=pointer]:
+            - /url: /dashboard/bus
+            - img [ref=e48]
+            - generic [ref=e52]: Shuttle Bus
+          - link "Websites" [ref=e53] [cursor=pointer]:
+            - /url: /dashboard/links
+            - img [ref=e54]
+            - generic [ref=e57]: Websites
+        - region "Catalog" [ref=e58]:
+          - paragraph [ref=e59]: Catalog
+          - link "Courses" [ref=e60] [cursor=pointer]:
+            - /url: /courses
+            - img [ref=e61]
+            - generic [ref=e63]: Courses
+          - link "Sections" [ref=e64] [cursor=pointer]:
+            - /url: /sections
+            - img [ref=e65]
+            - generic [ref=e69]: Sections
+          - link "Teachers" [ref=e70] [cursor=pointer]:
+            - /url: /teachers
+            - img [ref=e71]
+            - generic [ref=e76]: Teachers
+        - region "Campus" [ref=e77]:
+          - paragraph [ref=e78]: Campus
+          - link "Transit Map" [ref=e79] [cursor=pointer]:
+            - /url: /bus-map
+            - img [ref=e80]
+            - generic [ref=e82]: Transit Map
+          - link "Mobile App" [ref=e83] [cursor=pointer]:
+            - /url: /mobile-app
+            - img [ref=e84]
+            - generic [ref=e86]: Mobile App
+  - generic [ref=e87]:
+    - banner [ref=e88]:
+      - generic [ref=e89]:
+        - paragraph [ref=e91]: Life@USTC
+        - generic [ref=e92]:
+          - button "Language selector" [ref=e93]:
+            - img
+          - button "Switch to light mode" [ref=e94]:
+            - img
+          - button "Profile menu" [ref=e96]:
+            - generic [ref=e97]:
+              - img "校园管理员" [ref=e98]
+              - generic [ref=e99]: 校
+    - main [ref=e100]:
+      - generic [ref=e101]:
+        - generic [ref=e102]:
+          - navigation "Breadcrumb" [ref=e104]:
+            - list [ref=e105]:
+              - listitem [ref=e106]:
+                - link "Home" [ref=e107] [cursor=pointer]:
+                  - /url: /
+              - listitem [ref=e108]: /
+              - listitem [ref=e109]:
+                - generic [ref=e110]: Admin
+          - generic [ref=e112]:
+            - heading "Admin" [level=1] [ref=e113]
+            - paragraph [ref=e114]: Entry point for moderation and admin tools.
+        - generic [ref=e115]:
+          - heading "Open items" [level=2] [ref=e116]
+          - generic [ref=e117]:
+            - link "Comments 6" [ref=e118] [cursor=pointer]:
+              - /url: /admin/moderation?tab=comments
+              - generic [ref=e119]: Comments
+              - generic [ref=e120]: "6"
+            - link "Descriptions View" [ref=e121] [cursor=pointer]:
+              - /url: /admin/moderation?tab=descriptions
+              - generic [ref=e122]: Descriptions
+              - generic [ref=e123]: View
+            - link "Homework 8" [ref=e124] [cursor=pointer]:
+              - /url: /admin/moderation?tab=homeworks
+              - generic [ref=e125]: Homework
+              - generic [ref=e126]: "8"
+        - generic [ref=e127]:
+          - link "Moderation 8 · 6 active, 1 deleted Comments & suspensions" [ref=e128] [cursor=pointer]:
+            - /url: /admin/moderation
+            - img [ref=e130]
+            - generic [ref=e132]:
+              - generic [ref=e133]:
+                - generic [ref=e134]: Moderation
+                - generic [ref=e135]: 8 · 6 active, 1 deleted
+              - paragraph [ref=e136]: Comments & suspensions
+            - generic [ref=e137]: →
+          - link "User Management 2 · 0 active suspensions All users" [ref=e138] [cursor=pointer]:
+            - /url: /admin/users
+            - img [ref=e140]
+            - generic [ref=e145]:
+              - generic [ref=e146]:
+                - generic [ref=e147]: User Management
+                - generic [ref=e148]: 2 · 0 active suspensions
+              - paragraph [ref=e149]: All users
+            - generic [ref=e150]: →
+          - link "OAuth Clients 0 · Client registration and consent OAuth apps" [ref=e151] [cursor=pointer]:
+            - /url: /admin/oauth
+            - img [ref=e153]
+            - generic [ref=e156]:
+              - generic [ref=e157]:
+                - generic [ref=e158]: OAuth Clients
+                - generic [ref=e159]: 0 · Client registration and consent
+              - paragraph [ref=e160]: OAuth apps
+            - generic [ref=e161]: →
+          - link "Shuttle Bus 1 · Campus bus schedule imports Bus timetables" [ref=e162] [cursor=pointer]:
+            - /url: /admin/bus
+            - img [ref=e164]
+            - generic [ref=e169]:
+              - generic [ref=e170]:
+                - generic [ref=e171]: Shuttle Bus
+                - generic [ref=e172]: 1 · Campus bus schedule imports
+              - paragraph [ref=e173]: Bus timetables
+            - generic [ref=e174]: →
+    - contentinfo [ref=e175]:
+      - generic [ref=e176]:
+        - navigation "Primary navigation" [ref=e177]:
+          - link "Terms of Service" [ref=e178] [cursor=pointer]:
+            - /url: /terms
+          - link "Privacy Policy" [ref=e179] [cursor=pointer]:
+            - /url: /privacy
+          - link "GitHub" [ref=e180] [cursor=pointer]:
+            - /url: https://github.com/Life-USTC/server
+          - link "Mobile App" [ref=e181] [cursor=pointer]:
+            - /url: /mobile-app
+        - paragraph [ref=e182]: Life@USTC
+```
+
+# Test source
+
+```ts
+  1   | /**
+  2   |  * E2E tests for /admin/bus — Bus Schedule Management
+  3   |  *
+  4   |  * ## Data Represented (admin.yml → bus-management.display.fields)
+  5   |  * - Bus schedule version title
+  6   |  * - version key
+  7   |  * - tripCount
+  8   |  * - importedAt
+  9   |  * - effective range (effectiveFrom / effectiveUntil)
+  10  |  * - enabled status
+  11  |  * - Actions: import, activate, delete
+  12  |  *
+  13  |  * ## Features
+  14  |  * - Admin home has "Bus Management" card linking to /admin/bus
+  15  |  * - Version table with all required fields
+  16  |  * - Import, activate, delete actions
+  17  |  *
+  18  |  * ## Edge Cases
+  19  |  * - Unauthenticated → redirect to /signin
+  20  |  * - Non-admin → 404
+  21  |  * - Seed version from DEV_SEED.bus always present
+  22  |  */
+  23  | import { expect, test } from "@playwright/test";
+  24  | import {
+  25  |   expectRequiresSignIn,
+  26  |   signInAsDebugUser,
+  27  |   signInAsDevAdmin,
+  28  | } from "../../../../utils/auth";
+  29  | import { DEV_SEED } from "../../../../utils/dev-seed";
+  30  | import { visibleText } from "../../../../utils/locators";
+  31  | import { captureStepScreenshot } from "../../../../utils/screenshot";
+  32  | 
+  33  | test.describe.configure({ mode: "serial" });
+  34  | 
+  35  | test("/admin/bus 未登录重定向到登录页", async ({ page }, testInfo) => {
+  36  |   await expectRequiresSignIn(page, "/admin/bus");
+  37  |   await captureStepScreenshot(page, testInfo, "admin-bus/unauthorized");
+  38  | });
+  39  | 
+  40  | test("/admin/bus 普通用户访问返回 404", async ({ page }, testInfo) => {
+  41  |   await signInAsDebugUser(page, "/admin/bus", "/admin/bus");
+  42  |   await expect(page.getByText("404").first()).toBeVisible();
+  43  |   await expect(
+  44  |     page.getByRole("heading", { name: /页面不存在|Page Not Found/i }),
+  45  |   ).toBeVisible();
+  46  |   await captureStepScreenshot(page, testInfo, "admin-bus/404");
+  47  | });
+  48  | 
+  49  | test("/admin/bus 显示所有必需的版本字段", async ({ page }, testInfo) => {
+  50  |   await signInAsDevAdmin(page, "/admin/bus");
+  51  | 
+  52  |   // Heading
+  53  |   await expect(visibleText(page, /Versions|时刻表版本/)).toBeVisible();
+  54  | 
+  55  |   // version title (admin.yml bus-management.display.fields)
+  56  |   await expect(visibleText(page, DEV_SEED.bus.versionTitle)).toBeVisible();
+  57  |   // version key
+  58  |   await expect(visibleText(page, DEV_SEED.bus.versionKey)).toBeVisible();
+  59  |   // importedAt — date/time text (e.g. "2026-05-06 21:07")
+  60  |   await expect(visibleText(page, /\d{4}-\d{2}-\d{2}/)).toBeVisible();
+  61  |   // enabled status — "Active" in English, "启用" in Chinese
+  62  |   await expect(visibleText(page, /Active|启用/i)).toBeVisible();
+  63  |   await expect(visibleText(page, /Versions|时刻表版本/)).toBeVisible();
+  64  |   await expect(visibleText(page, /Campuses|校区数/)).toBeVisible();
+  65  |   await expect(visibleText(page, /Routes|路线数/)).toBeVisible();
+  66  | 
+  67  |   await captureStepScreenshot(page, testInfo, "admin-bus/version-fields");
+  68  | });
+  69  | 
+  70  | test("/admin/bus 版本表格包含班次数量", async ({ page }, testInfo) => {
+  71  |   await signInAsDevAdmin(page, "/admin/bus");
+  72  | 
+  73  |   // tripCount — the page shows a plain number (e.g. "22") in the Trips column
+  74  |   const tableCount = page.locator("table").getByText(/^\d+$/).first();
+  75  |   await expect(tableCount).toBeVisible();
+  76  | 
+  77  |   await captureStepScreenshot(page, testInfo, "admin-bus/trip-count");
+  78  | });
+  79  | 
+  80  | test("/admin/bus 管理首页入口可见且可跳转", async ({ page }, testInfo) => {
+  81  |   await signInAsDevAdmin(page, "/admin");
+  82  | 
+  83  |   const busCard = page.getByRole("link", {
+  84  |     name: /校车管理|Shuttle Bus/i,
+  85  |   });
+> 86  |   await expect(busCard).toBeVisible();
+      |                         ^ Error: expect(locator).toBeVisible() failed
+  87  | 
+  88  |   await Promise.all([
+  89  |     page.waitForURL(/\/admin\/bus(?:\?.*)?$/),
+  90  |     busCard.click(),
+  91  |   ]);
+  92  |   await captureStepScreenshot(page, testInfo, "admin-bus/navigate-from-home");
+  93  | });
+  94  | 
+  95  | test("/admin/bus 激活版本受保护且导入弹窗可打开", async ({
+  96  |   page,
+  97  | }, testInfo) => {
+  98  |   test.setTimeout(60_000);
+  99  |   await signInAsDevAdmin(page, "/admin/bus");
+  100 | 
+  101 |   // Find seed version row
+  102 |   const versionRow = page
+  103 |     .locator("tr, [data-slot='card']")
+  104 |     .filter({
+  105 |       has: page.getByText(DEV_SEED.bus.versionKey),
+  106 |     })
+  107 |     .first();
+  108 |   await expect(versionRow).toBeVisible();
+  109 | 
+  110 |   // Active seed versions should not expose the delete action; if the seed is
+  111 |   // inactive (e.g. left over from an earlier failed run) we just verify the
+  112 |   // row is rendered and move on.
+  113 |   const deleteBtn = versionRow.getByRole("button", { name: /删除|Delete/i });
+  114 |   const deleteCount = await deleteBtn.count();
+  115 |   expect(deleteCount === 0 || deleteCount === 1).toBe(true);
+  116 | 
+  117 |   const importBtn = page
+  118 |     .getByRole("button", { name: /从 Static 导入|Import from Static/i })
+  119 |     .first();
+  120 |   await expect(importBtn).toBeVisible();
+  121 |   await importBtn.click();
+  122 |   const importDialog = page.getByRole("dialog", {
+  123 |     name: /从 Static 导入|Import from Static/i,
+  124 |   });
+  125 |   await expect(importDialog).toBeVisible({ timeout: 5_000 });
+  126 |   await captureStepScreenshot(page, testInfo, "admin-bus/import-dialog");
+  127 |   await importDialog.getByRole("button", { name: /取消|Cancel/i }).click();
+  128 | });
+  129 | 
+```

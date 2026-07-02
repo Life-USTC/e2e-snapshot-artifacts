@@ -1,0 +1,218 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: src/app/teachers/[id]/test.ts >> /teachers/[id] 教师详情页 >> 已登录用户可编辑简介（content、lastEditedBy、lastEditedAt）
+- Location: tests/e2e/src/app/teachers/[id]/test.ts:203:3
+
+# Error details
+
+```
+Test timeout of 60000ms exceeded.
+```
+
+# Page snapshot
+
+```yaml
+- generic [ref=e2]:
+  - generic [ref=e3]:
+    - complementary [ref=e4]:
+      - link "Life@USTC" [ref=e6] [cursor=pointer]:
+        - /url: /
+        - img [ref=e7]
+        - generic [ref=e8]: Life@USTC
+      - navigation "Primary navigation" [ref=e9]:
+        - generic [ref=e10]:
+          - region "Workspace" [ref=e11]:
+            - paragraph [ref=e12]: Workspace
+            - link "Overview" [ref=e13] [cursor=pointer]:
+              - /url: /dashboard/overview
+              - img [ref=e14]
+              - generic [ref=e19]: Overview
+            - link "Calendar" [ref=e20] [cursor=pointer]:
+              - /url: /dashboard/calendar
+              - img [ref=e21]
+              - generic [ref=e23]: Calendar
+            - link "Homework" [ref=e24] [cursor=pointer]:
+              - /url: /dashboard/homeworks
+              - img [ref=e25]
+              - generic [ref=e28]: Homework
+            - link "Todos" [ref=e29] [cursor=pointer]:
+              - /url: /dashboard/todos
+              - img [ref=e30]
+              - generic [ref=e33]: Todos
+            - link "Exams" [ref=e34] [cursor=pointer]:
+              - /url: /dashboard/exams
+              - img [ref=e35]
+              - generic [ref=e38]: Exams
+            - link "Section Management" [ref=e39] [cursor=pointer]:
+              - /url: /dashboard/subscriptions
+              - img [ref=e40]
+              - generic [ref=e44]: Section Management
+          - region "Public tools" [ref=e45]:
+            - paragraph [ref=e46]: Public tools
+            - link "Shuttle Bus" [ref=e47] [cursor=pointer]:
+              - /url: /dashboard/bus
+              - img [ref=e48]
+              - generic [ref=e52]: Shuttle Bus
+            - link "Websites" [ref=e53] [cursor=pointer]:
+              - /url: /dashboard/links
+              - img [ref=e54]
+              - generic [ref=e57]: Websites
+          - region "Catalog" [ref=e58]:
+            - paragraph [ref=e59]: Catalog
+            - link "Courses" [ref=e60] [cursor=pointer]:
+              - /url: /courses
+              - img [ref=e61]
+              - generic [ref=e63]: Courses
+            - link "Sections" [ref=e64] [cursor=pointer]:
+              - /url: /sections
+              - img [ref=e65]
+              - generic [ref=e69]: Sections
+            - link "Teachers" [ref=e70] [cursor=pointer]:
+              - /url: /teachers
+              - img [ref=e71]
+              - generic [ref=e76]: Teachers
+          - region "Campus" [ref=e77]:
+            - paragraph [ref=e78]: Campus
+            - link "Transit Map" [ref=e79] [cursor=pointer]:
+              - /url: /bus-map
+              - img [ref=e80]
+              - generic [ref=e82]: Transit Map
+            - link "Mobile App" [ref=e83] [cursor=pointer]:
+              - /url: /mobile-app
+              - img [ref=e84]
+              - generic [ref=e86]: Mobile App
+    - generic [ref=e87]:
+      - banner [ref=e88]:
+        - generic [ref=e89]:
+          - paragraph [ref=e91]: Teachers
+          - generic [ref=e92]:
+            - button "Language selector" [ref=e93]:
+              - img
+            - button "Switch to light mode" [ref=e94]:
+              - img
+            - button "Profile menu" [ref=e96]:
+              - generic [ref=e97]:
+                - img "Dev User" [ref=e98]
+                - generic [ref=e99]: D
+      - main [ref=e100]:
+        - generic [ref=e101]:
+          - generic [ref=e102]:
+            - navigation "Breadcrumb" [ref=e104]:
+              - list [ref=e105]:
+                - listitem [ref=e106]:
+                  - link "Home" [ref=e107] [cursor=pointer]:
+                    - /url: /
+                - listitem [ref=e108]: /
+                - listitem [ref=e109]:
+                  - link "Teachers" [ref=e110] [cursor=pointer]:
+                    - /url: /teachers
+                - listitem [ref=e111]: /
+                - listitem [ref=e112]:
+                  - generic [ref=e113]: Lin Jingqiang
+            - generic [ref=e115]:
+              - heading "Lin Jingqiang(林璟锵)" [level=1] [ref=e116]
+              - paragraph [ref=e117]: School of Cyber Science and Technology
+          - generic [ref=e118]:
+            - generic [ref=e119]:
+              - generic [ref=e120]:
+                - generic [ref=e122]:
+                  - generic [ref=e123]:
+                    - heading "Description" [level=2] [ref=e125]
+                    - paragraph [ref=e126]: Last edited Apr 28, 2026, 10:00 PM · Edited by Dev User
+                  - button "Edit" [ref=e127]
+                - generic [ref=e129]:
+                  - tablist "Description" [ref=e130]:
+                    - tab "Description" [selected] [ref=e131]
+                    - tab "Edit History (1)" [ref=e132]
+                  - tabpanel "Description" [ref=e133]:
+                    - paragraph [ref=e135]: 老师偏好通过 PR review 反馈代码风格问题。
+              - tablist "Teaching Sections" [ref=e137]:
+                - tab "Teaching Sections" [selected] [ref=e138]
+                - tab "Comments" [ref=e139]
+              - tabpanel "Teaching Sections" [ref=e140]:
+                - table [ref=e145]:
+                  - rowgroup [ref=e146]:
+                    - row "Semester Course Name Section Code Credits" [ref=e147]:
+                      - columnheader "Semester" [ref=e148]
+                      - columnheader "Course Name" [ref=e149]
+                      - columnheader "Section Code" [ref=e150]
+                      - columnheader "Credits" [ref=e151]
+                  - rowgroup [ref=e152]:
+                    - 'row "2026年春季学期 Cryptographic Engineering: Principles and Practice 密码工程原理与实践 IS3003.01 2.5" [ref=e153]':
+                      - cell "2026年春季学期" [ref=e154]:
+                        - link "2026年春季学期" [ref=e155] [cursor=pointer]:
+                          - /url: /sections/9902001
+                      - 'cell "Cryptographic Engineering: Principles and Practice 密码工程原理与实践" [ref=e156]':
+                        - 'link "Cryptographic Engineering: Principles and Practice 密码工程原理与实践" [ref=e157] [cursor=pointer]':
+                          - /url: /sections/9902001
+                          - text: "Cryptographic Engineering: Principles and Practice"
+                          - generic [ref=e158]: 密码工程原理与实践
+                      - cell "IS3003.01" [ref=e159]:
+                        - link "IS3003.01" [ref=e160] [cursor=pointer]:
+                          - /url: /sections/9902001
+                          - generic [ref=e161]: IS3003.01
+                      - cell "2.5" [ref=e162]:
+                        - link "2.5" [ref=e163] [cursor=pointer]:
+                          - /url: /sections/9902001
+                    - row "2025年秋季学期 Advanced Linear Algebra 线性代数进阶 MATH2001.01 4" [ref=e164]:
+                      - cell "2025年秋季学期" [ref=e165]:
+                        - link "2025年秋季学期" [ref=e166] [cursor=pointer]:
+                          - /url: /sections/9902004
+                      - cell "Advanced Linear Algebra 线性代数进阶" [ref=e167]:
+                        - link "Advanced Linear Algebra 线性代数进阶" [ref=e168] [cursor=pointer]:
+                          - /url: /sections/9902004
+                          - text: Advanced Linear Algebra
+                          - generic [ref=e169]: 线性代数进阶
+                      - cell "MATH2001.01" [ref=e170]:
+                        - link "MATH2001.01" [ref=e171] [cursor=pointer]:
+                          - /url: /sections/9902004
+                          - generic [ref=e172]: MATH2001.01
+                      - cell "4" [ref=e173]:
+                        - link "4" [ref=e174] [cursor=pointer]:
+                          - /url: /sections/9902004
+            - generic [ref=e175]:
+              - generic [ref=e176]:
+                - heading "Basic Information" [level=2] [ref=e177]
+                - paragraph [ref=e178]: Imported teacher metadata.
+              - generic [ref=e180]:
+                - generic [ref=e181]:
+                  - term [ref=e182]: Name
+                  - definition [ref=e183]: Lin Jingqiang
+                  - definition [ref=e184]: 林璟锵
+                - generic [ref=e185]:
+                  - term [ref=e186]: Department
+                  - definition [ref=e187]: School of Cyber Science and Technology
+                - generic [ref=e188]:
+                  - term [ref=e189]: Title
+                  - definition [ref=e190]: Professor
+                - generic [ref=e191]:
+                  - term [ref=e192]: Email
+                  - definition [ref=e193]:
+                    - link "jqlin@ustc.edu.cn" [ref=e194] [cursor=pointer]:
+                      - /url: mailto:jqlin@ustc.edu.cn
+                - generic [ref=e195]:
+                  - term [ref=e196]: Mobile
+                  - definition [ref=e197]: "13800001111"
+                - generic [ref=e198]:
+                  - term [ref=e199]: Address
+                  - definition [ref=e200]: 中国科学技术大学
+      - contentinfo [ref=e201]:
+        - generic [ref=e202]:
+          - navigation "Primary navigation" [ref=e203]:
+            - link "Terms of Service" [ref=e204] [cursor=pointer]:
+              - /url: /terms
+            - link "Privacy Policy" [ref=e205] [cursor=pointer]:
+              - /url: /privacy
+            - link "GitHub" [ref=e206] [cursor=pointer]:
+              - /url: https://github.com/Life-USTC/server
+            - link "Mobile App" [ref=e207] [cursor=pointer]:
+              - /url: /mobile-app
+          - paragraph [ref=e208]: Life@USTC
+  - generic [ref=e209]: "Teacher: Lin Jingqiang - Life@USTC"
+```
