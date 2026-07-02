@@ -1,0 +1,372 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: src/app/dashboard/links/test.ts >> 仪表盘网站链接 >> 登录后可以导航到链接标签
+- Location: tests/e2e/src/app/dashboard/links/test.ts:100:3
+
+# Error details
+
+```
+Error: expect(locator).toBeVisible() failed
+
+Locator: getByRole('link', { name: /网站|Websites/i }).first()
+Expected: visible
+Timeout: 5000ms
+Error: element(s) not found
+
+Call log:
+  - Expect "toBeVisible" with timeout 5000ms
+  - waiting for getByRole('link', { name: /网站|Websites/i }).first()
+
+```
+
+```yaml
+- complementary:
+  - link "Life@USTC":
+    - /url: /
+  - navigation "Primary navigation":
+    - region "Workspace":
+      - paragraph: Workspace
+      - link "Overview":
+        - /url: /dashboard/overview
+      - link "Calendar":
+        - /url: /dashboard/calendar
+      - link "Homework":
+        - /url: /dashboard/homeworks
+      - link "Todos":
+        - /url: /dashboard/todos
+      - link "Exams":
+        - /url: /dashboard/exams
+      - link "Section Management":
+        - /url: /dashboard/subscriptions
+    - region "Public tools":
+      - paragraph: Public tools
+      - link "Dashboard transit":
+        - /url: /dashboard/bus
+        - text: Shuttle Bus
+      - link "Dashboard links":
+        - /url: /dashboard/links
+        - text: Websites
+    - region "Catalog":
+      - paragraph: Catalog
+      - link "Courses":
+        - /url: /courses
+      - link "Sections":
+        - /url: /sections
+      - link "Teachers":
+        - /url: /teachers
+    - region "Campus":
+      - paragraph: Campus
+      - link "Transit Map":
+        - /url: /bus-map
+      - link "Mobile App":
+        - /url: /mobile-app
+- banner:
+  - paragraph: Life@USTC
+  - button "Language selector"
+  - button "Switch to light mode"
+  - button "Profile menu":
+    - img "Dev User"
+    - text: D
+- main:
+  - button "Academic Affairs System Course selection, grades, and teaching affairs.":
+    - text: Academic Affairs System
+    - paragraph: Course selection, grades, and teaching affairs.
+  - button "Unpin"
+  - button "Confession Wall Anonymous campus discussion platform.":
+    - text: Confession Wall
+    - paragraph: Anonymous campus discussion platform.
+  - button "Unpin"
+  - button "USTC Email USTC email service.":
+    - text: USTC Email
+    - paragraph: USTC email service.
+  - button "Unpin"
+  - button "USTC Official Site University news and announcements.":
+    - text: USTC Official Site
+    - paragraph: University news and announcements.
+  - button "Unpin"
+  - heading "Today" [level=2]:
+    - link "Today":
+      - /url: /dashboard/calendar
+  - text: No classes scheduled for today.
+  - heading "Overdue" [level=2]:
+    - link "Overdue":
+      - /url: /dashboard/homeworks
+  - 'link "Homework 逾期实验数据补交 Cryptographic Engineering: Principles and Practice Overdue"':
+    - /url: /sections/9902001#homework-cmqw1srez0003bqt45qjilal7
+  - 'link "Homework 今日课堂反馈整理 Cryptographic Engineering: Principles and Practice Overdue"':
+    - /url: /sections/9902001#homework-cmqw1srez0004bqt4qy3jviis
+  - link "Homework 实验报告与误差分析 Environmental Microbiology Overdue":
+    - /url: /sections/9902003#homework-cmqw1srez0008bqt467yuqdec
+  - 'link "Homework 迭代二系统设计评审 Cryptographic Engineering: Principles and Practice Overdue"':
+    - /url: /sections/9902001#homework-cmqw1srez0005bqt41y0wbcrp
+  - link "Homework 特征值综合练习 Introduction to Astrophysics Overdue":
+    - /url: /sections/9902002#homework-cmqw1srez0007bqt4p55o2ara
+  - link "To-do 补交培养方案确认 High Pending Apr 28, 9:00 AM":
+    - /url: /dashboard/todos
+  - link "To-do 期末报告提交 High Pending Apr 29, 11:59 PM":
+    - /url: /dashboard/todos
+  - link "To-do 三天内复习安排 Medium Pending May 1, 6:00 PM":
+    - /url: /dashboard/todos
+  - link "To-do 下周小组展示准备 Low Pending May 6, 11:59 PM":
+    - /url: /dashboard/todos
+  - heading "Homework" [level=2]:
+    - link "Homework":
+      - /url: /dashboard/homeworks
+  - 'link "逾期实验数据补交 Cryptographic Engineering: Principles and Practice Overdue Apr 28, 10:00 PM"':
+    - /url: /sections/9902001#homework-cmqw1srez0003bqt45qjilal7
+  - 'link "今日课堂反馈整理 Cryptographic Engineering: Principles and Practice Overdue Apr 29, 11:00 PM"':
+    - /url: /sections/9902001#homework-cmqw1srez0004bqt4qy3jviis
+  - link "实验报告与误差分析 Environmental Microbiology Overdue May 2, 9:00 PM":
+    - /url: /sections/9902003#homework-cmqw1srez0008bqt467yuqdec
+  - 'link "迭代二系统设计评审 Cryptographic Engineering: Principles and Practice Overdue May 3, 11:00 PM"':
+    - /url: /sections/9902001#homework-cmqw1srez0005bqt41y0wbcrp
+  - link "特征值综合练习 Introduction to Astrophysics Overdue May 5, 10:00 PM":
+    - /url: /sections/9902002#homework-cmqw1srez0007bqt4p55o2ara
+  - heading "Todos" [level=2]:
+    - link "Todos":
+      - /url: /dashboard/todos
+  - text: Due today 0 Due in 3 days 0
+  - link "补交培养方案确认 High Pending Apr 28, 9:00 AM":
+    - /url: /dashboard/todos
+  - link "期末报告提交 High Pending Apr 29, 11:59 PM":
+    - /url: /dashboard/todos
+  - link "三天内复习安排 Medium Pending May 1, 6:00 PM":
+    - /url: /dashboard/todos
+  - link "下周小组展示准备 Low Pending May 6, 11:59 PM":
+    - /url: /dashboard/todos
+  - link "整理课程资料 Medium Pending":
+    - /url: /dashboard/todos
+  - heading "Exams" [level=2]:
+    - link "Exams":
+      - /url: /dashboard/exams
+  - text: 0 No exams in the next 7 days.
+  - heading "This week" [level=2]:
+    - link "This week":
+      - /url: /dashboard/calendar
+  - text: Jun 28 Sun Open Jun 29 Mon Open Jun 30 Tue Open Jul 1 Wed Open Jul 2 Thu Open Jul 3 Fri Open Jul 4 Sat Open
+- contentinfo:
+  - navigation "Primary navigation":
+    - link "Terms of Service":
+      - /url: /terms
+    - link "Privacy Policy":
+      - /url: /privacy
+    - link "GitHub":
+      - /url: https://github.com/Life-USTC/server
+    - link "Mobile App":
+      - /url: /mobile-app
+  - paragraph: Life@USTC
+- text: Home - Life@USTC
+```
+
+# Test source
+
+```ts
+  4   |  * ## Data Represented
+  5   |  * - Dashboard links grouped by category (study, life, tech, classroom, etc.)
+  6   |  *   sourced from USTC_DASHBOARD_LINKS
+  7   |  * - Each link card: name, description, visit tracking via
+  8   |  *   POST /api/dashboard-links/visit
+  9   |  * - Pin state per user via POST /api/dashboard-links/pin
+  10  |  *
+  11  |  * ## UI/UX Elements
+  12  |  * - Search box to filter links by name/description
+  13  |  * - Ctrl+K / Cmd+K keyboard shortcut focuses search
+  14  |  * - Pin/unpin button per card (visible on hover, authenticated only)
+  15  |  * - Group labels (study, life, tech…) shown in "all" variant
+  16  |  * - Credit text linking to SmartHypercube/ustclife repo
+  17  |  *
+  18  |  * ## Edge Cases
+  19  |  * - Public view: search works but pin buttons are hidden (allowPinning=false)
+  20  |  * - Pin/unpin is a stateful action — tests restore original state after toggle
+  21  |  * - Search filters across all groups; empty search restores full list
+  22  |  */
+  23  | import { expect, type Page, test } from "@playwright/test";
+  24  | import { signInAsDebugUser } from "../../../../utils/auth";
+  25  | import { DEV_SEED } from "../../../../utils/dev-seed";
+  26  | import { gotoAndWaitForReady } from "../../../../utils/page-ready";
+  27  | import { captureStepScreenshot } from "../../../../utils/screenshot";
+  28  | 
+  29  | test.describe.configure({ mode: "serial" });
+  30  | 
+  31  | const PIN_LABEL = /^(?:置顶|Pin)$/i;
+  32  | const UNPIN_LABEL = /^(?:取消置顶|Unpin)$/i;
+  33  | const JSON_HEADERS = { accept: "application/json" };
+  34  | 
+  35  | async function setLocale(page: Page, locale: "en-us" | "zh-cn") {
+  36  |   const response = await page.request.post("/api/locale", {
+  37  |     data: { locale },
+  38  |   });
+  39  |   expect(response.status()).toBe(200);
+  40  | }
+  41  | 
+  42  | test.describe("仪表盘网站链接", () => {
+  43  |   test("公共 ?tab=links 显示搜索和链接，无置顶控件", async ({
+  44  |     page,
+  45  |   }, testInfo) => {
+  46  |     await setLocale(page, "zh-cn");
+  47  |     await gotoAndWaitForReady(page, "/?tab=links");
+  48  | 
+  49  |     const searchInput = page.getByRole("searchbox", {
+  50  |       name: /搜索网站名称或描述|Search by name or description/i,
+  51  |     });
+  52  |     await expect(searchInput).toBeVisible();
+  53  |     await expect(
+  54  |       page.getByRole("button", { name: /教务系统/i }).first(),
+  55  |     ).toBeVisible();
+  56  | 
+  57  |     // No pin forms in public view
+  58  |     await expect(
+  59  |       page.locator('form[action="/api/dashboard-links/pin"]').first(),
+  60  |     ).toHaveCount(0);
+  61  | 
+  62  |     await captureStepScreenshot(page, testInfo, "public-dashboard-links-tab");
+  63  |   });
+  64  | 
+  65  |   test("公共英文链接标签在搜索中使用本地化标题", async ({ page }, testInfo) => {
+  66  |     await setLocale(page, "en-us");
+  67  | 
+  68  |     await gotoAndWaitForReady(page, "/?tab=links");
+  69  | 
+  70  |     const searchInput = page.getByRole("searchbox", {
+  71  |       name: /Search by name or description/i,
+  72  |     });
+  73  |     await expect(searchInput).toBeVisible();
+  74  |     await expect(
+  75  |       page.getByRole("button", { name: /Academic Affairs System/i }).first(),
+  76  |     ).toBeVisible();
+  77  | 
+  78  |     await expect(async () => {
+  79  |       await searchInput.click();
+  80  |       await searchInput.clear();
+  81  |       await searchInput.pressSequentially("email");
+  82  |       await expect(
+  83  |         page.getByRole("button", { name: /USTC Email/i }).first(),
+  84  |       ).toBeVisible({ timeout: 3_000 });
+  85  |       await expect(
+  86  |         page.getByRole("button", { name: /Academic Affairs System/i }),
+  87  |       ).toHaveCount(0, { timeout: 3_000 });
+  88  |     }).toPass({
+  89  |       timeout: 10_000,
+  90  |       intervals: [250, 500, 1_000],
+  91  |     });
+  92  | 
+  93  |     await captureStepScreenshot(
+  94  |       page,
+  95  |       testInfo,
+  96  |       "public-dashboard-links-en-search",
+  97  |     );
+  98  |   });
+  99  | 
+  100 |   test("登录后可以导航到链接标签", async ({ page }, testInfo) => {
+  101 |     await signInAsDebugUser(page, "/");
+  102 | 
+  103 |     const linksTab = page.getByRole("link", { name: /网站|Websites/i }).first();
+> 104 |     await expect(linksTab).toBeVisible();
+      |                            ^ Error: expect(locator).toBeVisible() failed
+  105 |     await linksTab.click();
+  106 | 
+  107 |     await expect(page).toHaveURL(/\/dashboard\/links$/);
+  108 |     await expect(
+  109 |       page.getByRole("searchbox", {
+  110 |         name: /搜索网站名称或描述|Search by name or description/i,
+  111 |       }),
+  112 |     ).toBeVisible();
+  113 |     await expect(
+  114 |       page.locator('input[name="action"][value="unpin"]'),
+  115 |     ).toHaveCount(DEV_SEED.dashboardLinks.overviewLimit);
+  116 | 
+  117 |     await captureStepScreenshot(page, testInfo, "dashboard-links-tab");
+  118 |   });
+  119 | 
+  120 |   test("搜索可筛选链接", async ({ page }, testInfo) => {
+  121 |     await setLocale(page, "zh-cn");
+  122 |     await signInAsDebugUser(page, "/dashboard/links");
+  123 | 
+  124 |     const searchInput = page.getByRole("searchbox", {
+  125 |       name: /搜索网站名称或描述|Search by name or description/i,
+  126 |     });
+  127 |     await expect(searchInput).toBeVisible();
+  128 |     await page.keyboard.press("Control+K");
+  129 |     await expect(searchInput).toBeFocused();
+  130 | 
+  131 |     // Search for a specific link
+  132 |     await expect(async () => {
+  133 |       await searchInput.click();
+  134 |       await searchInput.clear();
+  135 |       await searchInput.pressSequentially("邮箱");
+  136 |       await expect(
+  137 |         page.getByRole("button", { name: /邮箱/i }).first(),
+  138 |       ).toBeVisible({ timeout: 3_000 });
+  139 |       await expect(
+  140 |         page.getByRole("button", { name: /教务系统/i }).first(),
+  141 |       ).toHaveCount(0);
+  142 |     }).toPass({
+  143 |       timeout: 10_000,
+  144 |       intervals: [250, 500, 1_000],
+  145 |     });
+  146 | 
+  147 |     await captureStepScreenshot(page, testInfo, "dashboard-links-search");
+  148 |   });
+  149 | 
+  150 |   test("可以置顶和取消置顶链接并恢复状态", async ({ page }, testInfo) => {
+  151 |     await setLocale(page, "zh-cn");
+  152 |     await signInAsDebugUser(page, "/dashboard/links");
+  153 |     await page.request.post("/api/dashboard-links/pin", {
+  154 |       form: { slug: "jw", action: "unpin", returnTo: "/dashboard/links" },
+  155 |       headers: JSON_HEADERS,
+  156 |     });
+  157 |     await gotoAndWaitForReady(page, "/dashboard/links", {
+  158 |       testInfo,
+  159 |       screenshotLabel: "dashboard-links",
+  160 |     });
+  161 | 
+  162 |     const locatePinButton = async () => {
+  163 |       const linkButton = page
+  164 |         .getByRole("button", { name: /教务系统/i })
+  165 |         .first();
+  166 |       await expect(linkButton).toBeVisible();
+  167 | 
+  168 |       const card = linkButton.locator(
+  169 |         "xpath=ancestor::div[contains(@class, 'group')][1]",
+  170 |       );
+  171 |       await card.hover();
+  172 | 
+  173 |       const pinForm = page
+  174 |         .locator('form[action="/api/dashboard-links/pin"]')
+  175 |         .filter({
+  176 |           has: page.locator('input[name="slug"][value="jw"]'),
+  177 |         })
+  178 |         .first();
+  179 |       const pinButton = pinForm
+  180 |         .getByRole("button", { name: /置顶|Pin|取消置顶|Unpin/i })
+  181 |         .first();
+  182 | 
+  183 |       await expect(pinButton).toBeVisible();
+  184 |       return pinButton;
+  185 |     };
+  186 | 
+  187 |     async function clickPinButtonAndWait() {
+  188 |       const currentPinButton = await locatePinButton();
+  189 |       const [response] = await Promise.all([
+  190 |         page.waitForResponse(
+  191 |           (res) =>
+  192 |             res.url().includes("/api/dashboard-links/pin") &&
+  193 |             res.request().method() === "POST",
+  194 |         ),
+  195 |         currentPinButton.click({ force: true }),
+  196 |       ]);
+  197 |       expect(response.ok()).toBe(true);
+  198 |       await page.reload({ waitUntil: "domcontentloaded" });
+  199 |     }
+  200 | 
+  201 |     try {
+  202 |       await expect(await locatePinButton()).toHaveAttribute(
+  203 |         "aria-label",
+  204 |         PIN_LABEL,
+```

@@ -1,0 +1,387 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: src/app/bus/test.ts >> 校车面板标签页 >> 默认站点对按下一班可用校车排序显示所有适用线路
+- Location: tests/e2e/src/app/bus/test.ts:137:3
+
+# Error details
+
+```
+Error: expect(locator).toHaveCount(expected) failed
+
+Locator:  locator('section:visible').filter({ has: locator('table') })
+Expected: 2
+Received: 4
+Timeout:  5000ms
+
+Call log:
+  - Expect "toHaveCount" with timeout 5000ms
+  - waiting for locator('section:visible').filter({ has: locator('table') })
+    14 × locator resolved to 4 elements
+       - unexpected value "4"
+
+```
+
+# Page snapshot
+
+```yaml
+- generic [ref=e3]:
+  - complementary [ref=e4]:
+    - link "Life@USTC" [ref=e6] [cursor=pointer]:
+      - /url: /
+      - img [ref=e7]
+      - generic [ref=e8]: Life@USTC
+    - navigation "Primary navigation" [ref=e9]:
+      - generic [ref=e10]:
+        - region "Public tools" [ref=e11]:
+          - paragraph [ref=e12]: Public tools
+          - link "Shuttle Bus" [ref=e13] [cursor=pointer]:
+            - /url: /?tab=bus
+            - img [ref=e14]
+            - generic [ref=e18]: Shuttle Bus
+          - link "Websites" [ref=e19] [cursor=pointer]:
+            - /url: /?tab=links
+            - img [ref=e20]
+            - generic [ref=e23]: Websites
+        - region "Catalog" [ref=e24]:
+          - paragraph [ref=e25]: Catalog
+          - link "Courses" [ref=e26] [cursor=pointer]:
+            - /url: /courses
+            - img [ref=e27]
+            - generic [ref=e29]: Courses
+          - link "Sections" [ref=e30] [cursor=pointer]:
+            - /url: /sections
+            - img [ref=e31]
+            - generic [ref=e35]: Sections
+          - link "Teachers" [ref=e36] [cursor=pointer]:
+            - /url: /teachers
+            - img [ref=e37]
+            - generic [ref=e42]: Teachers
+        - region "Campus" [ref=e43]:
+          - paragraph [ref=e44]: Campus
+          - link "Transit Map" [ref=e45] [cursor=pointer]:
+            - /url: /bus-map
+            - img [ref=e46]
+            - generic [ref=e48]: Transit Map
+          - link "Mobile App" [ref=e49] [cursor=pointer]:
+            - /url: /mobile-app
+            - img [ref=e50]
+            - generic [ref=e52]: Mobile App
+  - generic [ref=e53]:
+    - banner [ref=e54]:
+      - generic [ref=e55]:
+        - paragraph [ref=e57]: Shuttle Bus
+        - generic [ref=e58]:
+          - button "Language selector" [ref=e59]:
+            - img
+          - button "Switch to light mode" [ref=e60]:
+            - img
+          - link "Sign In" [ref=e61] [cursor=pointer]:
+            - /url: /signin
+    - main [ref=e62]:
+      - generic [ref=e64]:
+        - generic [ref=e65]:
+          - paragraph [ref=e66]: Start with public campus tools
+          - generic [ref=e68]:
+            - heading "Shuttle Bus" [level=1] [ref=e69]
+            - paragraph [ref=e70]: See the next shuttle and route changes across campuses.
+        - generic [ref=e71]:
+          - generic [ref=e72]:
+            - generic [ref=e73]:
+              - heading "Campus shuttle" [level=2] [ref=e74]
+              - paragraph [ref=e75]: Static Structured Bus Timetable
+            - link "Transit map" [ref=e76] [cursor=pointer]:
+              - /url: /bus-map
+          - generic [ref=e77]:
+            - generic [ref=e79]:
+              - generic [ref=e80]:
+                - generic [ref=e81]:
+                  - heading "Start stop" [level=3] [ref=e82]
+                  - generic [ref=e83]:
+                    - button "东区" [pressed] [ref=e84]
+                    - button "西区" [ref=e85]
+                    - button "北区" [ref=e86]
+                    - button "南区" [ref=e87]
+                    - button "先研院" [ref=e88]
+                    - button "高新" [ref=e89]
+                - button "Reverse" [ref=e91]:
+                  - img
+                  - text: Reverse
+                - generic [ref=e92]:
+                  - heading "End stop" [level=3] [ref=e93]
+                  - generic [ref=e94]:
+                    - button "东区" [ref=e95]
+                    - button "西区" [pressed] [ref=e96]
+                    - button "北区" [ref=e97]
+                    - button "南区" [ref=e98]
+                    - button "先研院" [ref=e99]
+                    - button "高新" [ref=e100]
+              - generic [ref=e101]:
+                - group "Schedule type" [ref=e102]:
+                  - radio "Weekday" [checked] [ref=e103]
+                  - radio "Weekend" [ref=e104]
+                - group [ref=e105]:
+                  - generic [ref=e107]: Show departed trips
+                  - switch "Show departed trips" [ref=e108]
+            - generic [ref=e110]:
+              - generic [ref=e111]:
+                - generic [ref=e112]:
+                  - heading "东区 -> 西区 -> 先研院 -> 高新" [level=3] [ref=e113]
+                  - table [ref=e117]:
+                    - rowgroup [ref=e118]:
+                      - row "东区 西区" [ref=e119]:
+                        - columnheader "东区" [ref=e120]
+                        - columnheader "西区" [ref=e121]
+                    - rowgroup [ref=e122]:
+                      - row "12:50 13:00" [ref=e123]:
+                        - cell "12:50" [ref=e124]
+                        - cell "13:00" [ref=e125]
+                      - row "21:20 21:30" [ref=e126]:
+                        - cell "21:20" [ref=e127]
+                        - cell "21:30" [ref=e128]
+                - generic [ref=e129]:
+                  - heading "东区 -> 北区 -> 西区" [level=3] [ref=e130]
+                  - table [ref=e134]:
+                    - rowgroup [ref=e135]:
+                      - row "东区 北区 西区" [ref=e136]:
+                        - columnheader "东区" [ref=e137]
+                        - columnheader "北区" [ref=e138]
+                        - columnheader "西区" [ref=e139]
+                    - rowgroup [ref=e140]:
+                      - row "18:40 ~18:45 18:50" [ref=e141]:
+                        - cell "18:40" [ref=e142]
+                        - cell "~18:45" [ref=e143]
+                        - cell "18:50" [ref=e144]
+                      - row "21:15 ~21:20 21:25" [ref=e145]:
+                        - cell "21:15" [ref=e146]
+                        - cell "~21:20" [ref=e147]
+                        - cell "21:25" [ref=e148]
+              - generic [ref=e149]:
+                - link "校车运营数据仅供测试使用。" [ref=e150] [cursor=pointer]:
+                  - /url: https://github.com/Life-USTC/static
+                - paragraph [ref=e151]: ~ marks an estimated time inferred from nearby stops on the same trip.
+    - contentinfo [ref=e152]:
+      - generic [ref=e153]:
+        - navigation "Primary navigation" [ref=e154]:
+          - link "Terms of Service" [ref=e155] [cursor=pointer]:
+            - /url: /terms
+          - link "Privacy Policy" [ref=e156] [cursor=pointer]:
+            - /url: /privacy
+          - link "GitHub" [ref=e157] [cursor=pointer]:
+            - /url: https://github.com/Life-USTC/server
+          - link "Mobile App" [ref=e158] [cursor=pointer]:
+            - /url: /mobile-app
+        - paragraph [ref=e159]: Life@USTC
+```
+
+# Test source
+
+```ts
+  45  |   });
+  46  | 
+  47  |   test("旧版查询标签页仍渲染校车规划器", async ({ page }) => {
+  48  |     await gotoAndWaitForReady(page, "/?tab=bus", {
+  49  |       screenshotLabel: "bus-legacy",
+  50  |     });
+  51  | 
+  52  |     await expect(
+  53  |       page.getByRole("link", { name: /Transit map|线路图/ }),
+  54  |     ).toHaveAttribute("href", "/bus-map");
+  55  |   });
+  56  | 
+  57  |   test("公共校车标签页显示规划器控件", async ({ page }, testInfo) => {
+  58  |     await gotoAndWaitForReady(page, "/?tab=bus", {
+  59  |       testInfo,
+  60  |       screenshotLabel: "bus",
+  61  |     });
+  62  | 
+  63  |     await expect(
+  64  |       page.getByRole("radio", { name: /Weekday|工作日/ }).first(),
+  65  |     ).toBeVisible();
+  66  |     await expect(
+  67  |       page.locator("[data-testid='bus-start-stop-group']"),
+  68  |     ).toBeVisible();
+  69  |     await expect(
+  70  |       page.locator("[data-testid='bus-end-stop-group']"),
+  71  |     ).toBeVisible();
+  72  |     await expect(
+  73  |       page.getByRole("button", { name: /Reverse|反向/ }),
+  74  |     ).toBeVisible();
+  75  |     await expect(
+  76  |       page.getByRole("switch", {
+  77  |         name: /Show departed trips|显示已发车班次/,
+  78  |       }),
+  79  |     ).toBeVisible();
+  80  |     await expect(
+  81  |       page.getByRole("link", { name: /Transit map|线路图/ }),
+  82  |     ).toHaveAttribute("href", "/bus-map");
+  83  | 
+  84  |     await captureStepScreenshot(page, testInfo, "bus-planner-public");
+  85  |   });
+  86  | 
+  87  |   test("登录校车面板 SSR 渲染服务端时刻表数据", async ({ page }) => {
+  88  |     await signInAsDebugUser(page, "/dashboard/bus");
+  89  | 
+  90  |     const response = await page.request.get("/dashboard/bus");
+  91  |     expect(response.status()).toBe(200);
+  92  |     const html = await response.text();
+  93  | 
+  94  |     expect(html).toContain('href="/bus-map"');
+  95  |     expect(html).not.toMatch(
+  96  |       /data-slot="alert"[\s\S]{0,240}当前暂无可用的校车数据。/,
+  97  |     );
+  98  |     expect(html).not.toMatch(
+  99  |       /data-slot="alert"[\s\S]{0,240}No shuttle data is available right now\./,
+  100 |     );
+  101 |   });
+  102 | 
+  103 |   test("匿名校车面板 SSR 渲染公共时刻表数据", async ({ page }) => {
+  104 |     const response = await page.request.get("/?tab=bus");
+  105 |     expect(response.status()).toBe(200);
+  106 |     const html = await response.text();
+  107 | 
+  108 |     expect(html).toContain('href="/bus-map"');
+  109 |     expect(html).not.toMatch(
+  110 |       /data-slot="alert"[\s\S]{0,240}当前暂无可用的校车数据。/,
+  111 |     );
+  112 |     expect(html).not.toMatch(
+  113 |       /data-slot="alert"[\s\S]{0,240}No shuttle data is available right now\./,
+  114 |     );
+  115 |   });
+  116 | 
+  117 |   test("公共校车标签页在移动端保持规划器控件可用", async ({
+  118 |     page,
+  119 |   }, testInfo) => {
+  120 |     await page.setViewportSize({ width: 390, height: 844 });
+  121 |     await gotoAndWaitForReady(page, "/?tab=bus", {
+  122 |       testInfo,
+  123 |       screenshotLabel: "bus-mobile",
+  124 |     });
+  125 | 
+  126 |     await expect(
+  127 |       page.getByRole("radio", { name: /Weekday|工作日/ }).first(),
+  128 |     ).toBeVisible();
+  129 |     await expect(
+  130 |       page.locator("[data-testid='bus-start-stop-group']"),
+  131 |     ).toBeVisible();
+  132 |     await expect(page.locator("table").first()).toBeVisible();
+  133 | 
+  134 |     await captureStepScreenshot(page, testInfo, "bus-planner-public-mobile");
+  135 |   });
+  136 | 
+  137 |   test("默认站点对按下一班可用校车排序显示所有适用线路", async ({
+  138 |     page,
+  139 |   }, testInfo) => {
+  140 |     await gotoAndWaitForReady(page, "/?tab=bus", {
+  141 |       testInfo,
+  142 |       screenshotLabel: "bus",
+  143 |     });
+  144 | 
+> 145 |     await expect(routeSectionRows(page)).toHaveCount(2);
+      |                                          ^ Error: expect(locator).toHaveCount(expected) failed
+  146 |     const routeTexts = await routeSectionRows(page).allTextContents();
+  147 |     expect(
+  148 |       routeTexts.some((text) => text.includes("东区 -> 北区 -> 西区")),
+  149 |     ).toBe(true);
+  150 |     expect(
+  151 |       routeTexts.some((text) =>
+  152 |         text.includes("东区 -> 西区 -> 先研院 -> 高新"),
+  153 |       ),
+  154 |     ).toBe(true);
+  155 |   });
+  156 | 
+  157 |   test("反向交换方向并重新计算适用线路", async ({ page }, testInfo) => {
+  158 |     await gotoAndWaitForReady(page, "/?tab=bus", {
+  159 |       testInfo,
+  160 |       screenshotLabel: "bus",
+  161 |     });
+  162 | 
+  163 |     const reverseButton = page.getByRole("button", { name: /Reverse|反向/ });
+  164 |     const startWestButton = page
+  165 |       .locator("[data-testid='bus-start-stop-group']")
+  166 |       .getByRole("button", { name: /西区/ });
+  167 |     const endEastButton = page
+  168 |       .locator("[data-testid='bus-end-stop-group']")
+  169 |       .getByRole("button", { name: /东区/ });
+  170 |     await expect(async () => {
+  171 |       if (
+  172 |         (await startWestButton.getAttribute("aria-pressed")) !== "true" ||
+  173 |         (await endEastButton.getAttribute("aria-pressed")) !== "true"
+  174 |       ) {
+  175 |         await reverseButton.click();
+  176 |       }
+  177 |       await expect(startWestButton).toHaveAttribute("aria-pressed", "true");
+  178 |       await expect(endEastButton).toHaveAttribute("aria-pressed", "true");
+  179 |       await expect(routeSectionRows(page)).toHaveCount(1);
+  180 |     }).toPass({
+  181 |       timeout: 10_000,
+  182 |       intervals: [250, 500, 1_000],
+  183 |     });
+  184 |     await expect(routeSectionRows(page).first()).toContainText(
+  185 |       "高新 -> 先研院 -> 西区 -> 东区",
+  186 |     );
+  187 | 
+  188 |     await captureStepScreenshot(page, testInfo, "bus-planner-reverse");
+  189 |   });
+  190 | 
+  191 |   test("选择东区到南区缩小为直达线路", async ({ page }, testInfo) => {
+  192 |     await gotoAndWaitForReady(page, "/?tab=bus", {
+  193 |       testInfo,
+  194 |       screenshotLabel: "bus",
+  195 |     });
+  196 | 
+  197 |     await chooseStop(page, /End stop|到达站/, /南区/);
+  198 | 
+  199 |     await expect(routeSectionRows(page)).toHaveCount(1);
+  200 |     await expect(routeSectionRows(page).first()).toContainText("东区 -> 南区");
+  201 |     await expect(page.locator("table")).toContainText("南区");
+  202 |   });
+  203 | 
+  204 |   test("已发车切换保持时刻表可见且可切换", async ({ page }, testInfo) => {
+  205 |     await gotoAndWaitForReady(page, "/?tab=bus", {
+  206 |       testInfo,
+  207 |       screenshotLabel: "bus",
+  208 |     });
+  209 | 
+  210 |     const initialRows = await page.locator("tbody tr").count();
+  211 |     const departedToggle = page.getByRole("switch", {
+  212 |       name: /Show departed trips|显示已发车班次/,
+  213 |     });
+  214 |     await departedToggle.click();
+  215 |     await expect(page.locator("table").first()).toBeVisible();
+  216 |     const expandedRows = await page.locator("tbody tr").count();
+  217 |     expect(expandedRows).toBeGreaterThanOrEqual(initialRows);
+  218 | 
+  219 |     await departedToggle.click();
+  220 |     await expect(page.locator("table").first()).toBeVisible();
+  221 |   });
+  222 | 
+  223 |   test("工作日/周末切换更新所选线路时刻表", async ({ page }, testInfo) => {
+  224 |     await gotoAndWaitForReady(page, "/?tab=bus", {
+  225 |       testInfo,
+  226 |       screenshotLabel: "bus",
+  227 |     });
+  228 | 
+  229 |     await page
+  230 |       .getByRole("switch", { name: /Show departed trips|显示已发车班次/ })
+  231 |       .click();
+  232 | 
+  233 |     await page
+  234 |       .getByRole("radio", { name: /Weekday|工作日/ })
+  235 |       .first()
+  236 |       .click();
+  237 |     const weekdayRows = await page.locator("tbody tr:visible").count();
+  238 |     expect(weekdayRows).toBeGreaterThan(0);
+  239 | 
+  240 |     await page
+  241 |       .getByRole("radio", { name: /Weekend|周末/ })
+  242 |       .first()
+  243 |       .click();
+  244 |     await expect(page.locator("tbody tr:visible").first()).toBeVisible();
+  245 |     const weekendRows = await page.locator("tbody tr:visible").count();
+```

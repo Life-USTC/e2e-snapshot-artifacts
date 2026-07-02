@@ -1,0 +1,314 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: src/app/dashboard/test.ts >> 仪表盘 >> 登录后首页显示总览、所有标签和种子数据
+- Location: tests/e2e/src/app/dashboard/test.ts:55:3
+
+# Error details
+
+```
+Error: expect(locator).toBeVisible() failed
+
+Locator: getByLabel(/Dashboard section switcher/i).getByRole('link', { name: /^(总览|Overview)$/i })
+Expected: visible
+Timeout: 5000ms
+Error: element(s) not found
+
+Call log:
+  - Expect "toBeVisible" with timeout 5000ms
+  - waiting for getByLabel(/Dashboard section switcher/i).getByRole('link', { name: /^(总览|Overview)$/i })
+
+```
+
+```yaml
+- complementary:
+  - link "Life@USTC":
+    - /url: /
+  - navigation "Primary navigation":
+    - region "Workspace":
+      - paragraph: Workspace
+      - link "Overview":
+        - /url: /dashboard/overview
+      - link "Calendar":
+        - /url: /dashboard/calendar
+      - link "Homework":
+        - /url: /dashboard/homeworks
+      - link "Todos":
+        - /url: /dashboard/todos
+      - link "Exams":
+        - /url: /dashboard/exams
+      - link "Section Management":
+        - /url: /dashboard/subscriptions
+    - region "Public tools":
+      - paragraph: Public tools
+      - link "Dashboard transit":
+        - /url: /dashboard/bus
+        - text: Shuttle Bus
+      - link "Dashboard links":
+        - /url: /dashboard/links
+        - text: Websites
+    - region "Catalog":
+      - paragraph: Catalog
+      - link "Courses":
+        - /url: /courses
+      - link "Sections":
+        - /url: /sections
+      - link "Teachers":
+        - /url: /teachers
+    - region "Campus":
+      - paragraph: Campus
+      - link "Transit Map":
+        - /url: /bus-map
+      - link "Mobile App":
+        - /url: /mobile-app
+- banner:
+  - paragraph: Life@USTC
+  - button "Language selector"
+  - button "Switch to light mode"
+  - button "Profile menu":
+    - img "Dev User"
+    - text: D
+- main:
+  - button "Academic Affairs System Course selection, grades, and teaching affairs.":
+    - text: Academic Affairs System
+    - paragraph: Course selection, grades, and teaching affairs.
+  - button "Unpin"
+  - button "Confession Wall Anonymous campus discussion platform.":
+    - text: Confession Wall
+    - paragraph: Anonymous campus discussion platform.
+  - button "Unpin"
+  - button "USTC Email USTC email service.":
+    - text: USTC Email
+    - paragraph: USTC email service.
+  - button "Unpin"
+  - button "USTC Official Site University news and announcements.":
+    - text: USTC Official Site
+    - paragraph: University news and announcements.
+  - button "Unpin"
+  - heading "Today" [level=2]:
+    - link "Today":
+      - /url: /dashboard/calendar
+  - text: No classes scheduled for today.
+  - heading "Overdue" [level=2]:
+    - link "Overdue":
+      - /url: /dashboard/homeworks
+  - 'link "Homework 逾期实验数据补交 Cryptographic Engineering: Principles and Practice Overdue"':
+    - /url: /sections/9902001#homework-cmqw1srez0003bqt45qjilal7
+  - 'link "Homework 今日课堂反馈整理 Cryptographic Engineering: Principles and Practice Overdue"':
+    - /url: /sections/9902001#homework-cmqw1srez0004bqt4qy3jviis
+  - link "Homework 实验报告与误差分析 Environmental Microbiology Overdue":
+    - /url: /sections/9902003#homework-cmqw1srez0008bqt467yuqdec
+  - 'link "Homework 迭代二系统设计评审 Cryptographic Engineering: Principles and Practice Overdue"':
+    - /url: /sections/9902001#homework-cmqw1srez0005bqt41y0wbcrp
+  - link "Homework 特征值综合练习 Introduction to Astrophysics Overdue":
+    - /url: /sections/9902002#homework-cmqw1srez0007bqt4p55o2ara
+  - link "To-do 补交培养方案确认 High Pending Apr 28, 9:00 AM":
+    - /url: /dashboard/todos
+  - link "To-do 期末报告提交 High Pending Apr 29, 11:59 PM":
+    - /url: /dashboard/todos
+  - link "To-do 三天内复习安排 Medium Pending May 1, 6:00 PM":
+    - /url: /dashboard/todos
+  - link "To-do 下周小组展示准备 Low Pending May 6, 11:59 PM":
+    - /url: /dashboard/todos
+  - heading "Homework" [level=2]:
+    - link "Homework":
+      - /url: /dashboard/homeworks
+  - 'link "逾期实验数据补交 Cryptographic Engineering: Principles and Practice Overdue Apr 28, 10:00 PM"':
+    - /url: /sections/9902001#homework-cmqw1srez0003bqt45qjilal7
+  - 'link "今日课堂反馈整理 Cryptographic Engineering: Principles and Practice Overdue Apr 29, 11:00 PM"':
+    - /url: /sections/9902001#homework-cmqw1srez0004bqt4qy3jviis
+  - link "实验报告与误差分析 Environmental Microbiology Overdue May 2, 9:00 PM":
+    - /url: /sections/9902003#homework-cmqw1srez0008bqt467yuqdec
+  - 'link "迭代二系统设计评审 Cryptographic Engineering: Principles and Practice Overdue May 3, 11:00 PM"':
+    - /url: /sections/9902001#homework-cmqw1srez0005bqt41y0wbcrp
+  - link "特征值综合练习 Introduction to Astrophysics Overdue May 5, 10:00 PM":
+    - /url: /sections/9902002#homework-cmqw1srez0007bqt4p55o2ara
+  - heading "Todos" [level=2]:
+    - link "Todos":
+      - /url: /dashboard/todos
+  - text: Due today 0 Due in 3 days 0
+  - link "补交培养方案确认 High Pending Apr 28, 9:00 AM":
+    - /url: /dashboard/todos
+  - link "期末报告提交 High Pending Apr 29, 11:59 PM":
+    - /url: /dashboard/todos
+  - link "三天内复习安排 Medium Pending May 1, 6:00 PM":
+    - /url: /dashboard/todos
+  - link "下周小组展示准备 Low Pending May 6, 11:59 PM":
+    - /url: /dashboard/todos
+  - link "整理课程资料 Medium Pending":
+    - /url: /dashboard/todos
+  - heading "Exams" [level=2]:
+    - link "Exams":
+      - /url: /dashboard/exams
+  - text: 0 No exams in the next 7 days.
+  - heading "This week" [level=2]:
+    - link "This week":
+      - /url: /dashboard/calendar
+  - text: Jun 28 Sun Open Jun 29 Mon Open Jun 30 Tue Open Jul 1 Wed Open Jul 2 Thu Open Jul 3 Fri Open Jul 4 Sat Open
+- contentinfo:
+  - navigation "Primary navigation":
+    - link "Terms of Service":
+      - /url: /terms
+    - link "Privacy Policy":
+      - /url: /privacy
+    - link "GitHub":
+      - /url: https://github.com/Life-USTC/server
+    - link "Mobile App":
+      - /url: /mobile-app
+  - paragraph: Life@USTC
+```
+
+# Test source
+
+```ts
+  1   | /**
+  2   |  * E2E tests for the Dashboard Home Page (`/`)
+  3   |  *
+  4   |  * ## Data Represented
+  5   |  * - **Public (unauthenticated):** PublicHomeView with "bus" and "links" tabs
+  6   |  *   (grouped as public queries). Auth-only tabs (overview, calendar, homeworks,
+  7   |  *   todos, exams, subscriptions) are not accessible. A sign-in CTA is displayed.
+  8   |  *   Default public tab is "bus".
+  9   |  * - **Authenticated:** Full HomeView with 8 tabs: overview (default), calendar,
+  10  |  *   bus, links, homeworks, todos, exams, subscriptions. Bus and links are grouped
+  11  |  *   together as public queries after calendar.
+  12  |  *
+  13  |  * ## UI/UX Elements
+  14  |  * - Tab navigation bar with pill-style tabs
+  15  |  * - Homeworks/exams/todos tabs show badge counts next to their labels
+  16  |  * - User menu visible when authenticated; sign-in CTA when not
+  17  |  *
+  18  |  * ## Edge Cases
+  19  |  * - `?tab=homeworks` for unauthenticated users falls back to public bus tab
+  20  |  * - Invalid `?tab=` values default to "overview" (auth) or "bus" (public)
+  21  |  */
+  22  | import { expect, test } from "@playwright/test";
+  23  | import { signInAsDebugUser } from "../../../utils/auth";
+  24  | import { DEV_SEED } from "../../../utils/dev-seed";
+  25  | import { gotoAndWaitForReady } from "../../../utils/page-ready";
+  26  | import { captureStepScreenshot } from "../../../utils/screenshot";
+  27  | import { ensureSeedSectionSubscription } from "../../../utils/subscriptions";
+  28  | 
+  29  | test.describe("仪表盘", () => {
+  30  |   test("未登录 ?tab=homeworks 显示公共校车视图", async ({ page }, testInfo) => {
+  31  |     await gotoAndWaitForReady(page, "/?tab=homeworks", {
+  32  |       testInfo,
+  33  |       screenshotLabel: "dashboard",
+  34  |     });
+  35  | 
+  36  |     await expect(page).toHaveURL(/\/\?tab=homeworks$/);
+  37  |     await expect(page.locator("#app-logo")).toBeVisible();
+  38  | 
+  39  |     // Public view shows bus + links tabs and sign-in CTA
+  40  |     await expect(
+  41  |       page.getByRole("link", { name: /^(校车|Shuttle Bus)$/i }),
+  42  |     ).toBeVisible();
+  43  |     await expect(
+  44  |       page.getByRole("link", { name: /^(登录|Sign in)$/i }).first(),
+  45  |     ).toBeVisible();
+  46  | 
+  47  |     // Auth-only tabs should not be present
+  48  |     await expect(
+  49  |       page.getByRole("link", { name: /^(总览|Overview)$/i }),
+  50  |     ).toHaveCount(0);
+  51  | 
+  52  |     await captureStepScreenshot(page, testInfo, "home-public-with-tab");
+  53  |   });
+  54  | 
+  55  |   test("登录后首页显示总览、所有标签和种子数据", async ({ page }, testInfo) => {
+  56  |     await signInAsDebugUser(page, "/");
+  57  |     await ensureSeedSectionSubscription(page);
+  58  |     await gotoAndWaitForReady(page, "/", {
+  59  |       testInfo,
+  60  |       screenshotLabel: "dashboard",
+  61  |     });
+  62  | 
+  63  |     await expect(page).toHaveURL(/\/(?:\?.*)?$/);
+  64  |     await expect(page.locator("#main-content")).toBeVisible();
+  65  |     await expect(page.locator("#app-user-menu")).toBeVisible();
+  66  | 
+  67  |     // All 8 tabs should be present in the nav bar
+  68  |     const nav = page.getByLabel(/Dashboard section switcher/i);
+  69  |     for (const label of [
+  70  |       /^(总览|Overview)$/i,
+  71  |       /日历|Calendar/i,
+  72  |       /网站|Websites/i,
+  73  |     ]) {
+> 74  |       await expect(nav.getByRole("link", { name: label })).toBeVisible();
+      |                                                            ^ Error: expect(locator).toBeVisible() failed
+  75  |     }
+  76  | 
+  77  |     // Seed homework title visible on overview. Retry the subscription+reload
+  78  |     // because other E2E slices exercise subscription replacement for the
+  79  |     // shared debug user. The initial sign-in goto stays outside the retry.
+  80  |     await expect(async () => {
+  81  |       await ensureSeedSectionSubscription(page);
+  82  |       await page.reload({ waitUntil: "domcontentloaded" });
+  83  |       await expect(
+  84  |         page.getByText(DEV_SEED.homeworks.title).first(),
+  85  |       ).toBeVisible({
+  86  |         timeout: 2_000,
+  87  |       });
+  88  |     }).toPass({ timeout: 15_000 });
+  89  |     await expect(
+  90  |       page.locator('form[action="/api/dashboard-links/visit"]'),
+  91  |     ).toHaveCount(DEV_SEED.dashboardLinks.overviewLimit);
+  92  | 
+  93  |     await captureStepScreenshot(page, testInfo, "dashboard-home");
+  94  |   });
+  95  | 
+  96  |   test("可通过标签栏导航到作业标签", async ({ page }, testInfo) => {
+  97  |     await signInAsDebugUser(page, "/");
+  98  | 
+  99  |     const homeworksTab = page
+  100 |       .getByRole("link", { name: /作业|Homework/i })
+  101 |       .first();
+  102 |     await expect(homeworksTab).toBeVisible();
+  103 |     await homeworksTab.click();
+  104 | 
+  105 |     await expect(page).toHaveURL(/\/dashboard\/homeworks(?:\?.*)?$/);
+  106 |     await captureStepScreenshot(page, testInfo, "dashboard-navigate-homeworks");
+  107 |   });
+  108 | 
+  109 |   test("仪表盘路径别名渲染匹配的标签", async ({ page }, testInfo) => {
+  110 |     await signInAsDebugUser(page, "/dashboard/links");
+  111 |     await gotoAndWaitForReady(page, "/dashboard/links", {
+  112 |       testInfo,
+  113 |       screenshotLabel: "dashboard-links-path",
+  114 |     });
+  115 |     const linksDashboardTab = page
+  116 |       .getByRole("link", { name: /网站|Websites/i })
+  117 |       .first();
+  118 |     await expect(linksDashboardTab).toBeVisible();
+  119 |     await expect(linksDashboardTab).toHaveAttribute("aria-current", "page");
+  120 |     await expect(
+  121 |       page.getByRole("searchbox", {
+  122 |         name: /搜索网站名称或描述|Search by name or description/i,
+  123 |       }),
+  124 |     ).toBeVisible();
+  125 | 
+  126 |     await signInAsDebugUser(page, "/dashboard/homeworks");
+  127 |     const homeworksDashboardTab = page
+  128 |       .getByRole("link", { name: /作业|Homework/i })
+  129 |       .first();
+  130 |     await expect(homeworksDashboardTab).toBeVisible();
+  131 |     await expect(homeworksDashboardTab).toHaveAttribute("aria-current", "page");
+  132 | 
+  133 |     await gotoAndWaitForReady(page, "/dashboard/subscriptions");
+  134 |     await expect(page).toHaveURL(/\/dashboard\/subscriptions(?:\?.*)?$/);
+  135 |     await expect(
+  136 |       page.getByRole("link", {
+  137 |         name: /Subscriptions|Section Management|订阅/i,
+  138 |       }),
+  139 |     ).toBeVisible();
+  140 |     await expect(page.getByText(DEV_SEED.semesterNameCn).first()).toBeVisible();
+  141 |     await captureStepScreenshot(page, testInfo, "dashboard-subscriptions-path");
+  142 |   });
+  143 | });
+  144 | 
+```

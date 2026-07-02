@@ -1,0 +1,397 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: src/app/dashboard/homeworks/test.ts >> 仪表盘作业 >> 可切换作业完成状态
+- Location: tests/e2e/src/app/dashboard/homeworks/test.ts:184:3
+
+# Error details
+
+```
+Test timeout of 60000ms exceeded.
+```
+
+```
+Error: locator.textContent: Test timeout of 60000ms exceeded.
+Call log:
+  - waiting for getByRole('link', { name: /作业|Homework/i }).first().locator('[data-slot="badge"]')
+
+```
+
+# Page snapshot
+
+```yaml
+- generic [ref=e3]:
+  - complementary [ref=e4]:
+    - link "Life@USTC" [ref=e6] [cursor=pointer]:
+      - /url: /
+      - img [ref=e7]
+      - generic [ref=e8]: Life@USTC
+    - navigation "Primary navigation" [ref=e9]:
+      - generic [ref=e10]:
+        - region "Workspace" [ref=e11]:
+          - paragraph [ref=e12]: Workspace
+          - link "Overview" [ref=e13] [cursor=pointer]:
+            - /url: /dashboard/overview
+            - img [ref=e14]
+            - generic [ref=e19]: Overview
+          - link "Calendar" [ref=e20] [cursor=pointer]:
+            - /url: /dashboard/calendar
+            - img [ref=e21]
+            - generic [ref=e23]: Calendar
+          - link "Homework" [ref=e24] [cursor=pointer]:
+            - /url: /dashboard/homeworks
+            - img [ref=e25]
+            - generic [ref=e28]: Homework
+          - link "Todos" [ref=e29] [cursor=pointer]:
+            - /url: /dashboard/todos
+            - img [ref=e30]
+            - generic [ref=e33]: Todos
+          - link "Exams" [ref=e34] [cursor=pointer]:
+            - /url: /dashboard/exams
+            - img [ref=e35]
+            - generic [ref=e38]: Exams
+          - link "Section Management" [ref=e39] [cursor=pointer]:
+            - /url: /dashboard/subscriptions
+            - img [ref=e40]
+            - generic [ref=e44]: Section Management
+        - region "Public tools" [ref=e45]:
+          - paragraph [ref=e46]: Public tools
+          - link "Dashboard transit" [ref=e47] [cursor=pointer]:
+            - /url: /dashboard/bus
+            - img [ref=e48]
+            - generic [ref=e52]: Shuttle Bus
+          - link "Dashboard links" [ref=e53] [cursor=pointer]:
+            - /url: /dashboard/links
+            - img [ref=e54]
+            - generic [ref=e57]: Websites
+        - region "Catalog" [ref=e58]:
+          - paragraph [ref=e59]: Catalog
+          - link "Courses" [ref=e60] [cursor=pointer]:
+            - /url: /courses
+            - img [ref=e61]
+            - generic [ref=e63]: Courses
+          - link "Sections" [ref=e64] [cursor=pointer]:
+            - /url: /sections
+            - img [ref=e65]
+            - generic [ref=e69]: Sections
+          - link "Teachers" [ref=e70] [cursor=pointer]:
+            - /url: /teachers
+            - img [ref=e71]
+            - generic [ref=e76]: Teachers
+        - region "Campus" [ref=e77]:
+          - paragraph [ref=e78]: Campus
+          - link "Transit Map" [ref=e79] [cursor=pointer]:
+            - /url: /bus-map
+            - img [ref=e80]
+            - generic [ref=e82]: Transit Map
+          - link "Mobile App" [ref=e83] [cursor=pointer]:
+            - /url: /mobile-app
+            - img [ref=e84]
+            - generic [ref=e86]: Mobile App
+  - generic [ref=e87]:
+    - banner [ref=e88]:
+      - generic [ref=e89]:
+        - paragraph [ref=e91]: Homework
+        - generic [ref=e92]:
+          - button "Language selector" [ref=e93]:
+            - img
+          - button "Switch to light mode" [ref=e94]:
+            - img
+          - button "Profile menu" [ref=e96]:
+            - generic [ref=e97]:
+              - img "Dev User" [ref=e98]
+              - generic [ref=e99]: D
+    - main [ref=e100]:
+      - generic [ref=e102]:
+        - generic [ref=e103]:
+          - generic [ref=e104]:
+            - group "Homework view" [ref=e105]:
+              - radio "Card" [checked] [ref=e106]:
+                - img
+                - text: Card
+              - radio "List" [ref=e107]:
+                - img
+                - text: List
+            - group "Homework" [ref=e108]:
+              - radio "Incomplete" [ref=e109]
+              - radio "Completed" [ref=e110]
+              - radio "All" [checked] [active] [ref=e111]
+          - button "Add homework" [ref=e113]
+        - generic [ref=e114]:
+          - generic [ref=e116]:
+            - button "历史学期复盘作业" [ref=e118]
+            - paragraph [ref=e119]: "Advanced Linear Algebra · Due: Mar 20, 8:00 PM"
+            - generic [ref=e121]: Overdue
+            - button "Mark as complete" [ref=e123]
+          - generic [ref=e125]:
+            - generic [ref=e126]:
+              - button "迭代一需求拆解" [ref=e127]
+              - generic [ref=e128]: Completed
+            - paragraph [ref=e129]: "Cryptographic Engineering: Principles and Practice · Due: Apr 27, 8:00 PM"
+            - generic [ref=e131]: Overdue
+            - button "Mark as incomplete" [ref=e133]
+          - generic [ref=e135]:
+            - button "逾期实验数据补交" [ref=e137]
+            - paragraph [ref=e138]: "Cryptographic Engineering: Principles and Practice · Due: Apr 28, 10:00 PM"
+            - generic [ref=e139]:
+              - generic [ref=e140]: Overdue
+              - generic [ref=e141]: Major assignment
+            - button "Mark as complete" [ref=e143]
+          - generic [ref=e145]:
+            - button "今日课堂反馈整理" [ref=e147]
+            - paragraph [ref=e148]: "Cryptographic Engineering: Principles and Practice · Due: Apr 29, 11:00 PM"
+            - generic [ref=e150]: Overdue
+            - button "Mark as complete" [ref=e152]
+          - generic [ref=e154]:
+            - generic [ref=e155]:
+              - button "线性变换证明题" [ref=e156]
+              - generic [ref=e157]: Completed
+            - paragraph [ref=e158]: "Introduction to Astrophysics · Due: May 1, 10:00 PM"
+            - generic [ref=e160]: Overdue
+            - button "Mark as incomplete" [ref=e162]
+          - generic [ref=e164]:
+            - button "实验报告与误差分析" [ref=e166]
+            - paragraph [ref=e167]: "Environmental Microbiology · Due: May 2, 9:00 PM"
+            - generic [ref=e168]:
+              - generic [ref=e169]: Overdue
+              - generic [ref=e170]: Major assignment
+              - generic [ref=e171]: Team required
+            - button "Mark as complete" [ref=e173]
+          - generic [ref=e175]:
+            - button "迭代二系统设计评审" [ref=e177]
+            - paragraph [ref=e178]: "Cryptographic Engineering: Principles and Practice · Due: May 3, 11:00 PM"
+            - generic [ref=e179]:
+              - generic [ref=e180]: Overdue
+              - generic [ref=e181]: Major assignment
+              - generic [ref=e182]: Team required
+            - button "Mark as complete" [ref=e184]
+          - generic [ref=e186]:
+            - button "特征值综合练习" [ref=e188]
+            - paragraph [ref=e189]: "Introduction to Astrophysics · Due: May 5, 10:00 PM"
+            - generic [ref=e191]: Overdue
+            - button "Mark as complete" [ref=e193]
+    - contentinfo [ref=e194]:
+      - generic [ref=e195]:
+        - navigation "Primary navigation" [ref=e196]:
+          - link "Terms of Service" [ref=e197] [cursor=pointer]:
+            - /url: /terms
+          - link "Privacy Policy" [ref=e198] [cursor=pointer]:
+            - /url: /privacy
+          - link "GitHub" [ref=e199] [cursor=pointer]:
+            - /url: https://github.com/Life-USTC/server
+          - link "Mobile App" [ref=e200] [cursor=pointer]:
+            - /url: /mobile-app
+        - paragraph [ref=e201]: Life@USTC
+```
+
+# Test source
+
+```ts
+  119 |     await signInAsDebugUser(page, "/dashboard/homeworks");
+  120 |     await ensureSeedSectionSubscription(page);
+  121 |     await gotoAndWaitForReady(page, "/dashboard/homeworks", {
+  122 |       testInfo,
+  123 |       screenshotLabel: "homeworks",
+  124 |     });
+  125 |     await expect(page.getByText(DEV_SEED.homeworks.overdueTitle)).toBeVisible();
+  126 | 
+  127 |     // Completed filter
+  128 |     const completedTab = page
+  129 |       .getByRole("radio", { name: /已完成|Completed/i })
+  130 |       .first();
+  131 |     await expect(completedTab).toBeVisible();
+  132 |     await completedTab.click();
+  133 |     await expect(
+  134 |       page.getByText(DEV_SEED.homeworks.completedTitle),
+  135 |     ).toBeVisible();
+  136 |     await expect(page.getByText(DEV_SEED.homeworks.overdueTitle)).toHaveCount(
+  137 |       0,
+  138 |     );
+  139 |     await captureStepScreenshot(page, testInfo, "homeworks/filter-completed");
+  140 | 
+  141 |     // All filter
+  142 |     const allTab = page.getByRole("radio", { name: /全部|All/i }).first();
+  143 |     await expect(allTab).toBeVisible();
+  144 |     await allTab.click();
+  145 |     await expect(page.getByText(DEV_SEED.homeworks.overdueTitle)).toBeVisible();
+  146 |     await captureStepScreenshot(page, testInfo, "homeworks/filter-all");
+  147 |   });
+  148 | 
+  149 |   test("可切换到列表视图并持久化偏好", async ({ page }, testInfo) => {
+  150 |     await signInAsDebugUser(page, "/dashboard/homeworks");
+  151 |     await ensureSeedSectionSubscription(page);
+  152 |     await gotoAndWaitForReady(page, "/dashboard/homeworks", {
+  153 |       testInfo,
+  154 |       screenshotLabel: "homeworks",
+  155 |     });
+  156 | 
+  157 |     await page
+  158 |       .getByRole("radio", { name: /全部|All/i })
+  159 |       .first()
+  160 |       .click();
+  161 | 
+  162 |     await expect(page.getByTestId("dashboard-homeworks-cards")).toBeVisible();
+  163 |     await page.getByRole("radio", { name: /列表|List/i }).click();
+  164 |     await expect(page).toHaveURL(/homeworkView=list/);
+  165 |     await expect(page.getByTestId("dashboard-homeworks-list")).toBeVisible();
+  166 |     await expect
+  167 |       .poll(() =>
+  168 |         page.evaluate(() =>
+  169 |           localStorage.getItem("life-ustc-dashboard-view-mode"),
+  170 |         ),
+  171 |       )
+  172 |       .toBe("list");
+  173 | 
+  174 |     await gotoAndWaitForReady(page, "/dashboard/homeworks");
+  175 |     await page
+  176 |       .getByRole("radio", { name: /全部|All/i })
+  177 |       .first()
+  178 |       .click();
+  179 |     await expect(page).toHaveURL(/\/dashboard\/homeworks$/);
+  180 |     await expect(page.getByTestId("dashboard-homeworks-list")).toBeVisible();
+  181 |     await captureStepScreenshot(page, testInfo, "homeworks/list-view");
+  182 |   });
+  183 | 
+  184 |   test("可切换作业完成状态", async ({ page }, testInfo) => {
+  185 |     test.setTimeout(60_000);
+  186 |     await signInAsDebugUser(page, "/dashboard/homeworks");
+  187 |     await ensureSeedSectionSubscription(page);
+  188 |     await gotoAndWaitForReady(page, "/dashboard/homeworks", {
+  189 |       testInfo,
+  190 |       screenshotLabel: "homeworks",
+  191 |     });
+  192 | 
+  193 |     // Switch to "all" filter
+  194 |     await page
+  195 |       .getByRole("radio", { name: /全部|All/i })
+  196 |       .first()
+  197 |       .click();
+  198 | 
+  199 |     await expect(page.getByRole("switch")).toHaveCount(0);
+  200 | 
+  201 |     const card = page
+  202 |       .locator('[data-slot="card"]')
+  203 |       .filter({ hasText: DEV_SEED.homeworks.title })
+  204 |       .first();
+  205 |     await expect(card).toBeVisible();
+  206 |     await card.hover();
+  207 | 
+  208 |     const completionButton = card
+  209 |       .getByRole("button", {
+  210 |         name: /标记为完成|取消完成|Mark as complete|Mark as incomplete/i,
+  211 |       })
+  212 |       .first();
+  213 |     await expect(completionButton).toHaveCSS("opacity", "1");
+  214 | 
+  215 |     const homeworksTab = page
+  216 |       .getByRole("link", { name: /作业|Homework/i })
+  217 |       .first();
+  218 |     const homeworksBadge = homeworksTab.locator('[data-slot="badge"]');
+> 219 |     const beforeBadge = Number((await homeworksBadge.textContent())?.trim());
+      |                                                      ^ Error: locator.textContent: Test timeout of 60000ms exceeded.
+  220 |     expect(Number.isFinite(beforeBadge)).toBe(true);
+  221 |     const before = (await completionButton.textContent())?.trim() ?? "";
+  222 |     const marksComplete = /标记为完成|Mark as complete/i.test(before);
+  223 | 
+  224 |     const completionResponse = page.waitForResponse(
+  225 |       (r) =>
+  226 |         r.url().includes("/api/homeworks/") &&
+  227 |         r.url().includes("/completion") &&
+  228 |         r.status() === 200,
+  229 |     );
+  230 |     await completionButton.click();
+  231 |     await completionResponse;
+  232 |     await expect(completionButton).not.toHaveText(before, { timeout: 15_000 });
+  233 | 
+  234 |     const after = (await completionButton.textContent())?.trim() ?? "";
+  235 |     expect(after).not.toBe(before);
+  236 |     await expect(homeworksBadge).toHaveText(
+  237 |       String(marksComplete ? beforeBadge - 1 : beforeBadge + 1),
+  238 |     );
+  239 |     await captureStepScreenshot(page, testInfo, "homeworks/completion-toggled");
+  240 | 
+  241 |     // Restore
+  242 |     const restoreResponse = page.waitForResponse(
+  243 |       (r) =>
+  244 |         r.url().includes("/api/homeworks/") &&
+  245 |         r.url().includes("/completion") &&
+  246 |         r.status() === 200,
+  247 |     );
+  248 |     await completionButton.click();
+  249 |     await restoreResponse;
+  250 |     await expect(homeworksBadge).toHaveText(String(beforeBadge));
+  251 |   });
+  252 | 
+  253 |   test("完成状态更新失败显示本地化仪表盘错误", async ({ page }, testInfo) => {
+  254 |     await signInAsDebugUser(page, "/dashboard/homeworks");
+  255 |     await ensureSeedSectionSubscription(page);
+  256 |     await page.route(/\/api\/homeworks\/[^/]+\/completion$/, async (route) => {
+  257 |       await route.fulfill({
+  258 |         body: JSON.stringify({ error: { message: "forced failure" } }),
+  259 |         contentType: "application/json",
+  260 |         status: 500,
+  261 |       });
+  262 |     });
+  263 |     await gotoAndWaitForReady(page, "/dashboard/homeworks", {
+  264 |       testInfo,
+  265 |       screenshotLabel: "homeworks",
+  266 |     });
+  267 | 
+  268 |     await page
+  269 |       .getByRole("radio", { name: /全部|All/i })
+  270 |       .first()
+  271 |       .click();
+  272 | 
+  273 |     const card = page
+  274 |       .locator('[data-slot="card"]')
+  275 |       .filter({ hasText: DEV_SEED.homeworks.title })
+  276 |       .first();
+  277 |     await expect(card).toBeVisible();
+  278 |     await card.hover();
+  279 | 
+  280 |     const completionButton = card
+  281 |       .getByRole("button", {
+  282 |         name: /标记为完成|取消完成|Mark as complete|Mark as incomplete/i,
+  283 |       })
+  284 |       .first();
+  285 |     await expect(completionButton).toHaveCSS("opacity", "1");
+  286 | 
+  287 |     const completionResponse = page.waitForResponse(
+  288 |       (r) =>
+  289 |         r.url().includes("/api/homeworks/") &&
+  290 |         r.url().includes("/completion") &&
+  291 |         r.status() === 500,
+  292 |     );
+  293 |     await completionButton.click();
+  294 |     await completionResponse;
+  295 | 
+  296 |     await expect(
+  297 |       page.getByText(/更新完成状态失败|Couldn't update completion/i),
+  298 |     ).toBeVisible();
+  299 |     await captureStepScreenshot(page, testInfo, "homeworks/completion-error");
+  300 |   });
+  301 | 
+  302 |   test("查看详情链接到带作业锚点的班级页面", async ({ page }, testInfo) => {
+  303 |     await signInAsDebugUser(page, "/dashboard/homeworks");
+  304 |     await ensureSeedSectionSubscription(page);
+  305 |     await gotoAndWaitForReady(page, "/dashboard/homeworks", {
+  306 |       testInfo,
+  307 |       screenshotLabel: "homeworks",
+  308 |     });
+  309 | 
+  310 |     await page
+  311 |       .getByRole("radio", { name: /全部|All/i })
+  312 |       .first()
+  313 |       .click();
+  314 | 
+  315 |     const detailLink = page
+  316 |       .locator('[data-slot="card"]')
+  317 |       .filter({ hasText: DEV_SEED.homeworks.title })
+  318 |       .first();
+  319 |     await detailLink
+```

@@ -1,0 +1,412 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: src/app/courses/[jwId]/test.ts >> /courses/[jwId] 课程详情 >> 登录用户可以编辑课程简介
+- Location: tests/e2e/src/app/courses/[jwId]/test.ts:225:3
+
+# Error details
+
+```
+Error: Timeout 10000ms exceeded while waiting on the predicate
+```
+
+# Page snapshot
+
+```yaml
+- generic [ref=e2]:
+  - generic [ref=e3]:
+    - complementary [ref=e4]:
+      - link "Life@USTC" [ref=e6] [cursor=pointer]:
+        - /url: /
+        - img [ref=e7]
+        - generic [ref=e8]: Life@USTC
+      - navigation "Primary navigation" [ref=e9]:
+        - generic [ref=e10]:
+          - region "Workspace" [ref=e11]:
+            - paragraph [ref=e12]: Workspace
+            - link "Overview" [ref=e13] [cursor=pointer]:
+              - /url: /dashboard/overview
+              - img [ref=e14]
+              - generic [ref=e15]: Overview
+            - link "Calendar" [ref=e16] [cursor=pointer]:
+              - /url: /dashboard/calendar
+              - img [ref=e17]
+              - generic [ref=e18]: Calendar
+            - link "Homework" [ref=e19] [cursor=pointer]:
+              - /url: /dashboard/homeworks
+              - img [ref=e20]
+              - generic [ref=e21]: Homework
+            - link "Todos" [ref=e22] [cursor=pointer]:
+              - /url: /dashboard/todos
+              - img [ref=e23]
+              - generic [ref=e24]: Todos
+            - link "Exams" [ref=e25] [cursor=pointer]:
+              - /url: /dashboard/exams
+              - img [ref=e26]
+              - generic [ref=e27]: Exams
+            - link "Section Management" [ref=e28] [cursor=pointer]:
+              - /url: /dashboard/subscriptions
+              - img [ref=e29]
+              - generic [ref=e30]: Section Management
+          - region "Public tools" [ref=e31]:
+            - paragraph [ref=e32]: Public tools
+            - link "Dashboard transit" [ref=e33] [cursor=pointer]:
+              - /url: /dashboard/bus
+              - img [ref=e34]
+              - generic [ref=e35]: Shuttle Bus
+            - link "Dashboard links" [ref=e36] [cursor=pointer]:
+              - /url: /dashboard/links
+              - img [ref=e37]
+              - generic [ref=e38]: Websites
+          - region "Catalog" [ref=e39]:
+            - paragraph [ref=e40]: Catalog
+            - link "Courses" [ref=e41] [cursor=pointer]:
+              - /url: /courses
+              - img [ref=e42]
+              - generic [ref=e43]: Courses
+            - link "Sections" [ref=e44] [cursor=pointer]:
+              - /url: /sections
+              - img [ref=e45]
+              - generic [ref=e46]: Sections
+            - link "Teachers" [ref=e47] [cursor=pointer]:
+              - /url: /teachers
+              - img [ref=e48]
+              - generic [ref=e49]: Teachers
+          - region "Campus" [ref=e50]:
+            - paragraph [ref=e51]: Campus
+            - link "Transit Map" [ref=e52] [cursor=pointer]:
+              - /url: /bus-map
+              - img [ref=e53]
+              - generic [ref=e54]: Transit Map
+            - link "Mobile App" [ref=e55] [cursor=pointer]:
+              - /url: /mobile-app
+              - img [ref=e56]
+              - generic [ref=e57]: Mobile App
+    - generic [ref=e58]:
+      - banner [ref=e59]:
+        - generic [ref=e60]:
+          - paragraph [ref=e62]: Life@USTC
+          - generic [ref=e63]:
+            - button "Language selector" [ref=e64]:
+              - img
+            - button "Switch to light mode" [ref=e65]:
+              - img
+            - button "Profile menu" [ref=e67]:
+              - generic [ref=e68]:
+                - img "Dev User" [ref=e69]
+                - generic [ref=e70]: D
+      - main [ref=e71]:
+        - generic [ref=e72]:
+          - generic [ref=e73]:
+            - navigation "Breadcrumb" [ref=e75]:
+              - list [ref=e76]:
+                - listitem [ref=e77]:
+                  - link "Home" [ref=e78] [cursor=pointer]:
+                    - /url: /
+                - listitem [ref=e79]: /
+                - listitem [ref=e80]:
+                  - link "Courses" [ref=e81] [cursor=pointer]:
+                    - /url: /courses
+                - listitem [ref=e82]: /
+                - listitem [ref=e83]:
+                  - generic [ref=e84]: IS3003
+            - generic [ref=e85]:
+              - generic [ref=e86]:
+                - 'heading "Cryptographic Engineering: Principles and Practice" [level=1] [ref=e87]'
+                - paragraph [ref=e88]: 密码工程原理与实践
+              - generic [ref=e90]: IS3003
+            - generic [ref=e92]:
+              - generic [ref=e93]: Undergraduate
+              - generic [ref=e94]: Disciplinary Foundation
+              - generic [ref=e95]: Lecture
+              - generic [ref=e96]: Core Major
+          - generic [ref=e97]:
+            - generic [ref=e98]:
+              - generic [ref=e99]:
+                - generic [ref=e101]:
+                  - generic [ref=e102]:
+                    - heading "Description" [level=2] [ref=e104]
+                    - paragraph [ref=e105]: No description yet. Add one to help others.
+                  - button "Edit" [ref=e106]
+                - generic [ref=e108]:
+                  - tablist "Description" [ref=e109]:
+                    - tab "Description" [selected] [ref=e110]
+                    - tab "Edit History (0)" [ref=e111]
+                  - tabpanel "Description" [ref=e112]:
+                    - generic [ref=e113]: No description yet. Add one to help others.
+              - tablist "Sections" [ref=e115]:
+                - tab "Sections" [selected] [ref=e116]
+                - tab "Comments" [ref=e117]
+              - tabpanel "Sections" [ref=e118]:
+                - table [ref=e123]:
+                  - rowgroup [ref=e124]:
+                    - row "Semester Section Code Teachers Campus Capacity" [ref=e125]:
+                      - columnheader "Semester" [ref=e126]
+                      - columnheader "Section Code" [ref=e127]
+                      - columnheader "Teachers" [ref=e128]
+                      - columnheader "Campus" [ref=e129]
+                      - columnheader "Capacity" [ref=e130]
+                  - rowgroup [ref=e131]:
+                    - row "2026年春季学期 IS3003.01 Lin Jingqiang (林璟锵), Wang Wei (王伟) East Campus 58 / 80" [ref=e132]:
+                      - cell "2026年春季学期" [ref=e133]:
+                        - link "2026年春季学期" [ref=e134] [cursor=pointer]:
+                          - /url: /sections/9902001
+                      - cell "IS3003.01" [ref=e135]:
+                        - link "IS3003.01" [ref=e136] [cursor=pointer]:
+                          - /url: /sections/9902001
+                          - generic [ref=e137]: IS3003.01
+                      - cell "Lin Jingqiang (林璟锵), Wang Wei (王伟)" [ref=e138]:
+                        - link "Lin Jingqiang (林璟锵), Wang Wei (王伟)" [ref=e139] [cursor=pointer]:
+                          - /url: /sections/9902001
+                      - cell "East Campus" [ref=e140]:
+                        - link "East Campus" [ref=e141] [cursor=pointer]:
+                          - /url: /sections/9902001
+                      - cell "58 / 80" [ref=e142]:
+                        - link "58 / 80" [ref=e143] [cursor=pointer]:
+                          - /url: /sections/9902001
+            - generic [ref=e144]:
+              - generic [ref=e145]:
+                - heading "Course Information" [level=2] [ref=e146]
+                - paragraph [ref=e147]: Imported course metadata.
+              - generic [ref=e149]:
+                - generic [ref=e150]:
+                  - term [ref=e151]: Code
+                  - definition [ref=e152]: IS3003
+                - generic [ref=e153]:
+                  - term [ref=e154]: Level
+                  - definition [ref=e155]: Undergraduate
+                - generic [ref=e156]:
+                  - term [ref=e157]: Category
+                  - definition [ref=e158]: Disciplinary Foundation
+                - generic [ref=e159]:
+                  - term [ref=e160]: Class Type
+                  - definition [ref=e161]: Lecture
+                - generic [ref=e162]:
+                  - term [ref=e163]: Course Type
+                  - definition [ref=e164]: Core Major
+      - contentinfo [ref=e165]:
+        - generic [ref=e166]:
+          - navigation "Primary navigation" [ref=e167]:
+            - link "Terms of Service" [ref=e168] [cursor=pointer]:
+              - /url: /terms
+            - link "Privacy Policy" [ref=e169] [cursor=pointer]:
+              - /url: /privacy
+            - link "GitHub" [ref=e170] [cursor=pointer]:
+              - /url: https://github.com/Life-USTC/server
+            - link "Mobile App" [ref=e171] [cursor=pointer]:
+              - /url: /mobile-app
+          - paragraph [ref=e172]: Life@USTC
+  - generic [ref=e173]: "Course: Cryptographic Engineering: Principles and Practice - Life@USTC"
+```
+
+# Test source
+
+```ts
+  146 |     await expect(
+  147 |       visibleText(
+  148 |         page,
+  149 |         `${DEV_SEED.section.stdCount} / ${DEV_SEED.section.limitCount}`,
+  150 |       ),
+  151 |     ).toBeVisible();
+  152 | 
+  153 |     await captureStepScreenshot(page, testInfo, "course/sections-table");
+  154 |   });
+  155 | 
+  156 |   test("jwId 不在课程可见界面中显示", async ({ page }) => {
+  157 |     await gotoAndWaitForReady(page, COURSE_URL);
+  158 |     const content = await page.locator("#main-content").innerText();
+  159 |     // Raw jwId should not appear as visible text
+  160 |     expect(content).not.toMatch(new RegExp(`\\b${DEV_SEED.course.jwId}\\b`));
+  161 |   });
+  162 | 
+  163 |   // ── Navigation ──────────────────────────────────────────────────────────────
+  164 | 
+  165 |   test("标签切换正常工作", async ({ page }, testInfo) => {
+  166 |     await gotoAndWaitForReady(page, COURSE_URL);
+  167 | 
+  168 |     const tabList = page.getByRole("tablist").first();
+  169 |     await expect(tabList).toBeVisible();
+  170 |     const targetTab = tabList.getByRole("tab").nth(1);
+  171 |     const panelId = await targetTab.getAttribute("aria-controls");
+  172 |     expect(panelId).toBeTruthy();
+  173 | 
+  174 |     await targetTab.click();
+  175 |     await expect(targetTab).toHaveAttribute("aria-selected", "true");
+  176 |     await expect(page.locator(`#${panelId}`)).toHaveAttribute(
+  177 |       "role",
+  178 |       "tabpanel",
+  179 |     );
+  180 |     await captureStepScreenshot(page, testInfo, "course/tab-switch");
+  181 |   });
+  182 | 
+  183 |   test("面包屑可返回课程列表", async ({ page }, testInfo) => {
+  184 |     await gotoAndWaitForReady(page, COURSE_URL);
+  185 |     const breadcrumb = page.locator('a[href="/courses"]').first();
+  186 |     await expect(breadcrumb).toBeVisible();
+  187 |     await breadcrumb.click();
+  188 |     await expect(page).toHaveURL(/\/courses(?:\?.*)?$/);
+  189 |     await captureStepScreenshot(page, testInfo, "course/breadcrumb-back");
+  190 |   });
+  191 | 
+  192 |   test("班级行链接到班级详情", async ({ page }, testInfo) => {
+  193 |     await gotoAndWaitForReady(page, COURSE_URL);
+  194 |     const sectionLink = page
+  195 |       .locator(`a[href="/sections/${DEV_SEED.section.jwId}"]:visible`)
+  196 |       .or(page.locator("tbody a[href^='/sections/']:visible"))
+  197 |       .first();
+  198 |     await expect(sectionLink).toBeVisible();
+  199 |     await sectionLink.click();
+  200 |     await expect(page).toHaveURL(/\/sections\/\d+/);
+  201 |     await captureStepScreenshot(page, testInfo, "course/section-link");
+  202 |   });
+  203 | 
+  204 |   // ── Description ─────────────────────────────────────────────────────────────
+  205 | 
+  206 |   test("同路由导航重置目标范围内的简介状态", async ({ page }, testInfo) => {
+  207 |     await gotoAndWaitForReady(page, COURSE_WITH_DESCRIPTION_URL);
+  208 |     await expect(page.getByText(COURSE_WITH_DESCRIPTION_TEXT)).toBeVisible();
+  209 | 
+  210 |     await page.evaluate((href) => {
+  211 |       const link = document.createElement("a");
+  212 |       link.href = href;
+  213 |       link.dataset.e2eSameRouteLink = "true";
+  214 |       link.textContent = "same-route target";
+  215 |       document.body.append(link);
+  216 |     }, COURSE_URL);
+  217 | 
+  218 |     await page.locator("[data-e2e-same-route-link]").click();
+  219 |     await expect(page).toHaveURL(new RegExp(`${COURSE_URL}$`));
+  220 |     await expect(visibleText(page, DEV_SEED.course.code)).toBeVisible();
+  221 |     await expect(page.getByText(COURSE_WITH_DESCRIPTION_TEXT)).toHaveCount(0);
+  222 |     await captureStepScreenshot(page, testInfo, "course/same-route-reset");
+  223 |   });
+  224 | 
+  225 |   test("登录用户可以编辑课程简介", async ({ page }, testInfo) => {
+  226 |     test.setTimeout(60_000);
+  227 |     await signInAsDebugUser(page, COURSE_URL);
+  228 |     const snapshot = await snapshotDescriptionTargetForE2e(
+  229 |       page.request,
+  230 |       { courseJwId: DEV_SEED.course.jwId, targetType: "course" },
+  231 |       ["description_edit"],
+  232 |     );
+  233 | 
+  234 |     try {
+  235 |       const descCard = page
+  236 |         .locator('[data-slot="card"]')
+  237 |         .filter({ has: page.getByText(/简介|Description/i) })
+  238 |         .first();
+  239 |       await expect(descCard).toBeVisible();
+  240 | 
+  241 |       const content = `e2e-course-desc-${Date.now()}`;
+  242 |       const editor = descCard.locator("textarea").first();
+  243 |       await expect(async () => {
+  244 |         await descCard.getByRole("button", { name: /^编辑$|^Edit$/i }).click();
+  245 |         await expect(editor).toBeVisible({ timeout: 3_000 });
+> 246 |       }).toPass({
+      |          ^ Error: Timeout 10000ms exceeded while waiting on the predicate
+  247 |         timeout: 10_000,
+  248 |         intervals: [250, 500, 1_000],
+  249 |       });
+  250 |       await editor.fill(content);
+  251 | 
+  252 |       const saveResponse = page.waitForResponse(
+  253 |         (r) =>
+  254 |           r.url().includes("/api/descriptions") &&
+  255 |           r.request().method() === "POST" &&
+  256 |           r.status() === 200,
+  257 |       );
+  258 |       await descCard.getByRole("button", { name: /保存|Save/i }).click();
+  259 |       await saveResponse;
+  260 |       await expect(
+  261 |         descCard
+  262 |           .getByRole("tabpanel", { name: /简介|Description/i })
+  263 |           .getByText(content),
+  264 |       ).toBeVisible();
+  265 |       await captureStepScreenshot(page, testInfo, "course/description-updated");
+  266 |     } finally {
+  267 |       if (snapshot.original) {
+  268 |         await waitForDescriptionAuditRows(snapshot.original, 1);
+  269 |       }
+  270 |       await restoreDescriptionTargetSnapshot(page.request, snapshot);
+  271 |     }
+  272 |   });
+  273 | 
+  274 |   // ── Comment CRUD ─────────────────────────────────────────────────────────────
+  275 | 
+  276 |   test("登录用户可以发布、编辑和删除评论", async ({ page }, testInfo) => {
+  277 |     test.setTimeout(60_000);
+  278 |     await signInAsDebugUser(page, COURSE_URL);
+  279 |     let commentId: string | undefined;
+  280 | 
+  281 |     try {
+  282 |       const commentsTab = page
+  283 |         .getByRole("tab", { name: /评论|Comments/i })
+  284 |         .first();
+  285 |       await expect(commentsTab).toBeVisible();
+  286 |       await commentsTab.click();
+  287 |       await expect(commentsTab).toHaveAttribute("aria-selected", "true");
+  288 | 
+  289 |       const body = `e2e-course-comment-${Date.now()}`;
+  290 |       const composer = page.locator("textarea").first();
+  291 |       await expect(composer).toBeVisible({ timeout: 15_000 });
+  292 |       await composer.fill(body);
+  293 |       const createResponse = page.waitForResponse(
+  294 |         (r) =>
+  295 |           r.url().includes("/api/comments") &&
+  296 |           r.request().method() === "POST" &&
+  297 |           r.status() === 200,
+  298 |       );
+  299 |       await page
+  300 |         .getByRole("button", { name: /发布评论|Post comment/i })
+  301 |         .click();
+  302 |       const createdCommentResponse = await createResponse;
+  303 |       const createResponseBody = (await createdCommentResponse.json()) as {
+  304 |         id?: string;
+  305 |       };
+  306 |       expect(createResponseBody.id).toBeTruthy();
+  307 |       commentId = createResponseBody.id;
+  308 | 
+  309 |       const commentCard = page
+  310 |         .locator('[id^="comment-"]')
+  311 |         .filter({ hasText: body })
+  312 |         .first();
+  313 |       await expect(commentCard).toBeVisible();
+  314 |       // comment.author.name visible
+  315 |       await expect(
+  316 |         commentCard.getByText(DEV_SEED.debugName).first(),
+  317 |       ).toBeVisible();
+  318 |       await captureStepScreenshot(page, testInfo, "course/comment-posted");
+  319 | 
+  320 |       // Edit
+  321 |       await commentCard.hover();
+  322 |       await commentCard.getByRole("button", { name: /编辑|Edit/i }).click();
+  323 |       const editedBody = `${body}-edited`;
+  324 |       const editCard = page
+  325 |         .locator('[id^="comment-"]')
+  326 |         .filter({ has: page.locator(".sr-only", { hasText: body }) })
+  327 |         .first();
+  328 |       await expect(editCard.locator("textarea").first()).toBeVisible();
+  329 |       await editCard.locator("textarea").first().fill(editedBody);
+  330 |       const editResponse = page.waitForResponse(
+  331 |         (r) =>
+  332 |           r.url().includes("/api/comments/") &&
+  333 |           r.request().method() === "PATCH" &&
+  334 |           r.status() === 200,
+  335 |       );
+  336 |       await editCard.getByRole("button", { name: /保存|Save/i }).click();
+  337 |       await editResponse;
+  338 |       await expect(page.getByText(editedBody).first()).toBeVisible();
+  339 |       const editedCommentCard = page
+  340 |         .locator('[id^="comment-"]')
+  341 |         .filter({ hasText: editedBody })
+  342 |         .first();
+  343 |       await expect(editedCommentCard).toBeVisible();
+  344 | 
+  345 |       // Delete
+  346 |       await editedCommentCard.hover();
+```
