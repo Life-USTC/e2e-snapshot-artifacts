@@ -1,0 +1,112 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: src/app/settings/accounts/test.ts >> /settings/accounts 关联账号设置 >> 仅关联一个账号时断开连接被禁用
+- Location: tests/e2e/src/app/settings/accounts/test.ts:102:3
+
+# Error details
+
+```
+Test timeout of 30000ms exceeded.
+```
+
+```
+Error: page.goto: Target page, context or browser has been closed
+```
+
+# Test source
+
+```ts
+  1  | import type { TestInfo } from "@playwright/test";
+  2  | import { expect, type Page } from "@playwright/test";
+  3  | 
+  4  | type GotoOptions = {
+  5  |   expectMainContent?: boolean;
+  6  |   waitUntil?: "load" | "domcontentloaded" | "networkidle" | "commit";
+  7  |   testInfo?: TestInfo;
+  8  |   screenshotLabel?: string;
+  9  | };
+  10 | 
+  11 | const GOTO_RETRY_ATTEMPTS = 3;
+  12 | 
+  13 | export async function expectNoPageHorizontalOverflow(page: Page) {
+  14 |   const geometry = await page.evaluate(() => ({
+  15 |     clientWidth: document.documentElement.clientWidth,
+  16 |     scrollWidth: document.documentElement.scrollWidth,
+  17 |   }));
+  18 | 
+  19 |   expect(
+  20 |     geometry.scrollWidth,
+  21 |     `Expected page scrollWidth (${geometry.scrollWidth}) not to exceed clientWidth (${geometry.clientWidth})`,
+  22 |   ).toBeLessThanOrEqual(geometry.clientWidth);
+  23 | }
+  24 | 
+  25 | export async function waitForUiSettled(
+  26 |   page: Page,
+  27 |   options: {
+  28 |     waitUntil?: "load" | "domcontentloaded" | "networkidle";
+  29 |   } = {},
+  30 | ) {
+  31 |   await page.waitForLoadState(options.waitUntil ?? "domcontentloaded");
+  32 |   await page.waitForFunction(
+  33 |     () => document.documentElement.dataset.lifeUstcHydrated === "true",
+  34 |     null,
+  35 |     { timeout: 10_000 },
+  36 |   );
+  37 |   await page.waitForFunction(() => !/^Loading\b/i.test(document.title), null, {
+  38 |     timeout: 10_000,
+  39 |   });
+  40 |   await expect(page.locator('[data-slot="page-loading"]:visible')).toHaveCount(
+  41 |     0,
+  42 |     {
+  43 |       timeout: 10_000,
+  44 |     },
+  45 |   );
+  46 |   await expect(page.locator('[data-slot="skeleton"]:visible')).toHaveCount(0, {
+  47 |     timeout: 10_000,
+  48 |   });
+  49 | }
+  50 | 
+  51 | export async function gotoAndWaitForReady(
+  52 |   page: Page,
+  53 |   url: string,
+  54 |   options: GotoOptions = {},
+  55 | ) {
+  56 |   const { expectMainContent = true, waitUntil } = options;
+  57 | 
+  58 |   const loadStateWaitUntil =
+  59 |     waitUntil === "commit" ? "domcontentloaded" : waitUntil;
+  60 |   let response: Awaited<ReturnType<Page["goto"]>> | undefined;
+  61 |   for (let attempt = 1; attempt <= GOTO_RETRY_ATTEMPTS; attempt += 1) {
+  62 |     try {
+> 63 |       response = await page.goto(url, {
+     |                             ^ Error: page.goto: Target page, context or browser has been closed
+  64 |         waitUntil: waitUntil ?? "domcontentloaded",
+  65 |       });
+  66 |       break;
+  67 |     } catch (error) {
+  68 |       if (
+  69 |         !(error instanceof Error) ||
+  70 |         !error.message.includes("net::ERR_ABORTED") ||
+  71 |         attempt === GOTO_RETRY_ATTEMPTS
+  72 |       ) {
+  73 |         throw error;
+  74 |       }
+  75 |     }
+  76 |   }
+  77 | 
+  78 |   await waitForUiSettled(page, { waitUntil: loadStateWaitUntil });
+  79 | 
+  80 |   if (expectMainContent) {
+  81 |     await expect(page.locator("#main-content")).toBeVisible();
+  82 |   }
+  83 | 
+  84 |   return response;
+  85 | }
+  86 | 
+```

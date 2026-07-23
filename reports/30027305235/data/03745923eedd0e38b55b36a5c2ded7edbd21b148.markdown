@@ -1,0 +1,226 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: src/app/api/users/profile/test.ts >> GET /api/account/profile >> 契约
+- Location: tests/e2e/src/app/api/users/profile/test.ts:13:3
+
+# Error details
+
+```
+Error: expect(received).toBe(expected) // Object.is equality
+
+Expected: 200
+Received: 401
+```
+
+# Test source
+
+```ts
+  98  | ) {
+  99  |   switch (routePath) {
+  100 |     case "/api/catalog/sections": {
+  101 |       const response = await request.get("/api/catalog/sections?limit=20");
+  102 |       expect(response.status()).toBe(200);
+  103 |       const body = (await response.json()) as {
+  104 |         data?: Array<{
+  105 |           id?: number;
+  106 |           jwId?: number;
+  107 |           code?: string;
+  108 |           course?: { nameCn?: string };
+  109 |         }>;
+  110 |       };
+  111 |       expect((body.data?.length ?? 0) > 0).toBe(true);
+  112 |       const first = body.data?.[0];
+  113 |       if (first) {
+  114 |         expect(typeof first.id).toBe("number");
+  115 |         expect(typeof first.jwId).toBe("number");
+  116 |         expect(typeof first.code).toBe("string");
+  117 |         expect(first.course).toBeDefined();
+  118 |         expect(typeof first.course?.nameCn).toBe("string");
+  119 |       }
+  120 |       expect((await resolveSeedSectionMatch(request)).code).toBe(
+  121 |         DEV_SEED.section.code,
+  122 |       );
+  123 |       return;
+  124 |     }
+  125 | 
+  126 |     case "/api/catalog/sections/[jwId]": {
+  127 |       const response = await request.get(
+  128 |         `/api/catalog/sections/${DEV_SEED.section.jwId}`,
+  129 |       );
+  130 |       expect(response.status()).toBe(200);
+  131 |       const body = (await response.json()) as { jwId?: number; code?: string };
+  132 |       expect(body.jwId).toBe(DEV_SEED.section.jwId);
+  133 |       expect(body.code).toBe(DEV_SEED.section.code);
+  134 |       return;
+  135 |     }
+  136 | 
+  137 |     case "/api/catalog/sections/[jwId]/schedules": {
+  138 |       const response = await request.get(
+  139 |         `/api/catalog/sections/${DEV_SEED.section.jwId}/schedules`,
+  140 |       );
+  141 |       expect(response.status()).toBe(200);
+  142 |       expect(
+  143 |         ((await response.json()) as Array<{ id?: number }>).length,
+  144 |       ).toBeGreaterThan(0);
+  145 |       return;
+  146 |     }
+  147 | 
+  148 |     case "/api/catalog/sections/[jwId]/schedule-groups": {
+  149 |       const response = await request.get(
+  150 |         `/api/catalog/sections/${DEV_SEED.section.jwId}/schedule-groups`,
+  151 |       );
+  152 |       expect(response.status()).toBe(200);
+  153 |       expect(
+  154 |         ((await response.json()) as Array<{ schedules?: unknown[] }>).length,
+  155 |       ).toBeGreaterThan(0);
+  156 |       return;
+  157 |     }
+  158 | 
+  159 |     case "/api/catalog/sections/[jwId]/calendar.ics": {
+  160 |       await expectCalendarResponse(
+  161 |         await request.get(
+  162 |           `/api/catalog/sections/${DEV_SEED.section.jwId}/calendar.ics`,
+  163 |         ),
+  164 |       );
+  165 |       return;
+  166 |     }
+  167 | 
+  168 |     case "/api/catalog/sections/calendar.ics": {
+  169 |       const section = await resolveSeedSectionMatch(request);
+  170 |       await expectCalendarResponse(
+  171 |         await request.get(
+  172 |           `/api/catalog/sections/calendar.ics?sectionIds=${section.id}`,
+  173 |         ),
+  174 |       );
+  175 |       return;
+  176 |     }
+  177 | 
+  178 |     case "/api/catalog/sections/match-codes": {
+  179 |       const response = await request.post("/api/catalog/sections/match-codes", {
+  180 |         data: { codes: [DEV_SEED.section.code] },
+  181 |       });
+  182 |       expect(response.status()).toBe(200);
+  183 |       const body = (await response.json()) as {
+  184 |         matchedCodes?: string[];
+  185 |         suggestions?: Record<string, string[]>;
+  186 |         total?: number;
+  187 |       };
+  188 |       expect(body.matchedCodes?.includes(DEV_SEED.section.code)).toBe(true);
+  189 |       expect(body.suggestions).toBeDefined();
+  190 |       expect((body.total ?? 0) > 0).toBe(true);
+  191 |       return;
+  192 |     }
+  193 | 
+  194 |     case "/api/account/profile": {
+  195 |       const response = await request.get(
+  196 |         `/api/account/profile?username=${DEV_SEED.debugUsername}`,
+  197 |       );
+> 198 |       expect(response.status()).toBe(200);
+      |                                 ^ Error: expect(received).toBe(expected) // Object.is equality
+  199 |       const body = (await response.json()) as {
+  200 |         user?: {
+  201 |           id?: string;
+  202 |           name?: string | null;
+  203 |           username?: string | null;
+  204 |           _count?: {
+  205 |             comments?: number;
+  206 |             homeworksCreated?: number;
+  207 |             subscribedSections?: number;
+  208 |             uploads?: number;
+  209 |           };
+  210 |         };
+  211 |         sectionCount?: number;
+  212 |         totalContributions?: number;
+  213 |         weeks?: unknown[];
+  214 |       };
+  215 |       expect(body.user?.id).toBeTruthy();
+  216 |       expect(body.user?.name).toBe(DEV_SEED.debugName);
+  217 |       expect(body.user?.username).toBe(DEV_SEED.debugUsername);
+  218 |       expect(typeof body.sectionCount).toBe("number");
+  219 |       expect(typeof body.totalContributions).toBe("number");
+  220 |       expect(Array.isArray(body.weeks)).toBe(true);
+  221 |       expect(typeof body.user?._count?.comments).toBe("number");
+  222 |       expect(typeof body.user?._count?.uploads).toBe("number");
+  223 |       expect(typeof body.user?._count?.homeworksCreated).toBe("number");
+  224 |       expect(typeof body.user?._count?.subscribedSections).toBe("number");
+  225 |       return;
+  226 |     }
+  227 | 
+  228 |     case "/api/catalog/teachers": {
+  229 |       const response = await request.get(
+  230 |         `/api/catalog/teachers?search=${encodeURIComponent(DEV_SEED.teacher.nameCn)}`,
+  231 |       );
+  232 |       expect(response.status()).toBe(200);
+  233 |       const body = (await response.json()) as {
+  234 |         data?: Array<{ nameCn?: string; _count?: { sections?: number } }>;
+  235 |       };
+  236 |       const teacher = body.data?.find((entry) =>
+  237 |         entry.nameCn?.includes(DEV_SEED.teacher.nameCn),
+  238 |       );
+  239 |       expect(teacher).toBeDefined();
+  240 |       expect(typeof teacher?.nameCn).toBe("string");
+  241 |       expect(teacher?._count).toBeDefined();
+  242 |       return;
+  243 |     }
+  244 | 
+  245 |     case "/api/catalog/courses": {
+  246 |       const response = await request.get(
+  247 |         `/api/catalog/courses?search=${encodeURIComponent(DEV_SEED.course.code)}`,
+  248 |       );
+  249 |       expect(response.status()).toBe(200);
+  250 |       const body = (await response.json()) as {
+  251 |         data?: Array<{
+  252 |           id?: number;
+  253 |           jwId?: number | null;
+  254 |           code?: string;
+  255 |           nameCn?: string;
+  256 |         }>;
+  257 |       };
+  258 |       expect(
+  259 |         body.data?.some(
+  260 |           (entry) =>
+  261 |             entry.jwId === DEV_SEED.course.jwId &&
+  262 |             entry.nameCn === DEV_SEED.course.nameCn,
+  263 |         ),
+  264 |       ).toBe(true);
+  265 |       const first = body.data?.[0];
+  266 |       if (first) {
+  267 |         expect(typeof first.id).toBe("number");
+  268 |         expect(typeof first.jwId).toBe("number");
+  269 |         expect(typeof first.code).toBe("string");
+  270 |         expect(typeof first.nameCn).toBe("string");
+  271 |       }
+  272 |       return;
+  273 |     }
+  274 | 
+  275 |     case "/api/catalog/courses/[jwId]": {
+  276 |       const response = await request.get(
+  277 |         `/api/catalog/courses/${DEV_SEED.course.jwId}`,
+  278 |       );
+  279 |       expect(response.status()).toBe(200);
+  280 |       const body = (await response.json()) as {
+  281 |         jwId?: number | null;
+  282 |         nameCn?: string | null;
+  283 |       };
+  284 |       expect(body.jwId).toBe(DEV_SEED.course.jwId);
+  285 |       expect(body.nameCn).toBe(DEV_SEED.course.nameCn);
+  286 |       return;
+  287 |     }
+  288 | 
+  289 |     case "/api/catalog/teachers/[id]": {
+  290 |       const searchResponse = await request.get(
+  291 |         `/api/catalog/teachers?search=${encodeURIComponent(DEV_SEED.teacher.nameCn)}`,
+  292 |       );
+  293 |       expect(searchResponse.status()).toBe(200);
+  294 |       const searchBody = (await searchResponse.json()) as {
+  295 |         data?: Array<{ id?: number; nameCn?: string }>;
+  296 |       };
+  297 |       const teacher = searchBody.data?.find((entry) =>
+  298 |         entry.nameCn?.includes(DEV_SEED.teacher.nameCn),
+```

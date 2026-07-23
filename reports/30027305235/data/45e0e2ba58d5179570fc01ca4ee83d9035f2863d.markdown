@@ -1,0 +1,654 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: src/app/dashboard/calendar/test.ts >> 仪表盘日历 >> 复制日历链接生成有效的 iCal URL
+- Location: tests/e2e/src/app/dashboard/calendar/test.ts:178:3
+
+# Error details
+
+```
+Error: expect(received).toMatch(expected)
+
+Expected pattern: /\/api\/community\/users\/[^/]+:[^/]+\/calendar\.ics$/
+Received string:  "http://localhost:3000/api/calendar-feeds/cmqw1sr9g0001bqt44c3s0kqa:s6cXLJO_JFl62ar-Ba7yWQPBtapSGW-A.ics"
+```
+
+# Page snapshot
+
+```yaml
+- generic [ref=e3]:
+  - link "Skip to main content" [ref=e4] [cursor=pointer]:
+    - /url: "#main-content"
+  - generic [ref=e7]:
+    - navigation "Primary navigation" [ref=e8]:
+      - list [ref=e10]:
+        - listitem [ref=e11]:
+          - link "Life@USTC" [ref=e12] [cursor=pointer]:
+            - /url: /
+            - img [ref=e13]
+            - generic [ref=e14]: Life@USTC
+      - generic [ref=e15]:
+        - generic [ref=e17]:
+          - button "Workspace" [expanded] [ref=e18]:
+            - text: Workspace
+            - img [ref=e19]
+          - list [ref=e23]:
+            - listitem [ref=e24]:
+              - link "Today" [ref=e25] [cursor=pointer]:
+                - /url: /workspace/overview
+                - img [ref=e26]
+                - generic [ref=e29]: Today
+            - listitem [ref=e30]:
+              - link "Calendar" [ref=e31] [cursor=pointer]:
+                - /url: /workspace/calendar
+                - img [ref=e32]
+                - generic [ref=e34]: Calendar
+                - generic [ref=e35]: "19"
+            - listitem [ref=e36]:
+              - link "Homework" [ref=e37] [cursor=pointer]:
+                - /url: /workspace/homeworks
+                - img [ref=e38]
+                - generic [ref=e40]: Homework
+                - generic [ref=e41]: "6"
+            - listitem [ref=e42]:
+              - link "Todos" [ref=e43] [cursor=pointer]:
+                - /url: /workspace/todos
+                - img [ref=e44]
+                - generic [ref=e47]: Todos
+                - generic [ref=e48]: "5"
+            - listitem [ref=e49]:
+              - link "Exams" [ref=e50] [cursor=pointer]:
+                - /url: /workspace/exams
+                - img [ref=e51]
+                - generic [ref=e54]: Exams
+            - listitem [ref=e55]:
+              - link "Section Subscriptions" [ref=e56] [cursor=pointer]:
+                - /url: /workspace/subscriptions
+                - img [ref=e57]
+                - generic [ref=e61]: Section Subscriptions
+                - generic [ref=e62]: "4"
+        - button "Explore" [ref=e65]:
+          - text: Explore
+          - img [ref=e66]
+    - button "Toggle Sidebar" [ref=e68]
+    - list [ref=e70]:
+      - listitem [ref=e71]:
+        - button "Profile menu" [ref=e72]:
+          - img "Dev User" [ref=e74]
+          - generic [ref=e75]:
+            - generic [ref=e76]: Dev User
+            - generic [ref=e77]: "@dev-user"
+          - img [ref=e78]
+  - main "Calendar" [ref=e81]:
+    - generic [ref=e83]:
+      - button "Menu" [expanded] [ref=e84]:
+        - img
+        - generic [ref=e85]: Toggle Sidebar
+      - generic [ref=e87]:
+        - button "Language selector" [ref=e88]:
+          - img
+        - button "Theme selector" [ref=e89]:
+          - img
+    - generic [ref=e92]:
+      - heading "Calendar" [level=1] [ref=e93]
+      - alert [ref=e94]:
+        - generic [ref=e95]: "Link Copied: Calendar link has been copied to clipboard"
+      - generic [ref=e96]:
+        - generic [ref=e97]:
+          - generic [ref=e98]:
+            - group "Calendar" [ref=e99]:
+              - radio "This semester" [checked] [ref=e100]
+              - radio "This month" [ref=e101]
+              - radio "This week" [ref=e102]
+            - group [ref=e103]:
+              - button "Previous semester" [ref=e104]
+              - generic [ref=e105]: 2026年春季学期
+              - button "Next semester" [disabled]
+          - button "Copy iCal Link" [active] [ref=e107]
+        - generic [ref=e112]:
+          - generic [ref=e113]:
+            - generic [ref=e114]: Week
+            - generic [ref=e115]: Sun
+            - generic [ref=e116]: Mon
+            - generic [ref=e117]: Tue
+            - generic [ref=e118]: Wed
+            - generic [ref=e119]: Thu
+            - generic [ref=e120]: Fri
+            - generic [ref=e121]: Sat
+          - generic [ref=e122]:
+            - generic [ref=e124]: "Week #1"
+            - generic [ref=e128]: 04-05
+            - generic [ref=e132]: 04-06
+            - generic [ref=e136]: 04-07
+            - generic [ref=e140]: 04-08
+            - generic [ref=e144]: 04-09
+            - generic [ref=e148]: 04-10
+            - generic [ref=e152]: 04-11
+          - generic [ref=e153]:
+            - generic [ref=e155]: "Week #2"
+            - generic [ref=e159]: 04-12
+            - generic [ref=e163]: 04-13
+            - generic [ref=e167]: 04-14
+            - generic [ref=e171]: 04-15
+            - generic [ref=e175]: 04-16
+            - generic [ref=e179]: 04-17
+            - generic [ref=e183]: 04-18
+          - generic [ref=e184]:
+            - generic [ref=e186]: "Week #3"
+            - generic [ref=e190]: 04-19
+            - generic [ref=e194]: 04-20
+            - generic [ref=e198]: 04-21
+            - generic [ref=e202]: 04-22
+            - generic [ref=e206]: 04-23
+            - generic [ref=e210]: 04-24
+            - generic [ref=e214]: 04-25
+          - generic [ref=e215]:
+            - generic [ref=e217]: "Week #4"
+            - generic [ref=e221]: 04-26
+            - generic [ref=e222]:
+              - generic [ref=e223]:
+                - generic [ref=e225]: 04-27
+                - generic [ref=e226]: "1"
+              - link "迭代一需求拆解 12:00 PM · 作业要求：提交仓库链接和测试截图。" [ref=e228] [cursor=pointer]:
+                - /url: /catalog/sections/9902001/homework#homework-cmqw1srez0002bqt4l5neqtsa
+                - generic [ref=e229]:
+                  - generic [ref=e230]: 迭代一需求拆解
+                  - paragraph [ref=e231]: 12:00 PM · 作业要求：提交仓库链接和测试截图。
+            - generic [ref=e232]:
+              - generic [ref=e233]:
+                - generic [ref=e235]: 04-28
+                - generic [ref=e236]: "2"
+              - generic [ref=e237]:
+                - link "逾期实验数据补交 02:00 PM · 逾期补交实验数据，保留原始记录并说明补交原因。" [ref=e238] [cursor=pointer]:
+                  - /url: /catalog/sections/9902001/homework#homework-cmqw1srez0003bqt45qjilal7
+                  - generic [ref=e239]:
+                    - generic [ref=e240]: 逾期实验数据补交
+                    - paragraph [ref=e241]: 02:00 PM · 逾期补交实验数据，保留原始记录并说明补交原因。
+                - link "补交培养方案确认 01:00 AM · High · 用于验证逾期待办展示" [ref=e242] [cursor=pointer]:
+                  - /url: /workspace/todos
+                  - generic [ref=e243]:
+                    - generic [ref=e244]: 补交培养方案确认
+                    - paragraph [ref=e245]: 01:00 AM · High · 用于验证逾期待办展示
+            - generic [ref=e246]:
+              - generic [ref=e247]:
+                - generic [ref=e249]: 04-29
+                - generic [ref=e250]: "3"
+              - generic [ref=e251]:
+                - 'link "Cryptographic Engineering: Principles and Practice 08:30-10:15 · Room 101 · Teaching Building 1 · East Campus · Lin Jingqiang, Wang Wei" [ref=e252] [cursor=pointer]':
+                  - /url: /catalog/sections/9902001
+                  - generic [ref=e253]:
+                    - generic [ref=e254]: "Cryptographic Engineering: Principles and Practice"
+                    - paragraph [ref=e255]: 08:30-10:15 · Room 101 · Teaching Building 1 · East Campus · Lin Jingqiang, Wang Wei
+                - link "今日课堂反馈整理 03:00 PM · 整理今日课堂反馈，标注需要二次确认的问题。" [ref=e256] [cursor=pointer]:
+                  - /url: /catalog/sections/9902001/homework#homework-cmqw1srez0004bqt4qy3jviis
+                  - generic [ref=e257]:
+                    - generic [ref=e258]: 今日课堂反馈整理
+                    - paragraph [ref=e259]: 03:00 PM · 整理今日课堂反馈，标注需要二次确认的问题。
+                - link "期末报告提交 03:59 PM · High · 需今日完成" [ref=e260] [cursor=pointer]:
+                  - /url: /workspace/todos
+                  - generic [ref=e261]:
+                    - generic [ref=e262]: 期末报告提交
+                    - paragraph [ref=e263]: 03:59 PM · High · 需今日完成
+            - generic [ref=e264]:
+              - generic [ref=e265]:
+                - generic [ref=e267]: 04-30
+                - generic [ref=e268]: "2"
+              - generic [ref=e269]:
+                - link "Introduction to Astrophysics 08:30-10:15 · Room 101 · Teaching Building 1 · East Campus · Wang Wei" [ref=e270] [cursor=pointer]:
+                  - /url: /catalog/sections/9902002
+                  - generic [ref=e271]:
+                    - generic [ref=e272]: Introduction to Astrophysics
+                    - paragraph [ref=e273]: 08:30-10:15 · Room 101 · Teaching Building 1 · East Campus · Wang Wei
+                - 'link "Cryptographic Engineering: Principles and Practice 14:00-15:45 · Room 101 · Teaching Building 1 · East Campus · Lin Jingqiang, Wang Wei" [ref=e274] [cursor=pointer]':
+                  - /url: /catalog/sections/9902001
+                  - generic [ref=e275]:
+                    - generic [ref=e276]: "Cryptographic Engineering: Principles and Practice"
+                    - paragraph [ref=e277]: 14:00-15:45 · Room 101 · Teaching Building 1 · East Campus · Lin Jingqiang, Wang Wei
+            - generic [ref=e278]:
+              - generic [ref=e279]:
+                - generic [ref=e281]: 05-01
+                - generic [ref=e282]: "5"
+              - generic [ref=e283]:
+                - link "Environmental Microbiology 08:30-10:15 · Room 101 · Teaching Building 1 · East Campus · Tong Zhonghua" [ref=e284] [cursor=pointer]:
+                  - /url: /catalog/sections/9902003
+                  - generic [ref=e285]:
+                    - generic [ref=e286]: Environmental Microbiology
+                    - paragraph [ref=e287]: 08:30-10:15 · Room 101 · Teaching Building 1 · East Campus · Tong Zhonghua
+                - link "Introduction to Astrophysics 14:00-15:45 · Room 101 · Teaching Building 1 · East Campus · Wang Wei" [ref=e288] [cursor=pointer]:
+                  - /url: /catalog/sections/9902002
+                  - generic [ref=e289]:
+                    - generic [ref=e290]: Introduction to Astrophysics
+                    - paragraph [ref=e291]: 14:00-15:45 · Room 101 · Teaching Building 1 · East Campus · Wang Wei
+                - 'link "Cryptographic Engineering: Principles and Practice 15:30-17:00 · 东校区体育场 · Lin Jingqiang, Wang Wei" [ref=e292] [cursor=pointer]':
+                  - /url: /catalog/sections/9902001
+                  - generic [ref=e293]:
+                    - generic [ref=e294]: "Cryptographic Engineering: Principles and Practice"
+                    - paragraph [ref=e295]: 15:30-17:00 · 东校区体育场 · Lin Jingqiang, Wang Wei
+                - link "线性变换证明题 02:00 PM · 证明题需写出完整推导过程，可参考教材第三章习题 3.2。" [ref=e296] [cursor=pointer]:
+                  - /url: /catalog/sections/9902002/homework#homework-cmqw1srez0006bqt4j01p7cwx
+                  - generic [ref=e297]:
+                    - generic [ref=e298]: 线性变换证明题
+                    - paragraph [ref=e299]: 02:00 PM · 证明题需写出完整推导过程，可参考教材第三章习题 3.2。
+                - generic [ref=e300]: 1 more
+            - generic [ref=e301]:
+              - generic [ref=e302]:
+                - generic [ref=e304]: 05-02
+                - generic [ref=e305]: "2"
+              - generic [ref=e306]:
+                - link "Environmental Microbiology 14:00-15:45 · Room 101 · Teaching Building 1 · East Campus · Tong Zhonghua" [ref=e307] [cursor=pointer]:
+                  - /url: /catalog/sections/9902003
+                  - generic [ref=e308]:
+                    - generic [ref=e309]: Environmental Microbiology
+                    - paragraph [ref=e310]: 14:00-15:45 · Room 101 · Teaching Building 1 · East Campus · Tong Zhonghua
+                - link "实验报告与误差分析 01:00 PM · 实验报告需包含：实验目的、步骤、数据记录、误差分析与结论。" [ref=e311] [cursor=pointer]:
+                  - /url: /catalog/sections/9902003/homework#homework-cmqw1srez0008bqt467yuqdec
+                  - generic [ref=e312]:
+                    - generic [ref=e313]: 实验报告与误差分析
+                    - paragraph [ref=e314]: 01:00 PM · 实验报告需包含：实验目的、步骤、数据记录、误差分析与结论。
+          - generic [ref=e315]:
+            - generic [ref=e317]: "Week #5"
+            - generic [ref=e318]:
+              - generic [ref=e319]:
+                - generic [ref=e321]: 05-03
+                - generic [ref=e322]: "1"
+              - link "迭代二系统设计评审 03:00 PM · 完成系统设计文档，包含模块划分与接口说明，并在评审会上做 10 分钟展示。" [ref=e324] [cursor=pointer]:
+                - /url: /catalog/sections/9902001/homework#homework-cmqw1srez0005bqt41y0wbcrp
+                - generic [ref=e325]:
+                  - generic [ref=e326]: 迭代二系统设计评审
+                  - paragraph [ref=e327]: 03:00 PM · 完成系统设计文档，包含模块划分与接口说明，并在评审会上做 10 分钟展示。
+            - generic [ref=e331]: 05-04
+            - generic [ref=e332]:
+              - generic [ref=e333]:
+                - generic [ref=e335]: 05-05
+                - generic [ref=e336]: "1"
+              - link "特征值综合练习 02:00 PM · 综合运用特征值与特征向量，建议先化简再计算。" [ref=e338] [cursor=pointer]:
+                - /url: /catalog/sections/9902002/homework#homework-cmqw1srez0007bqt4p55o2ara
+                - generic [ref=e339]:
+                  - generic [ref=e340]: 特征值综合练习
+                  - paragraph [ref=e341]: 02:00 PM · 综合运用特征值与特征向量，建议先化简再计算。
+            - generic [ref=e342]:
+              - generic [ref=e343]:
+                - generic [ref=e345]: 05-06
+                - generic [ref=e346]: "1"
+              - link "下周小组展示准备 03:59 PM · Low" [ref=e348] [cursor=pointer]:
+                - /url: /workspace/todos
+                - generic [ref=e349]:
+                  - generic [ref=e350]: 下周小组展示准备
+                  - paragraph [ref=e351]: 03:59 PM · Low
+            - generic [ref=e355]: 05-07
+            - generic [ref=e359]: 05-08
+            - generic [ref=e360]:
+              - generic [ref=e361]:
+                - generic [ref=e363]: 05-09
+                - generic [ref=e364]: "1"
+              - 'link "Cryptographic Engineering: Principles and Practice · Exam 09:00-11:00 · 闭卷 · 一教101(30)" [ref=e366] [cursor=pointer]':
+                - /url: /workspace/exams
+                - generic [ref=e367]:
+                  - generic [ref=e368]: "Cryptographic Engineering: Principles and Practice · Exam"
+                  - paragraph [ref=e369]: 09:00-11:00 · 闭卷 · 一教101(30)
+          - generic [ref=e370]:
+            - generic [ref=e372]: "Week #6"
+            - generic [ref=e373]:
+              - generic [ref=e374]:
+                - generic [ref=e376]: 05-10
+                - generic [ref=e377]: "1"
+              - link "Introduction to Astrophysics · Exam 09:00-11:00 · 闭卷 · 一教101(35)" [ref=e379] [cursor=pointer]:
+                - /url: /workspace/exams
+                - generic [ref=e380]:
+                  - generic [ref=e381]: Introduction to Astrophysics · Exam
+                  - paragraph [ref=e382]: 09:00-11:00 · 闭卷 · 一教101(35)
+            - generic [ref=e383]:
+              - generic [ref=e384]:
+                - generic [ref=e386]: 05-11
+                - generic [ref=e387]: "1"
+              - link "Environmental Microbiology · Exam 09:00-11:00 · 闭卷 · 一教101(40)" [ref=e389] [cursor=pointer]:
+                - /url: /workspace/exams
+                - generic [ref=e390]:
+                  - generic [ref=e391]: Environmental Microbiology · Exam
+                  - paragraph [ref=e392]: 09:00-11:00 · 闭卷 · 一教101(40)
+            - generic [ref=e396]: 05-12
+            - generic [ref=e400]: 05-13
+            - generic [ref=e404]: 05-14
+            - generic [ref=e408]: 05-15
+            - generic [ref=e412]: 05-16
+          - generic [ref=e413]:
+            - generic [ref=e415]: "Week #7"
+            - generic [ref=e419]: 05-17
+            - generic [ref=e423]: 05-18
+            - generic [ref=e427]: 05-19
+            - generic [ref=e431]: 05-20
+            - generic [ref=e435]: 05-21
+            - generic [ref=e439]: 05-22
+            - generic [ref=e443]: 05-23
+          - generic [ref=e444]:
+            - generic [ref=e446]: "Week #8"
+            - generic [ref=e450]: 05-24
+            - generic [ref=e454]: 05-25
+            - generic [ref=e458]: 05-26
+            - generic [ref=e462]: 05-27
+            - generic [ref=e466]: 05-28
+            - generic [ref=e470]: 05-29
+            - generic [ref=e474]: 05-30
+          - generic [ref=e475]:
+            - generic [ref=e477]: "Week #9"
+            - generic [ref=e481]: 05-31
+            - generic [ref=e485]: 06-01
+            - generic [ref=e489]: 06-02
+            - generic [ref=e493]: 06-03
+            - generic [ref=e497]: 06-04
+            - generic [ref=e501]: 06-05
+            - generic [ref=e505]: 06-06
+          - generic [ref=e506]:
+            - generic [ref=e508]: "Week #10"
+            - generic [ref=e512]: 06-07
+            - generic [ref=e516]: 06-08
+            - generic [ref=e520]: 06-09
+            - generic [ref=e524]: 06-10
+            - generic [ref=e528]: 06-11
+            - generic [ref=e532]: 06-12
+            - generic [ref=e536]: 06-13
+          - generic [ref=e537]:
+            - generic [ref=e539]: "Week #11"
+            - generic [ref=e543]: 06-14
+            - generic [ref=e547]: 06-15
+            - generic [ref=e551]: 06-16
+            - generic [ref=e555]: 06-17
+            - generic [ref=e559]: 06-18
+            - generic [ref=e563]: 06-19
+            - generic [ref=e567]: 06-20
+          - generic [ref=e568]:
+            - generic [ref=e570]: "Week #12"
+            - generic [ref=e574]: 06-21
+            - generic [ref=e578]: 06-22
+            - generic [ref=e582]: 06-23
+            - generic [ref=e586]: 06-24
+            - generic [ref=e590]: 06-25
+            - generic [ref=e594]: 06-26
+            - generic [ref=e598]: 06-27
+          - generic [ref=e599]:
+            - generic [ref=e601]: "Week #13"
+            - generic [ref=e605]: 06-28
+            - generic [ref=e609]: 06-29
+            - generic [ref=e613]: 06-30
+            - generic [ref=e617]: 07-01
+            - generic [ref=e621]: 07-02
+            - generic [ref=e625]: 07-03
+            - generic [ref=e629]: 07-04
+          - generic [ref=e630]:
+            - generic [ref=e632]: "Week #14"
+            - generic [ref=e636]: 07-05
+            - generic [ref=e640]: 07-06
+            - generic [ref=e644]: 07-07
+            - generic [ref=e648]: 07-08
+            - generic [ref=e652]: 07-09
+            - generic [ref=e656]: 07-10
+            - generic [ref=e660]: 07-11
+          - generic [ref=e661]:
+            - generic [ref=e663]: "Week #15"
+            - generic [ref=e667]: 07-12
+            - generic [ref=e671]: 07-13
+            - generic [ref=e675]: 07-14
+            - generic [ref=e679]: 07-15
+            - generic [ref=e683]: 07-16
+            - generic [ref=e687]: 07-17
+            - generic [ref=e691]: 07-18
+          - generic [ref=e692]:
+            - generic [ref=e694]: "Week #16"
+            - generic [ref=e698]: 07-19
+            - generic [ref=e702]: 07-20
+            - generic [ref=e706]: 07-21
+            - generic [ref=e710]: 07-22
+            - generic [ref=e714]: 07-23
+            - generic [ref=e718]: 07-24
+            - generic [ref=e722]: 07-25
+          - generic [ref=e723]:
+            - generic [ref=e725]: "Week #17"
+            - generic [ref=e729]: 07-26
+            - generic [ref=e733]: 07-27
+            - generic [ref=e737]: 07-28
+            - generic [ref=e741]: 07-29
+            - generic [ref=e745]: 07-30
+            - generic [ref=e749]: 07-31
+            - generic [ref=e753]: 08-01
+          - generic [ref=e754]:
+            - generic [ref=e756]: "Week #18"
+            - generic [ref=e760]: 08-02
+            - generic [ref=e764]: 08-03
+            - generic [ref=e768]: 08-04
+            - generic [ref=e772]: 08-05
+            - generic [ref=e776]: 08-06
+            - generic [ref=e780]: 08-07
+            - generic [ref=e784]: 08-08
+          - generic [ref=e785]:
+            - generic [ref=e787]: "Week #19"
+            - generic [ref=e791]: 08-09
+            - generic [ref=e795]: 08-10
+            - generic [ref=e799]: 08-11
+            - generic [ref=e803]: 08-12
+            - generic [ref=e807]: 08-13
+            - generic [ref=e811]: 08-14
+            - generic [ref=e815]: 08-15
+          - generic [ref=e816]:
+            - generic [ref=e818]: "Week #20"
+            - generic [ref=e822]: 08-16
+            - generic [ref=e826]: 08-17
+            - generic [ref=e830]: 08-18
+            - generic [ref=e834]: 08-19
+            - generic [ref=e838]: 08-20
+            - generic [ref=e842]: 08-21
+            - generic [ref=e846]: 08-22
+          - generic [ref=e847]:
+            - generic [ref=e849]: "Week #21"
+            - generic [ref=e853]: 08-23
+            - generic [ref=e857]: 08-24
+            - generic [ref=e861]: 08-25
+            - generic [ref=e865]: 08-26
+            - generic [ref=e869]: 08-27
+            - generic [ref=e873]: 08-28
+            - generic [ref=e877]: 08-29
+          - generic [ref=e878]:
+            - generic [ref=e880]: "Week #22"
+            - generic [ref=e884]: 08-30
+            - generic [ref=e888]: 08-31
+            - generic [ref=e892]: 09-01
+            - generic [ref=e896]: 09-02
+            - generic [ref=e900]: 09-03
+            - generic [ref=e904]: 09-04
+            - generic [ref=e908]: 09-05
+          - generic [ref=e909]:
+            - generic [ref=e911]: "Week #23"
+            - generic [ref=e915]: 09-06
+            - generic [ref=e919]: 09-07
+            - generic [ref=e923]: 09-08
+            - generic [ref=e927]: 09-09
+            - generic [ref=e931]: 09-10
+            - generic [ref=e935]: 09-11
+            - generic [ref=e939]: 09-12
+```
+
+# Test source
+
+```ts
+  93  | 
+  94  |     const sectionLink = page.locator('a[href^="/catalog/sections/"]').first();
+  95  |     await expect(sectionLink).toBeVisible();
+  96  |     await sectionLink.click();
+  97  | 
+  98  |     await expect(page).toHaveURL(/\/catalog\/sections\/\d+/);
+  99  |     await captureStepScreenshot(page, testInfo, "calendar/section-link");
+  100 |   });
+  101 | 
+  102 |   test("考试卡片链接到考试标签", async ({ page }, testInfo) => {
+  103 |     await signInAsDebugUser(page, "/workspace/calendar");
+  104 |     await ensureSeedSectionSubscription(page);
+  105 |     await gotoAndWaitForReady(page, "/workspace/calendar", {
+  106 |       testInfo,
+  107 |       screenshotLabel: "calendar",
+  108 |     });
+  109 | 
+  110 |     const examLink = page.locator('a[href="/workspace/exams"]').first();
+  111 |     await expect(examLink).toBeVisible();
+  112 |     await examLink.click();
+  113 |     await expect(page).toHaveURL(/\/workspace\/exams(?:\?.*)?$/);
+  114 |     await captureStepScreenshot(page, testInfo, "calendar/exam-link");
+  115 |   });
+  116 | 
+  117 |   test("学期导航控件可切换到其他学期", async ({ page }, testInfo) => {
+  118 |     await signInAsDebugUser(page, "/workspace/calendar");
+  119 |     await ensureSeedSectionSubscription(page);
+  120 |     await gotoAndWaitForReady(page, "/workspace/calendar", {
+  121 |       testInfo,
+  122 |       screenshotLabel: "calendar",
+  123 |     });
+  124 | 
+  125 |     // calendar.yml: Previous/next semester controls
+  126 |     const previousSemester = page.getByRole("button", {
+  127 |       name: /上一学期|Previous semester/i,
+  128 |     });
+  129 |     const nextSemester = page.getByRole("button", {
+  130 |       name: /下一学期|Next semester/i,
+  131 |     });
+  132 |     await expect(previousSemester).toBeVisible();
+  133 |     await expect(nextSemester).toBeVisible();
+  134 | 
+  135 |     const navigationButton = (await previousSemester.isEnabled())
+  136 |       ? previousSemester
+  137 |       : nextSemester;
+  138 |     await expect(navigationButton).toBeEnabled();
+  139 | 
+  140 |     const beforeUrl = page.url();
+  141 |     await navigationButton.click();
+  142 |     await expect(page).toHaveURL(/calendarSemester=\d+/);
+  143 |     expect(page.url()).not.toBe(beforeUrl);
+  144 |     await expect(page.locator("#main-content")).toBeVisible();
+  145 | 
+  146 |     await captureStepScreenshot(page, testInfo, "calendar/semester-navigation");
+  147 |   });
+  148 | 
+  149 |   test("视图切换可在学期/月/周之间切换", async ({ page }, testInfo) => {
+  150 |     await signInAsDebugUser(page, "/workspace/calendar");
+  151 |     await ensureSeedSectionSubscription(page);
+  152 |     await gotoAndWaitForReady(page, "/workspace/calendar", {
+  153 |       testInfo,
+  154 |       screenshotLabel: "calendar",
+  155 |     });
+  156 | 
+  157 |     // calendar.yml: View tabs
+  158 |     const calendarTabs = page.getByRole("group", {
+  159 |       name: /日历|Calendar/i,
+  160 |     });
+  161 |     const monthTab = calendarTabs.getByRole("radio", {
+  162 |       name: /本月|This month/i,
+  163 |     });
+  164 |     await monthTab.click();
+  165 |     await expect(page).toHaveURL(/calendarView=month/);
+  166 |     await expect(monthTab).toHaveAttribute("aria-checked", "true");
+  167 |     await captureStepScreenshot(page, testInfo, "calendar/month-view");
+  168 | 
+  169 |     const weekTab = calendarTabs.getByRole("radio", {
+  170 |       name: /本周|This week/i,
+  171 |     });
+  172 |     await weekTab.click();
+  173 |     await expect(page).toHaveURL(/calendarView=week/);
+  174 |     await expect(weekTab).toHaveAttribute("aria-checked", "true");
+  175 |     await captureStepScreenshot(page, testInfo, "calendar/week-view");
+  176 |   });
+  177 | 
+  178 |   test("复制日历链接生成有效的 iCal URL", async ({ page }) => {
+  179 |     await page
+  180 |       .context()
+  181 |       .grantPermissions(["clipboard-read", "clipboard-write"]);
+  182 |     await signInAsDebugUser(page, "/workspace/calendar");
+  183 |     await ensureSeedSectionSubscription(page);
+  184 |     await gotoAndWaitForReady(page, "/workspace/calendar");
+  185 | 
+  186 |     const copyButton = page.getByRole("button", { name: /复制日历链接|iCal/i });
+  187 |     await expect(copyButton).toBeVisible();
+  188 |     await copyButton.click();
+  189 | 
+  190 |     const clipboardText = await page.evaluate(async () =>
+  191 |       navigator.clipboard.readText(),
+  192 |     );
+> 193 |     expect(clipboardText).toMatch(
+      |                           ^ Error: expect(received).toMatch(expected)
+  194 |       /\/api\/community\/users\/[^/]+:[^/]+\/calendar\.ics$/,
+  195 |     );
+  196 | 
+  197 |     const calendarResponse = await page.request.get(clipboardText);
+  198 |     expect(calendarResponse.status()).toBe(200);
+  199 |     expect(calendarResponse.headers()["content-type"]).toContain(
+  200 |       "text/calendar",
+  201 |     );
+  202 |     await expect(page.getByText(/已复制链接|Link Copied/i)).toBeVisible();
+  203 |   });
+  204 | 
+  205 |   test("移动端使用可读周日程且导航控件满足触控尺寸", async ({
+  206 |     page,
+  207 |   }, testInfo) => {
+  208 |     await page
+  209 |       .context()
+  210 |       .grantPermissions(["clipboard-read", "clipboard-write"]);
+  211 |     await page.setViewportSize({ height: 844, width: 390 });
+  212 |     const agendaUrl = `/workspace/calendar?calendarView=week&calendarWeek=${DEV_SEED_ANCHOR.date}`;
+  213 |     await signInAsDebugUser(page, agendaUrl);
+  214 |     await ensureSeedSectionSubscription(page);
+  215 |     await gotoAndWaitForReady(page, agendaUrl, {
+  216 |       testInfo,
+  217 |       screenshotLabel: "calendar-mobile-agenda",
+  218 |     });
+  219 | 
+  220 |     const agenda = page.getByTestId("dashboard-calendar-agenda");
+  221 |     await expect(agenda).toBeVisible();
+  222 |     await expect(agenda.locator("section")).toHaveCount(7);
+  223 |     await expect(agenda.locator("a").first()).toBeVisible();
+  224 |     await expect(
+  225 |       agenda.getByText(DEV_SEED.homeworks.overdueTitle).first(),
+  226 |     ).toBeVisible();
+  227 |     await expect(
+  228 |       page.getByRole("group", { name: /日历|Calendar/i }),
+  229 |     ).toBeHidden();
+  230 | 
+  231 |     const previous = page.getByRole("button", {
+  232 |       name: /上一周|Previous week/i,
+  233 |     });
+  234 |     const today = page.getByRole("button", { name: /今天|Today/i });
+  235 |     const next = page.getByRole("button", { name: /下一周|Next week/i });
+  236 |     const more = page.getByRole("button", {
+  237 |       name: /更多日历操作|More calendar actions/i,
+  238 |     });
+  239 |     for (const control of [previous, today, next, more]) {
+  240 |       const box = await control.boundingBox();
+  241 |       expect(box?.width).toBeGreaterThanOrEqual(44);
+  242 |       expect(box?.height).toBeGreaterThanOrEqual(44);
+  243 |     }
+  244 | 
+  245 |     await more.click();
+  246 |     const iCalAction = page.getByRole("menuitem", {
+  247 |       name: /复制日历链接|iCal/i,
+  248 |     });
+  249 |     await expect(iCalAction).toBeVisible();
+  250 |     await iCalAction.click();
+  251 |     expect(
+  252 |       await page.evaluate(async () => navigator.clipboard.readText()),
+  253 |     ).toMatch(/\/api\/community\/users\/[^/]+:[^/]+\/calendar\.ics$/);
+  254 | 
+  255 |     await next.click();
+  256 |     await expect(page).toHaveURL(/calendarView=week/);
+  257 |     await expect(page).toHaveURL(/calendarWeek=\d{4}-\d{2}-\d{2}/);
+  258 |     await expect(agenda).toBeVisible();
+  259 |     expect(
+  260 |       await page.evaluate(
+  261 |         () => document.documentElement.scrollWidth <= window.innerWidth,
+  262 |       ),
+  263 |     ).toBe(true);
+  264 | 
+  265 |     await captureStepScreenshot(page, testInfo, "calendar/mobile-agenda");
+  266 |   });
+  267 | });
+  268 | 
+```

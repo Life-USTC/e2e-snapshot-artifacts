@@ -1,0 +1,303 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: src/app/api/mcp/seeded-tools.test.ts >> /api/mcp - 种子工具覆盖 >> OAuth PKCE token 可连接 /api/mcp 并调用全部种子工具
+- Location: tests/e2e/src/app/api/mcp/seeded-tools.test.ts:16:3
+
+# Error details
+
+```
+Error: MCP text content is not JSON: MCP error -32602: Input validation error: Invalid arguments for tool community_user_get: [
+  {
+    "expected": "string",
+    "code": "invalid_type",
+    "path": [
+      "identifier"
+    ],
+    "message": "Invalid input: expected string, received undefined"
+  }
+]
+```
+
+# Page snapshot
+
+```yaml
+- generic [ref=e3]:
+  - link "Skip to main content" [ref=e4] [cursor=pointer]:
+    - /url: "#main-content"
+  - generic [ref=e7]:
+    - navigation "Primary navigation" [ref=e8]:
+      - list [ref=e10]:
+        - listitem [ref=e11]:
+          - link "Life@USTC" [ref=e12] [cursor=pointer]:
+            - /url: /
+            - img [ref=e13]
+            - generic [ref=e14]: Life@USTC
+      - generic [ref=e15]:
+        - generic [ref=e17]:
+          - button "Workspace" [expanded] [ref=e18]:
+            - text: Workspace
+            - img [ref=e19]
+          - list [ref=e23]:
+            - listitem [ref=e24]:
+              - link "Today" [ref=e25] [cursor=pointer]:
+                - /url: /workspace/overview
+                - img [ref=e26]
+                - generic [ref=e29]: Today
+            - listitem [ref=e30]:
+              - link "Calendar" [ref=e31] [cursor=pointer]:
+                - /url: /workspace/calendar
+                - img [ref=e32]
+                - generic [ref=e34]: Calendar
+            - listitem [ref=e35]:
+              - link "Homework" [ref=e36] [cursor=pointer]:
+                - /url: /workspace/homeworks
+                - img [ref=e37]
+                - generic [ref=e39]: Homework
+            - listitem [ref=e40]:
+              - link "Todos" [ref=e41] [cursor=pointer]:
+                - /url: /workspace/todos
+                - img [ref=e42]
+                - generic [ref=e45]: Todos
+            - listitem [ref=e46]:
+              - link "Exams" [ref=e47] [cursor=pointer]:
+                - /url: /workspace/exams
+                - img [ref=e48]
+                - generic [ref=e51]: Exams
+            - listitem [ref=e52]:
+              - link "Section Subscriptions" [ref=e53] [cursor=pointer]:
+                - /url: /workspace/subscriptions
+                - img [ref=e54]
+                - generic [ref=e58]: Section Subscriptions
+        - button "Explore" [ref=e61]:
+          - text: Explore
+          - img [ref=e62]
+    - button "Toggle Sidebar" [ref=e64]
+    - list [ref=e66]:
+      - listitem [ref=e67]:
+        - button "Profile menu" [ref=e68]:
+          - img "Dev User" [ref=e70]
+          - generic [ref=e71]:
+            - generic [ref=e72]: Dev User
+            - generic [ref=e73]: "@dev-user"
+          - img [ref=e74]
+  - main [ref=e77]:
+    - generic [ref=e79]:
+      - button "Menu" [expanded] [ref=e80]:
+        - img
+        - generic [ref=e81]: Toggle Sidebar
+      - generic [ref=e83]:
+        - button "Language selector" [ref=e84]:
+          - img
+        - button "Theme selector" [ref=e85]:
+          - img
+    - generic [ref=e86]:
+      - main [ref=e88]:
+        - generic [ref=e89]:
+          - generic [ref=e90]:
+            - heading "OAuth E2E Callback" [level=1] [ref=e92]
+            - paragraph [ref=e93]: Captured callback parameters for OAuth integration flows.
+          - generic [ref=e95]: "{ \"code\": \"LwtZENud4BUCGQAqREljuNPEMmlpvD68\", \"state\": \"mcp-e2e-state-1784826429888\", \"error\": null }"
+      - generic [ref=e97]:
+        - navigation "Footer navigation" [ref=e98]:
+          - link "Terms of Service" [ref=e99] [cursor=pointer]:
+            - /url: /terms
+          - link "Privacy Policy" [ref=e100] [cursor=pointer]:
+            - /url: /privacy
+          - link "GitHub" [ref=e101] [cursor=pointer]:
+            - /url: https://github.com/Life-USTC/server
+          - link "Mobile App" [ref=e102] [cursor=pointer]:
+            - /url: /mobile-app
+        - paragraph [ref=e103]: Life@USTC
+```
+
+# Test source
+
+```ts
+  198 |     clientScopes: MCP_CLIENT_SCOPES,
+  199 |     resource,
+  200 |   });
+  201 | 
+  202 |   const transport = new StreamableHTTPClientTransport(new URL(resource), {
+  203 |     requestInit: {
+  204 |       headers: {
+  205 |         Authorization: `Bearer ${accessToken}`,
+  206 |       },
+  207 |     },
+  208 |   });
+  209 |   const client = new Client({
+  210 |     name: "life-ustc-e2e-client",
+  211 |     version: "1.0.0",
+  212 |   });
+  213 |   try {
+  214 |     await client.connect(transport);
+  215 |   } catch (error) {
+  216 |     await transport.close();
+  217 |     throw error;
+  218 |   }
+  219 | 
+  220 |   return {
+  221 |     client,
+  222 |     currentUser,
+  223 |     resource,
+  224 |     transport,
+  225 |     close: () => transport.close(),
+  226 |   };
+  227 | }
+  228 | 
+  229 | export async function getCurrentSubscriptionSectionIds(
+  230 |   request: Page["request"],
+  231 | ) {
+  232 |   const response = await request.get("/api/workspace/subscriptions/current");
+  233 |   expect(response.status()).toBe(200);
+  234 |   const body = (await response.json()) as {
+  235 |     subscription?: { sections?: Array<{ id?: number }> } | null;
+  236 |   };
+  237 |   return (
+  238 |     body.subscription?.sections
+  239 |       ?.map((section) => section.id)
+  240 |       .filter((id): id is number => typeof id === "number") ?? []
+  241 |   );
+  242 | }
+  243 | 
+  244 | export async function getSeedSectionId(request: Page["request"]) {
+  245 |   const response = await request.post("/api/catalog/sections/match-codes", {
+  246 |     data: { codes: [DEV_SEED.section.code] },
+  247 |   });
+  248 |   expect(response.status()).toBe(200);
+  249 |   const body = (await response.json()) as {
+  250 |     sections?: Array<{ id?: number; code?: string | null }>;
+  251 |   };
+  252 |   const seedSection = body.sections?.find(
+  253 |     (section) => section.code === DEV_SEED.section.code,
+  254 |   );
+  255 |   expect(seedSection?.id).toBeDefined();
+  256 |   if (seedSection?.id == null) {
+  257 |     throw new Error("Expected seed section id");
+  258 |   }
+  259 |   return seedSection.id;
+  260 | }
+  261 | 
+  262 | export async function replaceCalendarSubscription(
+  263 |   request: Page["request"],
+  264 |   sectionIds: number[],
+  265 | ) {
+  266 |   const response = await request.post("/api/workspace/subscriptions", {
+  267 |     data: { sectionIds },
+  268 |   });
+  269 |   expect(response.status()).toBe(200);
+  270 | }
+  271 | 
+  272 | export function getTextContent(result: unknown) {
+  273 |   const content =
+  274 |     typeof result === "object" &&
+  275 |     result !== null &&
+  276 |     "content" in result &&
+  277 |     Array.isArray(result.content)
+  278 |       ? result.content
+  279 |       : [];
+  280 |   const textContent = content.find(
+  281 |     (item): item is { type: "text"; text: string } =>
+  282 |       typeof item === "object" &&
+  283 |       item !== null &&
+  284 |       "type" in item &&
+  285 |       "text" in item &&
+  286 |       item.type === "text" &&
+  287 |       typeof item.text === "string",
+  288 |   );
+  289 |   expect(textContent).toBeDefined();
+  290 |   return textContent?.text ?? "{}";
+  291 | }
+  292 | 
+  293 | export function parseTextContent(result: unknown) {
+  294 |   const text = getTextContent(result);
+  295 |   try {
+  296 |     return JSON.parse(text) as Record<string, unknown>;
+  297 |   } catch (cause) {
+> 298 |     throw new Error(`MCP text content is not JSON: ${text.slice(0, 500)}`, {
+      |           ^ Error: MCP text content is not JSON: MCP error -32602: Input validation error: Invalid arguments for tool community_user_get: [
+  299 |       cause,
+  300 |     });
+  301 |   }
+  302 | }
+  303 | 
+  304 | export function expectMcpCorsHeaders(
+  305 |   headers: Record<string, string>,
+  306 |   expectedOrigin = "*",
+  307 | ) {
+  308 |   const allowHeaders =
+  309 |     headers["access-control-allow-headers"]?.toLowerCase() ?? "";
+  310 |   const allowMethods =
+  311 |     headers["access-control-allow-methods"]?.toLowerCase() ?? "";
+  312 |   const exposeHeaders =
+  313 |     headers["access-control-expose-headers"]?.toLowerCase() ?? "";
+  314 | 
+  315 |   expect(headers["access-control-allow-origin"]).toBe(expectedOrigin);
+  316 |   expect(allowMethods).toContain("post");
+  317 |   expect(allowMethods).toContain("delete");
+  318 |   expect(allowMethods).toContain("options");
+  319 |   expect(allowHeaders).toContain("authorization");
+  320 |   expect(allowHeaders).toContain("content-type");
+  321 |   expect(allowHeaders).toContain("mcp-protocol-version");
+  322 |   expect(allowHeaders).toContain("mcp-session-id");
+  323 |   expect(allowHeaders).toContain("last-event-id");
+  324 |   expect(exposeHeaders).toContain("mcp-session-id");
+  325 |   expect(exposeHeaders).toContain("www-authenticate");
+  326 | }
+  327 | 
+  328 | export async function expectAccessTokenCannotInitializeMcp(
+  329 |   request: Page["request"],
+  330 |   accessToken: string,
+  331 |   clientName: string,
+  332 | ) {
+  333 |   const response = await request.post("/api/mcp", {
+  334 |     data: {
+  335 |       jsonrpc: "2.0",
+  336 |       id: 1,
+  337 |       method: "initialize",
+  338 |       params: {
+  339 |         protocolVersion: "2025-03-26",
+  340 |         capabilities: {},
+  341 |         clientInfo: {
+  342 |           name: clientName,
+  343 |           version: "1.0.0",
+  344 |         },
+  345 |       },
+  346 |     },
+  347 |     headers: {
+  348 |       Accept: "application/json, text/event-stream",
+  349 |       Authorization: `Bearer ${accessToken}`,
+  350 |       "MCP-Protocol-Version": "2025-03-26",
+  351 |     },
+  352 |   });
+  353 | 
+  354 |   expect([401, 403]).toContain(response.status());
+  355 | }
+  356 | 
+  357 | export type BusPreference = {
+  358 |   preferredDestinationCampusId?: number | null;
+  359 |   preferredOriginCampusId?: number | null;
+  360 |   showDepartedTrips?: boolean;
+  361 | };
+  362 | 
+  363 | export async function saveBusPreference(
+  364 |   request: Page["request"],
+  365 |   preference: BusPreference,
+  366 | ) {
+  367 |   const response = await request.post("/api/workspace/bus-preferences", {
+  368 |     data: {
+  369 |       preferredOriginCampusId: preference.preferredOriginCampusId ?? null,
+  370 |       preferredDestinationCampusId:
+  371 |         preference.preferredDestinationCampusId ?? null,
+  372 |       showDepartedTrips: preference.showDepartedTrips ?? false,
+  373 |     },
+  374 |   });
+  375 |   expect(response.status()).toBe(200);
+  376 | }
+  377 | 
+```

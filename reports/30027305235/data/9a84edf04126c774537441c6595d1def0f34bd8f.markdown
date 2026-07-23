@@ -1,0 +1,279 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: src/app/dashboard/[tab]/test.ts >> 登录工作台各分支提供唯一页面身份（zh-cn）
+- Location: tests/e2e/src/app/dashboard/[tab]/test.ts:103:3
+
+# Error details
+
+```
+Error: expect(locator).toHaveCount(expected) failed
+
+Locator:  getByRole('main', { name: '校车', exact: true })
+Expected: 1
+Received: 0
+Timeout:  5000ms
+
+Call log:
+  - Expect "toHaveCount" with timeout 5000ms
+  - waiting for getByRole('main', { name: '校车', exact: true })
+    14 × locator resolved to 0 elements
+       - unexpected value "0"
+
+```
+
+# Page snapshot
+
+```yaml
+- generic [ref=e3]:
+  - link "跳转到主要内容" [ref=e4] [cursor=pointer]:
+    - /url: "#main-content"
+  - main [ref=e5]:
+    - generic [ref=e7]:
+      - button "菜单" [ref=e8]:
+        - img
+        - generic [ref=e9]: Toggle Sidebar
+      - link "Life@USTC" [ref=e10] [cursor=pointer]:
+        - /url: /
+        - img [ref=e11]
+        - generic [ref=e12]: Life@USTC
+      - generic [ref=e14]:
+        - button "语言选择" [ref=e15]:
+          - img
+        - button "主题选择" [ref=e16]:
+          - img
+    - generic [ref=e17]:
+      - generic [ref=e19]:
+        - generic [ref=e20]:
+          - paragraph [ref=e21]: 先从公开校园工具开始
+          - heading "校车" [level=1] [ref=e22]
+          - paragraph [ref=e23]: 按当前时间和常用校区查看下一班校车
+        - generic [ref=e25]:
+          - generic [ref=e26]:
+            - generic [ref=e27]:
+              - paragraph [ref=e28]: 下一班发车
+              - generic [ref=e29]: 06:50
+              - generic [ref=e31]:
+                - generic [ref=e32]: 到达时间
+                - generic [ref=e33]: 07:00
+            - generic [ref=e35]:
+              - generic [ref=e36]:
+                - paragraph [ref=e37]:
+                  - generic [ref=e38]:
+                    - generic [ref=e39]: 东区
+                    - generic [ref=e40]: →西区
+                    - generic [ref=e41]: →先研院
+                    - generic [ref=e42]: →高新
+                - paragraph [ref=e43]: 东区 → 西区
+              - generic [ref=e44]:
+                - paragraph [ref=e45]: 后续班次
+                - list [ref=e46]:
+                  - generic [ref=e48]:
+                    - generic [ref=e49]: 07:30 → 07:40
+                    - paragraph [ref=e50]:
+                      - generic [ref=e51]:
+                        - generic [ref=e52]: 东区
+                        - generic [ref=e53]: →北区
+                        - generic [ref=e54]: →西区
+                  - generic [ref=e56]:
+                    - generic [ref=e57]: 09:20 → 09:30
+                    - paragraph [ref=e58]:
+                      - generic [ref=e59]:
+                        - generic [ref=e60]: 东区
+                        - generic [ref=e61]: →北区
+                        - generic [ref=e62]: →西区
+            - generic [ref=e63]:
+              - button "反向" [ref=e64]:
+                - img
+                - text: 反向
+              - link "线路图" [ref=e65] [cursor=pointer]:
+                - /url: /catalog/bus/map
+          - button "调整路线" [ref=e67]:
+            - text: 调整路线
+            - img
+          - button "完整时刻表" [ref=e69]:
+            - text: 完整时刻表
+            - img
+      - generic [ref=e71]:
+        - navigation "页脚导航" [ref=e72]:
+          - link "服务条款" [ref=e73] [cursor=pointer]:
+            - /url: /terms
+          - link "隐私政策" [ref=e74] [cursor=pointer]:
+            - /url: /privacy
+          - link "GitHub" [ref=e75] [cursor=pointer]:
+            - /url: https://github.com/Life-USTC/server
+          - link "移动应用" [ref=e76] [cursor=pointer]:
+            - /url: /mobile-app
+        - paragraph [ref=e77]: Life@USTC
+  - navigation "移动主导航" [ref=e78]:
+    - link "今天" [ref=e79] [cursor=pointer]:
+      - /url: /workspace/overview
+      - img [ref=e80]
+      - generic [ref=e83]: 今天
+    - link "日历" [ref=e84] [cursor=pointer]:
+      - /url: /workspace/calendar
+      - img [ref=e85]
+      - generic [ref=e87]: 日历
+    - link "任务" [ref=e88] [cursor=pointer]:
+      - /url: /workspace/homeworks
+      - img [ref=e89]
+      - generic [ref=e93]: 任务
+    - link "发现" [ref=e94] [cursor=pointer]:
+      - /url: /catalog/courses
+      - img [ref=e95]
+      - generic [ref=e98]: 发现
+```
+
+# Test source
+
+```ts
+  1   | /**
+  2   |  * E2E tests for dashboard route variants (`/workspace/<tab>`).
+  3   |  */
+  4   | import { expect, type Page, test } from "@playwright/test";
+  5   | import {
+  6   |   type SignedTabId,
+  7   |   signedTabIds,
+  8   | } from "@/features/dashboard/lib/dashboard-nav";
+  9   | import {
+  10  |   expectRequiresSignIn,
+  11  |   signInAsDebugUser,
+  12  | } from "../../../../utils/auth";
+  13  | import { sidebarNavigationLink } from "../../../../utils/locators";
+  14  | import { gotoAndWaitForReady } from "../../../../utils/page-ready";
+  15  | import { captureStepScreenshot } from "../../../../utils/screenshot";
+  16  | 
+  17  | const dashboardTabRoutes = {
+  18  |   overview: "/workspace/overview",
+  19  |   calendar: "/workspace/calendar",
+  20  |   homeworks: "/workspace/homeworks",
+  21  |   todos: "/workspace/todos",
+  22  |   exams: "/workspace/exams",
+  23  |   subscriptions: "/workspace/subscriptions",
+  24  |   bus: "/catalog/bus",
+  25  |   links: "/catalog/links",
+  26  | } satisfies Record<SignedTabId, string>;
+  27  | 
+  28  | const dashboardTabTitles = {
+  29  |   "en-us": {
+  30  |     overview: "Overview",
+  31  |     calendar: "Calendar",
+  32  |     homeworks: "Homework",
+  33  |     todos: "Todos",
+  34  |     exams: "Exams",
+  35  |     subscriptions: "Section Subscriptions",
+  36  |     bus: "Shuttle Bus",
+  37  |     links: "Websites",
+  38  |   },
+  39  |   "zh-cn": {
+  40  |     overview: "总览",
+  41  |     calendar: "日历",
+  42  |     homeworks: "作业",
+  43  |     todos: "待办",
+  44  |     exams: "考试",
+  45  |     subscriptions: "教学班订阅",
+  46  |     bus: "校车",
+  47  |     links: "网站",
+  48  |   },
+  49  | } satisfies Record<"en-us" | "zh-cn", Record<SignedTabId, string>>;
+  50  | 
+  51  | async function setLocale(page: Page, locale: "en-us" | "zh-cn") {
+  52  |   const response = await page.request.post("/api/account/preferences", {
+  53  |     data: { locale },
+  54  |   });
+  55  |   expect(response.status()).toBe(200);
+  56  | }
+  57  | 
+  58  | async function expectDashboardPageIdentity(
+  59  |   page: Page,
+  60  |   locale: "en-us" | "zh-cn",
+  61  |   title: string,
+  62  | ) {
+  63  |   await expect(page.locator("html")).toHaveAttribute("lang", locale);
+  64  |   await expect(page).toHaveTitle(`${title} - Life@USTC`);
+  65  |   await expect(page.getByRole("heading", { level: 1 })).toHaveCount(1);
+  66  |   await expect(
+  67  |     page.getByRole("heading", { level: 1, name: title, exact: true }),
+  68  |   ).toHaveCount(1);
+  69  |   await expect(page.getByRole("main")).toHaveCount(1);
+  70  |   await expect(
+  71  |     page.getByRole("main", { name: title, exact: true }),
+> 72  |   ).toHaveCount(1);
+      |     ^ Error: expect(locator).toHaveCount(expected) failed
+  73  | }
+  74  | 
+  75  | test("/workspace 别名需要登录", async ({ page }, testInfo) => {
+  76  |   await expectRequiresSignIn(page, "/workspace/homeworks");
+  77  |   await captureStepScreenshot(page, testInfo, "dashboard-homeworks-unauth");
+  78  | });
+  79  | 
+  80  | test("/workspace/homeworks 加载登录标签", async ({ page }, testInfo) => {
+  81  |   await signInAsDebugUser(page, "/workspace/homeworks");
+  82  |   await gotoAndWaitForReady(page, "/workspace/homeworks", {
+  83  |     testInfo,
+  84  |     screenshotLabel: "dashboard-homeworks",
+  85  |   });
+  86  | 
+  87  |   await expect(page).toHaveURL(/\/workspace\/homeworks(?:[/?#].*)?$/);
+  88  |   await expect(
+  89  |     sidebarNavigationLink(page, /^(作业|Homework)$/i),
+  90  |   ).toHaveAttribute("aria-current", "page");
+  91  |   await captureStepScreenshot(page, testInfo, "dashboard-homeworks");
+  92  | });
+  93  | 
+  94  | test("登录工作区隐藏公共页脚但公共内容页保留", async ({ page }) => {
+  95  |   await signInAsDebugUser(page, "/workspace/overview");
+  96  |   await expect(page.locator("footer")).toHaveCount(0);
+  97  | 
+  98  |   await gotoAndWaitForReady(page, "/catalog/courses");
+  99  |   await expect(page.locator("footer")).toBeVisible();
+  100 | });
+  101 | 
+  102 | for (const locale of ["zh-cn", "en-us"] as const) {
+  103 |   test(`登录工作台各分支提供唯一页面身份（${locale}）`, async ({
+  104 |     page,
+  105 |   }, testInfo) => {
+  106 |     test.setTimeout(60_000);
+  107 |     if (locale === "zh-cn") {
+  108 |       await page.setViewportSize({ width: 390, height: 844 });
+  109 |     }
+  110 |     await signInAsDebugUser(page, dashboardTabRoutes.overview);
+  111 |     await setLocale(page, locale);
+  112 | 
+  113 |     for (const tab of signedTabIds) {
+  114 |       await gotoAndWaitForReady(page, dashboardTabRoutes[tab]);
+  115 |       await expectDashboardPageIdentity(
+  116 |         page,
+  117 |         locale,
+  118 |         dashboardTabTitles[locale][tab],
+  119 |       );
+  120 | 
+  121 |       if (
+  122 |         (locale === "zh-cn" && tab === "todos") ||
+  123 |         (locale === "en-us" && tab === "calendar")
+  124 |       ) {
+  125 |         await captureStepScreenshot(
+  126 |           page,
+  127 |           testInfo,
+  128 |           `dashboard-page-identity-${locale}-${tab}`,
+  129 |         );
+  130 |       }
+  131 |     }
+  132 |   });
+  133 | }
+  134 | 
+  135 | test("查询参数别名永久跳转后使用规范化的工作台页面身份", async ({ page }) => {
+  136 |   await setLocale(page, "zh-cn");
+  137 |   await signInAsDebugUser(page, "/workspace/todos");
+  138 |   await gotoAndWaitForReady(page, "/workspace?tab=todos");
+  139 | 
+  140 |   await expect(page).toHaveURL(/\/workspace\/todos$/);
+  141 |   await expectDashboardPageIdentity(page, "zh-cn", "待办");
+  142 | });
+  143 | 
+```

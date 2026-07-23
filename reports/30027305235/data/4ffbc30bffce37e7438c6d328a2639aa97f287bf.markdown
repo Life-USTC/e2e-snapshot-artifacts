@@ -1,0 +1,376 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: src/app/dashboard/subscriptions/sections/test.ts >> 仪表盘教学班订阅 >> 复制日历链接生成有效的 iCal URL
+- Location: tests/e2e/src/app/dashboard/subscriptions/sections/test.ts:367:3
+
+# Error details
+
+```
+Error: expect(received).toContain(expected) // indexOf
+
+Expected substring: "calendar.ics"
+Received string:    "http://localhost:3000/api/calendar-feeds/cmqw1sr9g0001bqt44c3s0kqa:s6cXLJO_JFl62ar-Ba7yWQPBtapSGW-A.ics"
+```
+
+# Page snapshot
+
+```yaml
+- generic [ref=e3]:
+  - link "跳转到主要内容" [ref=e4] [cursor=pointer]:
+    - /url: "#main-content"
+  - generic [ref=e7]:
+    - navigation "主导航" [ref=e8]:
+      - list [ref=e10]:
+        - listitem [ref=e11]:
+          - link "Life@USTC" [ref=e12] [cursor=pointer]:
+            - /url: /
+            - img [ref=e13]
+            - generic [ref=e14]: Life@USTC
+      - generic [ref=e15]:
+        - generic [ref=e17]:
+          - button "工作台" [expanded] [ref=e18]:
+            - text: 工作台
+            - img [ref=e19]
+          - list [ref=e23]:
+            - listitem [ref=e24]:
+              - link "今天" [ref=e25] [cursor=pointer]:
+                - /url: /workspace/overview
+                - img [ref=e26]
+                - generic [ref=e29]: 今天
+            - listitem [ref=e30]:
+              - link "日历" [ref=e31] [cursor=pointer]:
+                - /url: /workspace/calendar
+                - img [ref=e32]
+                - generic [ref=e34]: 日历
+                - generic [ref=e35]: "19"
+            - listitem [ref=e36]:
+              - link "作业" [ref=e37] [cursor=pointer]:
+                - /url: /workspace/homeworks
+                - img [ref=e38]
+                - generic [ref=e40]: 作业
+                - generic [ref=e41]: "7"
+            - listitem [ref=e42]:
+              - link "待办" [ref=e43] [cursor=pointer]:
+                - /url: /workspace/todos
+                - img [ref=e44]
+                - generic [ref=e47]: 待办
+                - generic [ref=e48]: "5"
+            - listitem [ref=e49]:
+              - link "考试" [ref=e50] [cursor=pointer]:
+                - /url: /workspace/exams
+                - img [ref=e51]
+                - generic [ref=e54]: 考试
+            - listitem [ref=e55]:
+              - link "教学班订阅" [ref=e56] [cursor=pointer]:
+                - /url: /workspace/subscriptions
+                - img [ref=e57]
+                - generic [ref=e61]: 教学班订阅
+                - generic [ref=e62]: "4"
+        - button "发现" [ref=e65]:
+          - text: 发现
+          - img [ref=e66]
+    - button "Toggle Sidebar" [ref=e68]
+    - list [ref=e70]:
+      - listitem [ref=e71]:
+        - button "个人菜单" [ref=e72]:
+          - img "Dev User" [ref=e74]
+          - generic [ref=e75]:
+            - generic [ref=e76]: Dev User
+            - generic [ref=e77]: "@dev-user"
+          - img [ref=e78]
+  - main "教学班订阅" [ref=e81]:
+    - generic [ref=e83]:
+      - button "菜单" [expanded] [ref=e84]:
+        - img
+        - generic [ref=e85]: Toggle Sidebar
+      - generic [ref=e87]:
+        - button "语言选择" [ref=e88]:
+          - img
+        - button "主题选择" [ref=e89]:
+          - img
+    - generic [ref=e92]:
+      - heading "教学班订阅" [level=1] [ref=e93]
+      - alert [ref=e94]:
+        - generic [ref=e95]: "已复制链接: 日历链接已复制到剪贴板"
+      - generic [ref=e96]:
+        - generic [ref=e97]:
+          - button "添加订阅" [ref=e98]:
+            - img
+            - text: 添加订阅
+          - button "批量添加订阅" [ref=e99]:
+            - img
+            - text: 批量添加订阅
+          - button "复制日历链接" [active] [ref=e100]:
+            - img
+            - text: 复制日历链接
+        - generic [ref=e101]:
+          - generic [ref=e102]:
+            - generic [ref=e103]:
+              - heading "学期：2026年春季学期" [level=3] [ref=e104]
+              - generic [ref=e105]: 包含 3 个班级
+            - table [ref=e108]:
+              - rowgroup [ref=e109]:
+                - row "班级 课程名称 教师 学分" [ref=e110]:
+                  - columnheader "班级" [ref=e111]
+                  - columnheader "课程名称" [ref=e112]
+                  - columnheader "教师" [ref=e113]
+                  - columnheader "学分" [ref=e114]
+              - rowgroup [ref=e115]:
+                - button "查看班级 ASTRON1501.01 的详细信息" [ref=e116] [cursor=pointer]:
+                  - cell "ASTRON1501.01" [ref=e117]:
+                    - generic [ref=e118]: ASTRON1501.01
+                  - cell "天体物理概观" [ref=e119]:
+                    - generic [ref=e120]: 天体物理概观
+                  - cell "王伟" [ref=e121]:
+                    - generic [ref=e122]: 王伟
+                  - cell "2" [ref=e123]
+                - button "查看班级 ENVS3002.01 的详细信息" [ref=e124] [cursor=pointer]:
+                  - cell "ENVS3002.01" [ref=e125]:
+                    - generic [ref=e126]: ENVS3002.01
+                  - cell "环境微生物学" [ref=e127]:
+                    - generic [ref=e128]: 环境微生物学
+                  - cell "童中华" [ref=e129]:
+                    - generic [ref=e130]: 童中华
+                  - cell "3" [ref=e131]
+                - button "查看班级 IS3003.01 的详细信息" [ref=e132] [cursor=pointer]:
+                  - cell "IS3003.01" [ref=e133]:
+                    - generic [ref=e134]: IS3003.01
+                  - cell "密码工程原理与实践" [ref=e135]:
+                    - generic [ref=e136]: 密码工程原理与实践
+                  - cell "林璟锵, 王伟" [ref=e137]:
+                    - generic [ref=e138]: 林璟锵, 王伟
+                  - cell "2.5" [ref=e139]
+          - generic [ref=e140]:
+            - generic [ref=e141]:
+              - heading "学期：2025年秋季学期" [level=3] [ref=e142]
+              - generic [ref=e143]: 包含 1 个班级
+            - table [ref=e146]:
+              - rowgroup [ref=e147]:
+                - row "班级 课程名称 教师 学分" [ref=e148]:
+                  - columnheader "班级" [ref=e149]
+                  - columnheader "课程名称" [ref=e150]
+                  - columnheader "教师" [ref=e151]
+                  - columnheader "学分" [ref=e152]
+              - rowgroup [ref=e153]:
+                - button "查看班级 MATH2001.01 的详细信息" [ref=e154] [cursor=pointer]:
+                  - cell "MATH2001.01" [ref=e155]:
+                    - generic [ref=e156]: MATH2001.01
+                  - cell "线性代数进阶" [ref=e157]:
+                    - generic [ref=e158]: 线性代数进阶
+                  - cell "林璟锵" [ref=e159]:
+                    - generic [ref=e160]: 林璟锵
+                  - cell "4" [ref=e161]
+```
+
+# Test source
+
+```ts
+  284 |     await gotoAndWaitForReady(page, "/workspace/subscriptions");
+  285 | 
+  286 |     await expect(
+  287 |       page.getByRole("button", { name: /添加订阅|Add Subscription/i }).first(),
+  288 |     ).toBeVisible();
+  289 |     await expect(
+  290 |       page
+  291 |         .getByRole("button", {
+  292 |           name: /批量添加订阅|Bulk Add Subscriptions/i,
+  293 |         })
+  294 |         .first(),
+  295 |     ).toBeVisible();
+  296 |     expect(
+  297 |       await page.evaluate(
+  298 |         () => document.documentElement.scrollWidth <= window.innerWidth,
+  299 |       ),
+  300 |     ).toBe(true);
+  301 |     const topbar = page.locator("[data-shell-topbar]");
+  302 |     await topbar.getByRole("button", { name: /^菜单$|^Menu$/i }).click();
+  303 |     const mobileSidebar = page.getByRole("dialog", { name: /Sidebar/i });
+  304 |     await expect(mobileSidebar).toBeVisible();
+  305 |     await expect(
+  306 |       mobileSidebar.locator(
+  307 |         `a[href="/catalog/sections/${DEV_SEED.section.jwId}"]`,
+  308 |       ),
+  309 |     ).toHaveCount(0);
+  310 | 
+  311 |     await captureStepScreenshot(
+  312 |       page,
+  313 |       testInfo,
+  314 |       "dashboard-subscriptions-mobile-responsive",
+  315 |     );
+  316 |   });
+  317 | 
+  318 |   test("点击关注行打开详情并提供课程主页操作", async ({ page }, testInfo) => {
+  319 |     await signInAsDebugUser(page, "/workspace/subscriptions");
+  320 |     await ensureSeedSectionSubscription(page);
+  321 |     await gotoAndWaitForReady(page, "/workspace/subscriptions");
+  322 | 
+  323 |     await page
+  324 |       .getByRole("button", {
+  325 |         name: new RegExp(escapeForRegExp(DEV_SEED.section.code)),
+  326 |       })
+  327 |       .click();
+  328 |     const dialog = page.getByRole("dialog").first();
+  329 |     await expect(dialog).toContainText(DEV_SEED.section.code);
+  330 |     await expect(
+  331 |       dialog.getByRole("link", { name: /前往课程主页|Go to Course/i }),
+  332 |     ).toHaveAttribute("href", /^\/catalog\/courses\/\d+$/);
+  333 |     await captureStepScreenshot(
+  334 |       page,
+  335 |       testInfo,
+  336 |       "dashboard-subscriptions-section-details",
+  337 |     );
+  338 |   });
+  339 | 
+  340 |   test("详情中的取消订阅操作进入明确确认弹窗", async ({ page }, testInfo) => {
+  341 |     await signInAsDebugUser(page, "/workspace/subscriptions");
+  342 |     await ensureSeedSectionSubscription(page);
+  343 |     await gotoAndWaitForReady(page, "/workspace/subscriptions");
+  344 | 
+  345 |     await page
+  346 |       .getByRole("button", {
+  347 |         name: new RegExp(escapeForRegExp(DEV_SEED.section.code)),
+  348 |       })
+  349 |       .click();
+  350 |     await page
+  351 |       .getByRole("button", { name: /^(取消订阅|Unsubscribe)$/i })
+  352 |       .click();
+  353 | 
+  354 |     await expect(
+  355 |       page.getByRole("alertdialog", {
+  356 |         name: /确认取消订阅|Unsubscribe from this section/i,
+  357 |       }),
+  358 |     ).toBeVisible();
+  359 | 
+  360 |     await captureStepScreenshot(
+  361 |       page,
+  362 |       testInfo,
+  363 |       "dashboard-subscriptions-opt-out-confirm",
+  364 |     );
+  365 |   });
+  366 | 
+  367 |   test("复制日历链接生成有效的 iCal URL", async ({ page }, testInfo) => {
+  368 |     await page
+  369 |       .context()
+  370 |       .grantPermissions(["clipboard-read", "clipboard-write"]);
+  371 |     await signInAsDebugUser(page, "/workspace/subscriptions");
+  372 |     await ensureSeedSectionSubscription(page);
+  373 |     await gotoAndWaitForReady(page, "/workspace/subscriptions");
+  374 | 
+  375 |     const copyButton = page
+  376 |       .getByRole("button", { name: /复制日历链接|iCal/i })
+  377 |       .first();
+  378 |     await expect(copyButton).toBeVisible();
+  379 |     await copyButton.click();
+  380 | 
+  381 |     const clipboardText = await page.evaluate(async () =>
+  382 |       navigator.clipboard.readText(),
+  383 |     );
+> 384 |     expect(clipboardText).toContain("calendar.ics");
+      |                           ^ Error: expect(received).toContain(expected) // indexOf
+  385 |     expect(clipboardText).toMatch(
+  386 |       /\/api\/community\/users\/[^/]+:[^/]+\/calendar\.ics$/,
+  387 |     );
+  388 | 
+  389 |     // Verify the calendar endpoint returns valid iCal data
+  390 |     const calendarResponse = await page.request.get(clipboardText);
+  391 |     expect(calendarResponse.status()).toBe(200);
+  392 |     expect(calendarResponse.headers()["content-type"]).toContain(
+  393 |       "text/calendar",
+  394 |     );
+  395 |     const calendarBody = await calendarResponse.text();
+  396 |     expect(calendarBody).toContain("BEGIN:VCALENDAR");
+  397 | 
+  398 |     await captureStepScreenshot(
+  399 |       page,
+  400 |       testInfo,
+  401 |       "dashboard-subscriptions-ical-copied",
+  402 |     );
+  403 |   });
+  404 | 
+  405 |   test("批量导入打开确认对话框并可取消", async ({ page }, testInfo) => {
+  406 |     test.setTimeout(60_000);
+  407 |     await signInAsDebugUser(page, "/workspace/subscriptions");
+  408 | 
+  409 |     const textarea = await openBulkImportDialog(page);
+  410 |     await textarea.fill(DEV_SEED.section.code);
+  411 | 
+  412 |     const matchResponse = page.waitForResponse(
+  413 |       (response) =>
+  414 |         response.url().includes("/api/workspace/subscriptions/query") &&
+  415 |         response.request().method() === "POST" &&
+  416 |         response.status() === 200,
+  417 |     );
+  418 |     await page.getByRole("button", { name: /识别并匹配课程|Match/i }).click();
+  419 |     await matchResponse;
+  420 | 
+  421 |     const dialog = page
+  422 |       .getByRole("dialog", {
+  423 |         name: /确认订阅|Confirm .*section subscriptions/i,
+  424 |       })
+  425 |       .first();
+  426 |     await expect(dialog).toBeVisible({ timeout: 15_000 });
+  427 | 
+  428 |     const matchedSectionCheckbox = dialog
+  429 |       .getByRole("checkbox", {
+  430 |         name: new RegExp(
+  431 |           `选择 ${escapeForRegExp(DEV_SEED.section.code)}|Select ${escapeForRegExp(DEV_SEED.section.code)}`,
+  432 |           "i",
+  433 |         ),
+  434 |       })
+  435 |       .first();
+  436 |     await expect(matchedSectionCheckbox).toBeChecked();
+  437 |     await matchedSectionCheckbox.click();
+  438 |     await expect(matchedSectionCheckbox).not.toBeChecked();
+  439 |     await matchedSectionCheckbox.click();
+  440 |     await expect(matchedSectionCheckbox).toBeChecked();
+  441 | 
+  442 |     await captureStepScreenshot(
+  443 |       page,
+  444 |       testInfo,
+  445 |       "dashboard-subscriptions-bulk-import-dialog",
+  446 |     );
+  447 | 
+  448 |     await dialog.getByRole("button", { name: /取消|Cancel/i }).click();
+  449 |     await expect(dialog).not.toBeVisible();
+  450 |   });
+  451 | 
+  452 |   test("单个添加弹窗可按课程名和教师名搜索并直接关注", async ({
+  453 |     page,
+  454 |   }, testInfo) => {
+  455 |     test.setTimeout(60_000);
+  456 |     await page.setViewportSize({ height: 844, width: 390 });
+  457 |     await signInAsDebugUser(page, "/workspace/subscriptions");
+  458 |     const seedSectionIds = (await resolveSeedSectionMatches(page)).map(
+  459 |       (section) => section.id,
+  460 |     );
+  461 |     await page.request.post("/api/workspace/subscriptions/batch", {
+  462 |       data: { action: "remove", sectionIds: seedSectionIds },
+  463 |     });
+  464 |     await gotoAndWaitForReady(page, "/workspace/subscriptions");
+  465 | 
+  466 |     await page
+  467 |       .getByRole("button", { name: /添加订阅|Add Subscription/i })
+  468 |       .first()
+  469 |       .click();
+  470 |     const quickAddDialog = page
+  471 |       .getByRole("dialog", { name: /添加订阅|Add Subscription/i })
+  472 |       .first();
+  473 |     await expect(quickAddDialog).toBeVisible();
+  474 |     expect(
+  475 |       await page.evaluate(
+  476 |         () => document.documentElement.scrollWidth <= window.innerWidth,
+  477 |       ),
+  478 |     ).toBe(true);
+  479 |     await quickAddDialog
+  480 |       .getByRole("textbox", {
+  481 |         name: /搜索课程或教师|Search courses or teachers/i,
+  482 |       })
+  483 |       .fill(DEV_SEED.course.nameCn);
+  484 | 
+```

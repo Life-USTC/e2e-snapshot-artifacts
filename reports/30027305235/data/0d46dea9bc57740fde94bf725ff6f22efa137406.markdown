@@ -1,0 +1,701 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: src/app/api/docs/test.ts >> /api/docs 页面 >> 使用路径导航而非哈希导航
+- Location: tests/e2e/src/app/api/docs/test.ts:159:3
+
+# Error details
+
+```
+Error: expect(page).toHaveURL(expected) failed
+
+Expected pattern: /\/api\/docs\/tag\/sections\/GET\/api\/catalog\/sections$/
+Received string:  "http://localhost:3000/api/docs/tag/catalog-section/GET/api/catalog/sections"
+Timeout: 5000ms
+
+Call log:
+  - Expect "toHaveURL" with timeout 5000ms
+    - unexpected value "http://localhost:3000/api/docs/tag/sections"
+    11 × unexpected value "http://localhost:3000/api/docs/tag/catalog-section/GET/api/catalog/sections"
+
+```
+
+```yaml
+- link "Skip to main content":
+  - /url: "#main-content"
+- navigation "Primary navigation":
+  - list:
+    - listitem:
+      - link "Life@USTC":
+        - /url: /
+  - button "Catalog" [expanded]
+  - list:
+    - listitem:
+      - link "Courses":
+        - /url: /catalog/courses
+    - listitem:
+      - link "Sections":
+        - /url: /catalog/sections
+    - listitem:
+      - link "Teachers":
+        - /url: /catalog/teachers
+    - listitem:
+      - link "Shuttle Bus":
+        - /url: /catalog/bus
+    - listitem:
+      - link "Websites":
+        - /url: /catalog/links
+  - button "Campus" [expanded]
+  - list:
+    - listitem:
+      - link "Mobile App":
+        - /url: /mobile-app
+- button "Toggle Sidebar"
+- main:
+  - button "Menu" [expanded]: Toggle Sidebar
+  - button "Language selector"
+  - button "Theme selector"
+  - link "Sign In":
+    - /url: /account/sign-in
+  - heading "API Documentation" [level=1]
+  - paragraph: Interactive API reference generated from the project OpenAPI schema.
+  - link "Open raw OpenAPI JSON":
+    - /url: /api/openapi
+  - complementary "API navigation":
+    - heading "Catalog" [level=2]
+    - list:
+      - listitem:
+        - link "catalog.bus":
+          - /url: /api/docs/tag/catalog-bus
+        - list:
+          - listitem:
+            - link "GET Query shuttle buses":
+              - /url: /api/docs/tag/catalog-bus/GET/api/catalog/bus
+          - listitem:
+            - link "GET Get next shuttle bus departures for an origin and destination campus":
+              - /url: /api/docs/tag/catalog-bus/GET/api/catalog/bus/next
+          - listitem:
+            - link "GET Search shuttle bus route variants":
+              - /url: /api/docs/tag/catalog-bus/GET/api/catalog/bus/routes
+      - listitem:
+        - link "catalog.courses":
+          - /url: /api/docs/tag/catalog-courses
+        - list:
+          - listitem:
+            - link "GET List courses":
+              - /url: /api/docs/tag/catalog-courses/GET/api/catalog/courses
+          - listitem:
+            - link "GET Get course":
+              - /url: /api/docs/tag/catalog-courses/GET/api/catalog/courses/%7BjwId%7D
+      - listitem:
+        - link "catalog.link":
+          - /url: /api/docs/tag/catalog-link
+        - list:
+          - listitem:
+            - link "GET List public campus links":
+              - /url: /api/docs/tag/catalog-link/GET/api/catalog/links
+          - listitem:
+            - link "GET Resolve a public campus link":
+              - /url: /api/docs/tag/catalog-link/GET/api/catalog/links/resolve
+          - listitem:
+            - link "POST Resolve a public campus link and record an authenticated visit":
+              - /url: /api/docs/tag/catalog-link/POST/api/catalog/links/resolve
+      - listitem:
+        - link "catalog.metadata":
+          - /url: /api/docs/tag/catalog-metadata
+        - list:
+          - listitem:
+            - link "GET Get metadata":
+              - /url: /api/docs/tag/catalog-metadata/GET/api/catalog/metadata
+      - listitem:
+        - link "catalog.schedule":
+          - /url: /api/docs/tag/catalog-schedule
+        - list:
+          - listitem:
+            - link "GET List schedules":
+              - /url: /api/docs/tag/catalog-schedule/GET/api/catalog/schedules
+      - listitem:
+        - link "catalog.section":
+          - /url: /api/docs/tag/catalog-section
+        - list:
+          - listitem:
+            - link "GET List sections":
+              - /url: /api/docs/tag/catalog-section/GET/api/catalog/sections
+          - listitem:
+            - link "GET Get section":
+              - /url: /api/docs/tag/catalog-section/GET/api/catalog/sections/%7BjwId%7D
+          - listitem:
+            - link "GET Generate sections calendar":
+              - /url: /api/docs/tag/catalog-section/GET/api/catalog/sections/calendar.ics
+          - listitem:
+            - link "POST Match section codes":
+              - /url: /api/docs/tag/catalog-section/POST/api/catalog/sections/match-codes
+          - listitem:
+            - link "GET Generate section calendar":
+              - /url: /api/docs/tag/catalog-section/GET/api/catalog/sections/%7BjwId%7D/calendar.ics
+          - listitem:
+            - link "GET Get schedule groups":
+              - /url: /api/docs/tag/catalog-section/GET/api/catalog/sections/%7BjwId%7D/schedule-groups
+          - listitem:
+            - link "GET Get section schedules":
+              - /url: /api/docs/tag/catalog-section/GET/api/catalog/sections/%7BjwId%7D/schedules
+      - listitem:
+        - link "catalog.semesters":
+          - /url: /api/docs/tag/catalog-semesters
+        - list:
+          - listitem:
+            - link "GET List semesters":
+              - /url: /api/docs/tag/catalog-semesters/GET/api/catalog/semesters
+          - listitem:
+            - link "GET Get current semester":
+              - /url: /api/docs/tag/catalog-semesters/GET/api/catalog/semesters/current
+      - listitem:
+        - link "catalog.teachers":
+          - /url: /api/docs/tag/catalog-teachers
+        - list:
+          - listitem:
+            - link "GET List teachers":
+              - /url: /api/docs/tag/catalog-teachers/GET/api/catalog/teachers
+          - listitem:
+            - link "GET Get teacher":
+              - /url: /api/docs/tag/catalog-teachers/GET/api/catalog/teachers/%7Bid%7D
+    - heading "Workspace" [level=2]
+    - list:
+      - listitem:
+        - link "workspace.bus-preferences":
+          - /url: /api/docs/tag/workspace-bus-preferences
+        - list:
+          - listitem:
+            - link "GET Get bus preferences":
+              - /url: /api/docs/tag/workspace-bus-preferences/GET/api/workspace/bus-preferences
+          - listitem:
+            - link "POST Update bus preferences":
+              - /url: /api/docs/tag/workspace-bus-preferences/POST/api/workspace/bus-preferences
+      - listitem:
+        - link "workspace.calendar":
+          - /url: /api/docs/tag/workspace-calendar
+        - list:
+          - listitem:
+            - link "GET Deliver a token-bearing personal calendar feed":
+              - /url: /api/docs/tag/workspace-calendar/GET/api/calendar-feeds/%7Bcredential%7D.ics
+      - listitem:
+        - link "workspace.homework":
+          - /url: /api/docs/tag/workspace-homework
+        - list:
+          - listitem:
+            - link "GET List subscribed homeworks":
+              - /url: /api/docs/tag/workspace-homework/GET/api/workspace/homeworks
+          - listitem:
+            - link "PUT Update homework completions in a batch":
+              - /url: /api/docs/tag/workspace-homework/PUT/api/workspace/homeworks/completions
+          - listitem:
+            - link "PUT Update homework completion":
+              - /url: /api/docs/tag/workspace-homework/PUT/api/workspace/homeworks/%7Bid%7D/completion
+      - listitem:
+        - link "workspace.link-pin":
+          - /url: /api/docs/tag/workspace-link-pin
+        - list:
+          - listitem:
+            - link "GET List the current user's pinned campus links":
+              - /url: /api/docs/tag/workspace-link-pin/GET/api/workspace/link-pins
+          - listitem:
+            - link "POST Set one campus link pin":
+              - /url: /api/docs/tag/workspace-link-pin/POST/api/workspace/link-pins
+          - listitem:
+            - link "POST Set multiple campus link pins":
+              - /url: /api/docs/tag/workspace-link-pin/POST/api/workspace/link-pins/batch
+      - listitem:
+        - link "workspace.overview":
+          - /url: /api/docs/tag/workspace-overview
+        - list:
+          - listitem:
+            - link "GET Get a compact current-user overview for lightweight clients":
+              - /url: /api/docs/tag/workspace-overview/GET/api/workspace/overview
+      - listitem:
+        - link "workspace.schedule":
+          - /url: /api/docs/tag/workspace-schedule
+        - list:
+          - listitem:
+            - link "GET List schedules across the current user's subscribed sections":
+              - /url: /api/docs/tag/workspace-schedule/GET/api/workspace/schedules
+      - listitem:
+        - link "workspace.subscription":
+          - /url: /api/docs/tag/workspace-subscription
+        - list:
+          - listitem:
+            - link "POST Replace section subscriptions":
+              - /url: /api/docs/tag/workspace-subscription/POST/api/workspace/subscriptions
+          - listitem:
+            - link "PATCH Append section subscriptions":
+              - /url: /api/docs/tag/workspace-subscription/PATCH/api/workspace/subscriptions
+          - listitem:
+            - link "DELETE Remove section subscriptions":
+              - /url: /api/docs/tag/workspace-subscription/DELETE/api/workspace/subscriptions
+          - listitem:
+            - link "POST Batch update calendar section subscriptions":
+              - /url: /api/docs/tag/workspace-subscription/POST/api/workspace/subscriptions/batch
+          - listitem:
+            - link "GET Get section subscriptions":
+              - /url: /api/docs/tag/workspace-subscription/GET/api/workspace/subscriptions/current
+          - listitem:
+            - link "POST Import section subscriptions by section codes":
+              - /url: /api/docs/tag/workspace-subscription/POST/api/workspace/subscriptions/import-codes
+          - listitem:
+            - link "POST Query sections for calendar subscription changes":
+              - /url: /api/docs/tag/workspace-subscription/POST/api/workspace/subscriptions/query
+      - listitem:
+        - link "workspace.todo":
+          - /url: /api/docs/tag/workspace-todo
+        - list:
+          - listitem:
+            - link "GET List todos":
+              - /url: /api/docs/tag/workspace-todo/GET/api/workspace/todos
+          - listitem:
+            - link "POST Create a todo":
+              - /url: /api/docs/tag/workspace-todo/POST/api/workspace/todos
+          - listitem:
+            - link "PATCH Update one todo":
+              - /url: /api/docs/tag/workspace-todo/PATCH/api/workspace/todos/%7Bid%7D
+          - listitem:
+            - link "DELETE Delete one todo":
+              - /url: /api/docs/tag/workspace-todo/DELETE/api/workspace/todos/%7Bid%7D
+          - listitem:
+            - link "PATCH Update completion state for multiple todos":
+              - /url: /api/docs/tag/workspace-todo/PATCH/api/workspace/todos/batch
+          - listitem:
+            - link "DELETE Delete multiple todos by id":
+              - /url: /api/docs/tag/workspace-todo/DELETE/api/workspace/todos/batch
+      - listitem:
+        - link "workspace.upload":
+          - /url: /api/docs/tag/workspace-upload
+        - list:
+          - listitem:
+            - link "GET List uploads":
+              - /url: /api/docs/tag/workspace-upload/GET/api/workspace/uploads
+          - listitem:
+            - link "POST Create a signed upload URL":
+              - /url: /api/docs/tag/workspace-upload/POST/api/workspace/uploads
+          - listitem:
+            - link "PATCH Rename one upload":
+              - /url: /api/docs/tag/workspace-upload/PATCH/api/workspace/uploads/%7Bid%7D
+          - listitem:
+            - link "DELETE Delete one upload":
+              - /url: /api/docs/tag/workspace-upload/DELETE/api/workspace/uploads/%7Bid%7D
+          - listitem:
+            - link "POST Complete upload":
+              - /url: /api/docs/tag/workspace-upload/POST/api/workspace/uploads/complete
+          - listitem:
+            - link "PUT Write upload object":
+              - /url: /api/docs/tag/workspace-upload/PUT/api/workspace/uploads/object
+          - listitem:
+            - link "GET Download upload":
+              - /url: /api/docs/tag/workspace-upload/GET/api/workspace/uploads/%7Bid%7D/download
+    - heading "Community" [level=2]
+    - list:
+      - listitem:
+        - link "community.comments":
+          - /url: /api/docs/tag/community-comments
+        - list:
+          - listitem:
+            - link "GET List comments":
+              - /url: /api/docs/tag/community-comments/GET/api/community/comments
+          - listitem:
+            - link "POST Create one comment":
+              - /url: /api/docs/tag/community-comments/POST/api/community/comments
+          - listitem:
+            - link "GET Get comment thread":
+              - /url: /api/docs/tag/community-comments/GET/api/community/comments/%7Bid%7D
+          - listitem:
+            - link "PATCH Update one comment":
+              - /url: /api/docs/tag/community-comments/PATCH/api/community/comments/%7Bid%7D
+          - listitem:
+            - link "DELETE Delete one comment":
+              - /url: /api/docs/tag/community-comments/DELETE/api/community/comments/%7Bid%7D
+          - listitem:
+            - link "DELETE Delete multiple comments owned by the current user":
+              - /url: /api/docs/tag/community-comments/DELETE/api/community/comments/batch
+          - listitem:
+            - link "POST Add one reaction to a comment":
+              - /url: /api/docs/tag/community-comments/POST/api/community/comments/%7Bid%7D/reactions
+          - listitem:
+            - link "DELETE Remove one reaction from a comment":
+              - /url: /api/docs/tag/community-comments/DELETE/api/community/comments/%7Bid%7D/reactions
+      - listitem:
+        - link "community.descriptions":
+          - /url: /api/docs/tag/community-descriptions
+        - list:
+          - listitem:
+            - link "GET Get description history":
+              - /url: /api/docs/tag/community-descriptions/GET/api/community/descriptions
+          - listitem:
+            - link "POST Upsert description":
+              - /url: /api/docs/tag/community-descriptions/POST/api/community/descriptions
+      - listitem:
+        - link "community.section-homework":
+          - /url: /api/docs/tag/community-section-homework
+        - list:
+          - listitem:
+            - link "GET List shared section homeworks":
+              - /url: /api/docs/tag/community-section-homework/GET/api/community/section-homeworks
+          - listitem:
+            - link "POST Create one shared section homework":
+              - /url: /api/docs/tag/community-section-homework/POST/api/community/section-homeworks
+          - listitem:
+            - link "PATCH Update one shared section homework":
+              - /url: /api/docs/tag/community-section-homework/PATCH/api/community/section-homeworks/%7Bid%7D
+          - listitem:
+            - link "DELETE Soft delete one shared section homework":
+              - /url: /api/docs/tag/community-section-homework/DELETE/api/community/section-homeworks/%7Bid%7D
+      - listitem:
+        - link "community.user":
+          - /url: /api/docs/tag/community-user
+        - list:
+          - listitem:
+            - link "GET Get one public community user":
+              - /url: /api/docs/tag/community-user/GET/api/community/users/%7Bidentifier%7D
+    - heading "Account" [level=2]
+    - list:
+      - listitem:
+        - link "account.preferences":
+          - /url: /api/docs/tag/account-preferences
+        - list:
+          - listitem:
+            - link "POST Update user locale cookie":
+              - /url: /api/docs/tag/account-preferences/POST/api/account/preferences
+      - listitem:
+        - link "account.profile":
+          - /url: /api/docs/tag/account-profile
+        - list:
+          - listitem:
+            - link "GET Get the current account profile":
+              - /url: /api/docs/tag/account-profile/GET/api/account/profile
+    - heading "Admin" [level=2]
+    - list:
+      - listitem:
+        - link "admin.comments":
+          - /url: /api/docs/tag/admin-comments
+        - list:
+          - listitem:
+            - link "GET List moderation comments":
+              - /url: /api/docs/tag/admin-comments/GET/api/admin/comments
+          - listitem:
+            - link "PATCH Moderate one comment":
+              - /url: /api/docs/tag/admin-comments/PATCH/api/admin/comments/%7Bid%7D
+      - listitem:
+        - link "admin.descriptions":
+          - /url: /api/docs/tag/admin-descriptions
+        - list:
+          - listitem:
+            - link "GET List descriptions":
+              - /url: /api/docs/tag/admin-descriptions/GET/api/admin/descriptions
+          - listitem:
+            - link "PATCH Update one description from moderation":
+              - /url: /api/docs/tag/admin-descriptions/PATCH/api/admin/descriptions/%7Bid%7D
+      - listitem:
+        - link "admin.homework":
+          - /url: /api/docs/tag/admin-homework
+        - list:
+          - listitem:
+            - link "GET List moderation homeworks":
+              - /url: /api/docs/tag/admin-homework/GET/api/admin/homeworks
+          - listitem:
+            - link "DELETE Delete one homework":
+              - /url: /api/docs/tag/admin-homework/DELETE/api/admin/homeworks/%7Bid%7D
+      - listitem:
+        - link "admin.suspensions":
+          - /url: /api/docs/tag/admin-suspensions
+        - list:
+          - listitem:
+            - link "GET List suspensions":
+              - /url: /api/docs/tag/admin-suspensions/GET/api/admin/suspensions
+          - listitem:
+            - link "POST Create suspension for one user":
+              - /url: /api/docs/tag/admin-suspensions/POST/api/admin/suspensions
+          - listitem:
+            - link "PATCH Lift one suspension":
+              - /url: /api/docs/tag/admin-suspensions/PATCH/api/admin/suspensions/%7Bid%7D
+      - listitem:
+        - link "admin.user":
+          - /url: /api/docs/tag/admin-user
+        - list:
+          - listitem:
+            - link "GET List users":
+              - /url: /api/docs/tag/admin-user/GET/api/admin/users
+          - listitem:
+            - link "PATCH Update one user":
+              - /url: /api/docs/tag/admin-user/PATCH/api/admin/users/%7Bid%7D
+    - heading "Platform" [level=2]
+    - list:
+      - listitem:
+        - link "Api":
+          - /url: /api/docs/tag/api
+        - list:
+          - listitem:
+            - link "GET Compatibility alias for legacy clients that probe the root well-known path":
+              - /url: /api/docs/tag/api/GET/.well-known/oauth-authorization-server
+          - listitem:
+            - link "OPTIONS Compatibility alias for legacy clients that probe the root well-known path":
+              - /url: /api/docs/tag/api/OPTIONS/.well-known/oauth-authorization-server
+          - listitem:
+            - link "GET Compatibility alias for clients that probe the resource-origin root path":
+              - /url: /api/docs/tag/api/GET/.well-known/oauth-protected-resource
+          - listitem:
+            - link "OPTIONS Compatibility alias for clients that probe the resource-origin root path":
+              - /url: /api/docs/tag/api/OPTIONS/.well-known/oauth-protected-resource
+          - listitem:
+            - link "GET Compatibility alias for clients that look up root OpenID discovery directly":
+              - /url: /api/docs/tag/api/GET/.well-known/openid-configuration
+          - listitem:
+            - link "OPTIONS Compatibility alias for clients that look up root OpenID discovery directly":
+              - /url: /api/docs/tag/api/OPTIONS/.well-known/openid-configuration
+          - listitem:
+            - link "GET Check process liveness":
+              - /url: /api/docs/tag/api/GET/api/health
+          - listitem:
+            - link "GET Standalone GET streams are disabled for the stateless MCP transport":
+              - /url: /api/docs/tag/api/GET/api/mcp
+          - listitem:
+            - link "POST Send an MCP Streamable HTTP JSON-RPC message":
+              - /url: /api/docs/tag/api/POST/api/mcp
+          - listitem:
+            - link "DELETE Close an MCP Streamable HTTP transport session":
+              - /url: /api/docs/tag/api/DELETE/api/mcp
+          - listitem:
+            - link "OPTIONS Return MCP transport CORS preflight headers":
+              - /url: /api/docs/tag/api/OPTIONS/api/mcp
+          - listitem:
+            - 'link "GET Canonical RFC 8414 authorization server metadata for issuer `/api/auth`"':
+              - /url: /api/docs/tag/api/GET/.well-known/oauth-authorization-server/api/auth
+          - listitem:
+            - 'link "OPTIONS Canonical RFC 8414 authorization server metadata for issuer `/api/auth`"':
+              - /url: /api/docs/tag/api/OPTIONS/.well-known/oauth-authorization-server/api/auth
+          - listitem:
+            - link "GET Compatibility alias for clients that probe resource-path authorization-server metadata":
+              - /url: /api/docs/tag/api/GET/.well-known/oauth-authorization-server/api/mcp
+          - listitem:
+            - link "OPTIONS Compatibility alias for clients that probe resource-path authorization-server metadata":
+              - /url: /api/docs/tag/api/OPTIONS/.well-known/oauth-authorization-server/api/mcp
+          - listitem:
+            - link "GET Canonical RFC 9728 protected resource metadata for GraphQL":
+              - /url: /api/docs/tag/api/GET/.well-known/oauth-protected-resource/api/graphql
+          - listitem:
+            - link "OPTIONS CORS preflight for GraphQL protected resource metadata":
+              - /url: /api/docs/tag/api/OPTIONS/.well-known/oauth-protected-resource/api/graphql
+          - listitem:
+            - link "GET Canonical RFC 9728 protected resource metadata for MCP":
+              - /url: /api/docs/tag/api/GET/.well-known/oauth-protected-resource/api/mcp
+          - listitem:
+            - link "OPTIONS Canonical RFC 9728 protected resource metadata for MCP":
+              - /url: /api/docs/tag/api/OPTIONS/.well-known/oauth-protected-resource/api/mcp
+          - listitem:
+            - link "GET RFC 8414-compatible path form for OpenID provider metadata":
+              - /url: /api/docs/tag/api/GET/.well-known/openid-configuration/api/auth
+          - listitem:
+            - link "OPTIONS RFC 8414-compatible path form for OpenID provider metadata":
+              - /url: /api/docs/tag/api/OPTIONS/.well-known/openid-configuration/api/auth
+          - listitem:
+            - link "GET Compatibility alias for clients that probe resource-path OIDC metadata":
+              - /url: /api/docs/tag/api/GET/.well-known/openid-configuration/api/mcp
+          - listitem:
+            - link "OPTIONS Compatibility alias for clients that probe resource-path OIDC metadata":
+              - /url: /api/docs/tag/api/OPTIONS/.well-known/openid-configuration/api/mcp
+          - listitem:
+            - 'link "GET OpenID Connect discovery metadata for issuer `/api/auth`"':
+              - /url: /api/docs/tag/api/GET/api/auth/.well-known/openid-configuration
+          - listitem:
+            - 'link "OPTIONS OpenID Connect discovery metadata for issuer `/api/auth`"':
+              - /url: /api/docs/tag/api/OPTIONS/api/auth/.well-known/openid-configuration
+          - listitem:
+            - link "POST Start OAuth 2.0 device authorization":
+              - /url: /api/docs/tag/api/POST/api/auth/oauth2/device-authorization
+          - listitem:
+            - link "OPTIONS Return OAuth device authorization CORS preflight headers":
+              - /url: /api/docs/tag/api/OPTIONS/api/auth/oauth2/device-authorization
+          - listitem:
+            - link "GET Return method guidance for OAuth token clients":
+              - /url: /api/docs/tag/api/GET/api/auth/oauth2/token
+          - listitem:
+            - link "POST Exchange OAuth 2.0 authorization/device/refresh grants for tokens":
+              - /url: /api/docs/tag/api/POST/api/auth/oauth2/token
+          - listitem:
+            - link "GET MCP resource-relative authorization server metadata compatibility alias":
+              - /url: /api/docs/tag/api/GET/api/mcp/.well-known/oauth-authorization-server
+          - listitem:
+            - link "OPTIONS MCP resource-relative authorization server metadata compatibility alias":
+              - /url: /api/docs/tag/api/OPTIONS/api/mcp/.well-known/oauth-authorization-server
+          - listitem:
+            - link "GET MCP resource-relative OpenID discovery compatibility alias":
+              - /url: /api/docs/tag/api/GET/api/mcp/.well-known/openid-configuration
+          - listitem:
+            - link "OPTIONS MCP resource-relative OpenID discovery compatibility alias":
+              - /url: /api/docs/tag/api/OPTIONS/api/mcp/.well-known/openid-configuration
+      - listitem:
+        - link "OpenAPI":
+          - /url: /api/docs/tag/open-api
+        - list:
+          - listitem:
+            - link "GET Get OpenAPI document":
+              - /url: /api/docs/tag/open-api/GET/api/openapi
+  - main "Open API Documentation for GET /api/catalog/sections":
+    - region "Introduction":
+      - text: v1.0.0 OpenAPI 3.0.0
+      - heading "GET /api/catalog/sections" [level=1]
+      - paragraph: OpenAPI document generated from SvelteKit route handlers
+      - text: "Server Server: http://localhost:3000"
+      - paragraph: Current origin
+      - region "Authentication":
+        - button "Authentication" [disabled] [expanded]:
+          - heading "Authentication" [level=2]
+        - button "Select Auth Type"
+        - text: No authentication selected
+    - region "catalog.section (Collapsed)":
+      - heading "catalog.section (Collapsed)" [level=2]
+      - button "Copy link"
+      - paragraph: catalog.section operations
+      - group "catalog.section Operations":
+        - text: catalog.section Operations
+        - list "catalog.section endpoints":
+          - listitem: get /api/catalog/sections
+  - region "Notifications alt+T":
+    - list
+  - navigation "Footer navigation":
+    - link "Terms of Service":
+      - /url: /terms
+    - link "Privacy Policy":
+      - /url: /privacy
+    - link "GitHub":
+      - /url: https://github.com/Life-USTC/server
+    - link "Mobile App":
+      - /url: /mobile-app
+  - paragraph: Life@USTC
+- text: API Docs - Life@USTC
+```
+
+# Test source
+
+```ts
+  66  |     expect(initialMetrics.viewportHeight).toBe(844);
+  67  |     expect(initialMetrics.hasBodyOverflow).toBe(false);
+  68  |     await capturePageScreenshot(page, testInfo, {
+  69  |       url: "api-docs/mobile-reference",
+  70  |     });
+  71  | 
+  72  |     await mobileTrigger.click();
+  73  |     const panel = page.getByTestId("api-docs-mobile-navigation-panel");
+  74  |     await expect(panel).toBeVisible();
+  75  |     await expect(panel).toHaveRole("dialog");
+  76  |     await expect(panel).toHaveAccessibleName("API 导航");
+  77  |     await expect(
+  78  |       panel.getByRole("heading", { name: "API 导航" }),
+  79  |     ).toBeVisible();
+  80  |     await expect(
+  81  |       panel.getByRole("link", { name: "Sections", exact: true }),
+  82  |     ).toHaveAttribute("aria-current", "page");
+  83  |     const desktopNavigation = page.getByTestId("api-docs-desktop-navigation");
+  84  |     expect(await panel.getByRole("link").count()).toBe(
+  85  |       await desktopNavigation
+  86  |         .getByRole("link", { includeHidden: true })
+  87  |         .count(),
+  88  |     );
+  89  |     await expect
+  90  |       .poll(() =>
+  91  |         panel.evaluate((element) => getComputedStyle(element).overflowY),
+  92  |       )
+  93  |       .toBe("auto");
+  94  |     await capturePageScreenshot(page, testInfo, {
+  95  |       url: "api-docs/mobile-navigation",
+  96  |     });
+  97  | 
+  98  |     await page.keyboard.press("Escape");
+  99  |     await expect(panel).toBeHidden();
+  100 |     await expect(mobileTrigger).toBeFocused();
+  101 | 
+  102 |     await mobileTrigger.click();
+  103 |     await panel
+  104 |       .getByRole("link", { name: "GET List sections", exact: true })
+  105 |       .click();
+  106 |     await expect(page).toHaveURL(
+  107 |       /\/api\/docs\/tag\/sections\/GET\/api\/catalog\/sections$/,
+  108 |     );
+  109 |     await expect(panel).toBeHidden();
+  110 |     await expect(reference).toContainText("List sections");
+  111 |     await expect.poll(() => page.evaluate(() => window.scrollY)).toBe(0);
+  112 |     const operationDocumentY = await reference.evaluate(
+  113 |       (element) => element.getBoundingClientRect().top + window.scrollY,
+  114 |     );
+  115 |     expect(operationDocumentY).toBeLessThan(844);
+  116 |     await mobileTrigger.click();
+  117 |     await expect(
+  118 |       panel.getByRole("link", { name: "GET List sections", exact: true }),
+  119 |     ).toHaveAttribute("aria-current", "page");
+  120 |     await page.keyboard.press("Escape");
+  121 |     await expect(panel).toBeHidden();
+  122 |     await capturePageScreenshot(page, testInfo, {
+  123 |       url: "api-docs/mobile-operation-reference",
+  124 |     });
+  125 |   });
+  126 | 
+  127 |   test("桌面端保留完整固定导航", async ({ page }, testInfo) => {
+  128 |     await page.setViewportSize({ width: 1280, height: 800 });
+  129 |     await setLocale(page, "en-us");
+  130 |     await gotoAndWaitForReady(page, "/api/docs/tag/sections", {
+  131 |       waitUntil: "load",
+  132 |     });
+  133 |     const reference = await waitForSectionsReference(page);
+  134 |     const sidebar = page.getByTestId("api-docs-desktop-navigation");
+  135 | 
+  136 |     await expect(sidebar).toBeVisible();
+  137 |     await expect(
+  138 |       sidebar.getByRole("link", { name: "Sections", exact: true }),
+  139 |     ).toHaveAttribute("aria-current", "page");
+  140 |     await expect(
+  141 |       page.getByTestId("api-docs-mobile-navigation-trigger"),
+  142 |     ).toBeHidden();
+  143 | 
+  144 |     const [sidebarBox, referenceBox] = await Promise.all([
+  145 |       sidebar.boundingBox(),
+  146 |       reference.boundingBox(),
+  147 |     ]);
+  148 |     expect(sidebarBox).not.toBeNull();
+  149 |     expect(referenceBox).not.toBeNull();
+  150 |     expect(sidebarBox?.x ?? 0).toBeLessThan(referenceBox?.x ?? 0);
+  151 |     expect(
+  152 |       await sidebar.evaluate((element) => getComputedStyle(element).position),
+  153 |     ).toBe("sticky");
+  154 |     await capturePageScreenshot(page, testInfo, {
+  155 |       url: "api-docs/desktop-navigation",
+  156 |     });
+  157 |   });
+  158 | 
+  159 |   test("使用路径导航而非哈希导航", async ({ page }) => {
+  160 |     await gotoAndWaitForReady(page, "/api/docs/tag/sections", {
+  161 |       waitUntil: "load",
+  162 |     });
+  163 |     await page
+  164 |       .getByRole("link", { name: "GET List sections", exact: true })
+  165 |       .click();
+> 166 |     await expect(page).toHaveURL(
+      |                        ^ Error: expect(page).toHaveURL(expected) failed
+  167 |       /\/api\/docs\/tag\/sections\/GET\/api\/catalog\/sections$/,
+  168 |     );
+  169 |   });
+  170 | 
+  171 |   test("根路径重定向到第一个路由分组", async ({ page }) => {
+  172 |     await page.goto("/api/docs");
+  173 |     await expect(page).toHaveURL(/\/api\/docs\/tag\/sections$/);
+  174 |   });
+  175 | });
+  176 | 
+  177 | test.describe("/api-docs 页面", () => {
+  178 |   test("重定向到 /api/docs", async ({ page }) => {
+  179 |     await page.goto("/api-docs");
+  180 |     await expect(page).toHaveURL(/\/api\/docs\/tag\/sections$/);
+  181 |   });
+  182 | });
+  183 | 
+```

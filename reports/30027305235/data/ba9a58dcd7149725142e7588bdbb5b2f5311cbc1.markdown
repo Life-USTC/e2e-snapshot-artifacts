@@ -1,0 +1,490 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: src/app/api/calendar-subscriptions/current/test.ts >> GET /api/workspace/subscriptions/current 接口 >> 登录用户返回包含 seed 课程的订阅
+- Location: tests/e2e/src/app/api/calendar-subscriptions/current/test.ts:38:3
+
+# Error details
+
+```
+Error: expect(received).toBe(expected) // Object.is equality
+
+Expected: true
+Received: false
+```
+
+# Page snapshot
+
+```yaml
+- generic [ref=e2]:
+  - generic [ref=e3]:
+    - link "Skip to main content" [ref=e4] [cursor=pointer]:
+      - /url: "#main-content"
+    - generic [ref=e7]:
+      - navigation "Primary navigation" [ref=e8]:
+        - list [ref=e10]:
+          - listitem [ref=e11]:
+            - link "Life@USTC" [ref=e12] [cursor=pointer]:
+              - /url: /
+              - img [ref=e13]
+              - generic [ref=e14]: Life@USTC
+        - generic [ref=e15]:
+          - generic [ref=e17]:
+            - button "Workspace" [expanded] [ref=e18]:
+              - text: Workspace
+              - img [ref=e19]
+            - list [ref=e23]:
+              - listitem [ref=e24]:
+                - link "Today" [ref=e25] [cursor=pointer]:
+                  - /url: /workspace/overview
+                  - img [ref=e26]
+                  - generic [ref=e27]: Today
+              - listitem [ref=e28]:
+                - link "Calendar" [ref=e29] [cursor=pointer]:
+                  - /url: /workspace/calendar
+                  - img [ref=e30]
+                  - generic [ref=e31]: Calendar
+                  - generic [ref=e32]: "19"
+              - listitem [ref=e33]:
+                - link "Homework" [ref=e34] [cursor=pointer]:
+                  - /url: /workspace/homeworks
+                  - img [ref=e35]
+                  - generic [ref=e36]: Homework
+                  - generic [ref=e37]: "6"
+              - listitem [ref=e38]:
+                - link "Todos" [ref=e39] [cursor=pointer]:
+                  - /url: /workspace/todos
+                  - img [ref=e40]
+                  - generic [ref=e41]: Todos
+                  - generic [ref=e42]: "5"
+              - listitem [ref=e43]:
+                - link "Exams" [ref=e44] [cursor=pointer]:
+                  - /url: /workspace/exams
+                  - img [ref=e45]
+                  - generic [ref=e46]: Exams
+              - listitem [ref=e47]:
+                - link "Section Subscriptions" [ref=e48] [cursor=pointer]:
+                  - /url: /workspace/subscriptions
+                  - img [ref=e49]
+                  - generic [ref=e50]: Section Subscriptions
+                  - generic [ref=e51]: "4"
+          - button "Explore" [ref=e54]:
+            - text: Explore
+            - img [ref=e55]
+      - button "Toggle Sidebar" [ref=e57]
+      - list [ref=e59]:
+        - listitem [ref=e60]:
+          - button "Profile menu" [ref=e61]:
+            - img "Dev User" [ref=e63]
+            - generic [ref=e64]:
+              - generic [ref=e65]: Dev User
+              - generic [ref=e66]: "@dev-user"
+            - img [ref=e67]
+    - main "Overview" [ref=e68]:
+      - generic [ref=e70]:
+        - button "Menu" [expanded] [ref=e71]:
+          - img
+          - generic [ref=e72]: Toggle Sidebar
+        - generic [ref=e74]:
+          - button "Language selector" [ref=e75]:
+            - img
+          - button "Theme selector" [ref=e76]:
+            - img
+      - generic [ref=e79]:
+        - heading "Overview" [level=1] [ref=e80]
+        - generic [ref=e81]:
+          - generic [ref=e82]:
+            - generic [ref=e84]: Now & next
+            - generic [ref=e88]: Nothing is due or scheduled in the next 7 days.
+          - generic [ref=e89]:
+            - generic [ref=e90]:
+              - link "Today" [ref=e93] [cursor=pointer]:
+                - /url: /workspace/calendar
+              - list [ref=e95]:
+                - generic [ref=e98]: No classes scheduled for today.
+            - generic [ref=e99]:
+              - link "Overdue" [ref=e102] [cursor=pointer]:
+                - /url: /workspace/homeworks
+              - list [ref=e104]:
+                - 'link "逾期实验数据补交 Homework Cryptographic Engineering: Principles and Practice Overdue" [ref=e105] [cursor=pointer]':
+                  - /url: /catalog/sections/9902001/homework#homework-cmqw1srez0003bqt45qjilal7
+                  - generic [ref=e106]:
+                    - generic [ref=e107]: 逾期实验数据补交
+                    - paragraph [ref=e108]:
+                      - generic [ref=e109]: Homework
+                      - generic [ref=e110]: "Cryptographic Engineering: Principles and Practice"
+                  - generic [ref=e111]: Overdue
+                - 'link "今日课堂反馈整理 Homework Cryptographic Engineering: Principles and Practice Overdue" [ref=e112] [cursor=pointer]':
+                  - /url: /catalog/sections/9902001/homework#homework-cmqw1srez0004bqt4qy3jviis
+                  - generic [ref=e113]:
+                    - generic [ref=e114]: 今日课堂反馈整理
+                    - paragraph [ref=e115]:
+                      - generic [ref=e116]: Homework
+                      - generic [ref=e117]: "Cryptographic Engineering: Principles and Practice"
+                  - generic [ref=e118]: Overdue
+                - link "实验报告与误差分析 Homework Environmental Microbiology Overdue" [ref=e119] [cursor=pointer]:
+                  - /url: /catalog/sections/9902003/homework#homework-cmqw1srez0008bqt467yuqdec
+                  - generic [ref=e120]:
+                    - generic [ref=e121]: 实验报告与误差分析
+                    - paragraph [ref=e122]:
+                      - generic [ref=e123]: Homework
+                      - generic [ref=e124]: Environmental Microbiology
+                  - generic [ref=e125]: Overdue
+                - 'link "迭代二系统设计评审 Homework Cryptographic Engineering: Principles and Practice Overdue" [ref=e126] [cursor=pointer]':
+                  - /url: /catalog/sections/9902001/homework#homework-cmqw1srez0005bqt41y0wbcrp
+                  - generic [ref=e127]:
+                    - generic [ref=e128]: 迭代二系统设计评审
+                    - paragraph [ref=e129]:
+                      - generic [ref=e130]: Homework
+                      - generic [ref=e131]: "Cryptographic Engineering: Principles and Practice"
+                  - generic [ref=e132]: Overdue
+                - link "特征值综合练习 Homework Introduction to Astrophysics Overdue" [ref=e133] [cursor=pointer]:
+                  - /url: /catalog/sections/9902002/homework#homework-cmqw1srez0007bqt4p55o2ara
+                  - generic [ref=e134]:
+                    - generic [ref=e135]: 特征值综合练习
+                    - paragraph [ref=e136]:
+                      - generic [ref=e137]: Homework
+                      - generic [ref=e138]: Introduction to Astrophysics
+                  - generic [ref=e139]: Overdue
+                - link "补交培养方案确认 To-do High Pending Apr 28, 9:00 AM" [ref=e140] [cursor=pointer]:
+                  - /url: /workspace/todos
+                  - generic [ref=e141]:
+                    - generic [ref=e142]: 补交培养方案确认
+                    - paragraph [ref=e143]:
+                      - generic [ref=e144]: To-do
+                      - generic [ref=e145]: High
+                      - generic [ref=e146]: Pending
+                  - generic [ref=e147]: Apr 28, 9:00 AM
+                - link "期末报告提交 To-do High Pending Apr 29, 11:59 PM" [ref=e148] [cursor=pointer]:
+                  - /url: /workspace/todos
+                  - generic [ref=e149]:
+                    - generic [ref=e150]: 期末报告提交
+                    - paragraph [ref=e151]:
+                      - generic [ref=e152]: To-do
+                      - generic [ref=e153]: High
+                      - generic [ref=e154]: Pending
+                  - generic [ref=e155]: Apr 29, 11:59 PM
+                - link "三天内复习安排 To-do Medium Pending May 1, 6:00 PM" [ref=e156] [cursor=pointer]:
+                  - /url: /workspace/todos
+                  - generic [ref=e157]:
+                    - generic [ref=e158]: 三天内复习安排
+                    - paragraph [ref=e159]:
+                      - generic [ref=e160]: To-do
+                      - generic [ref=e161]: Medium
+                      - generic [ref=e162]: Pending
+                  - generic [ref=e163]: May 1, 6:00 PM
+                - link "下周小组展示准备 To-do Low Pending May 6, 11:59 PM" [ref=e164] [cursor=pointer]:
+                  - /url: /workspace/todos
+                  - generic [ref=e165]:
+                    - generic [ref=e166]: 下周小组展示准备
+                    - paragraph [ref=e167]:
+                      - generic [ref=e168]: To-do
+                      - generic [ref=e169]: Low
+                      - generic [ref=e170]: Pending
+                  - generic [ref=e171]: May 6, 11:59 PM
+          - generic [ref=e172]:
+            - generic [ref=e173]:
+              - link "Homework" [ref=e176] [cursor=pointer]:
+                - /url: /workspace/homeworks
+              - list [ref=e178]:
+                - 'link "逾期实验数据补交 Cryptographic Engineering: Principles and Practice Overdue Apr 28, 10:00 PM" [ref=e179] [cursor=pointer]':
+                  - /url: /catalog/sections/9902001/homework#homework-cmqw1srez0003bqt45qjilal7
+                  - generic [ref=e180]:
+                    - generic [ref=e181]: 逾期实验数据补交
+                    - paragraph [ref=e182]: "Cryptographic Engineering: Principles and Practice"
+                  - generic [ref=e183]:
+                    - generic [ref=e184]: Overdue
+                    - generic [ref=e185]: Apr 28, 10:00 PM
+                - 'link "今日课堂反馈整理 Cryptographic Engineering: Principles and Practice Overdue Apr 29, 11:00 PM" [ref=e186] [cursor=pointer]':
+                  - /url: /catalog/sections/9902001/homework#homework-cmqw1srez0004bqt4qy3jviis
+                  - generic [ref=e187]:
+                    - generic [ref=e188]: 今日课堂反馈整理
+                    - paragraph [ref=e189]: "Cryptographic Engineering: Principles and Practice"
+                  - generic [ref=e190]:
+                    - generic [ref=e191]: Overdue
+                    - generic [ref=e192]: Apr 29, 11:00 PM
+                - link "实验报告与误差分析 Environmental Microbiology Overdue May 2, 9:00 PM" [ref=e193] [cursor=pointer]:
+                  - /url: /catalog/sections/9902003/homework#homework-cmqw1srez0008bqt467yuqdec
+                  - generic [ref=e194]:
+                    - generic [ref=e195]: 实验报告与误差分析
+                    - paragraph [ref=e196]: Environmental Microbiology
+                  - generic [ref=e197]:
+                    - generic [ref=e198]: Overdue
+                    - generic [ref=e199]: May 2, 9:00 PM
+                - 'link "迭代二系统设计评审 Cryptographic Engineering: Principles and Practice Overdue May 3, 11:00 PM" [ref=e200] [cursor=pointer]':
+                  - /url: /catalog/sections/9902001/homework#homework-cmqw1srez0005bqt41y0wbcrp
+                  - generic [ref=e201]:
+                    - generic [ref=e202]: 迭代二系统设计评审
+                    - paragraph [ref=e203]: "Cryptographic Engineering: Principles and Practice"
+                  - generic [ref=e204]:
+                    - generic [ref=e205]: Overdue
+                    - generic [ref=e206]: May 3, 11:00 PM
+                - link "特征值综合练习 Introduction to Astrophysics Overdue May 5, 10:00 PM" [ref=e207] [cursor=pointer]:
+                  - /url: /catalog/sections/9902002/homework#homework-cmqw1srez0007bqt4p55o2ara
+                  - generic [ref=e208]:
+                    - generic [ref=e209]: 特征值综合练习
+                    - paragraph [ref=e210]: Introduction to Astrophysics
+                  - generic [ref=e211]:
+                    - generic [ref=e212]: Overdue
+                    - generic [ref=e213]: May 5, 10:00 PM
+            - generic [ref=e214]:
+              - generic [ref=e215]:
+                - link "Todos" [ref=e217] [cursor=pointer]:
+                  - /url: /workspace/todos
+                - generic [ref=e219]:
+                  - generic [ref=e220]: Due today 0
+                  - generic [ref=e221]: Due in 3 days 0
+              - list [ref=e223]:
+                - link "补交培养方案确认 High Pending Apr 28, 9:00 AM" [ref=e224] [cursor=pointer]:
+                  - /url: /workspace/todos
+                  - generic [ref=e225]:
+                    - generic [ref=e226]: 补交培养方案确认
+                    - paragraph [ref=e227]:
+                      - generic [ref=e228]: High
+                      - generic [ref=e229]: Pending
+                  - generic [ref=e230]: Apr 28, 9:00 AM
+                - link "期末报告提交 High Pending Apr 29, 11:59 PM" [ref=e231] [cursor=pointer]:
+                  - /url: /workspace/todos
+                  - generic [ref=e232]:
+                    - generic [ref=e233]: 期末报告提交
+                    - paragraph [ref=e234]:
+                      - generic [ref=e235]: High
+                      - generic [ref=e236]: Pending
+                  - generic [ref=e237]: Apr 29, 11:59 PM
+                - link "三天内复习安排 Medium Pending May 1, 6:00 PM" [ref=e238] [cursor=pointer]:
+                  - /url: /workspace/todos
+                  - generic [ref=e239]:
+                    - generic [ref=e240]: 三天内复习安排
+                    - paragraph [ref=e241]:
+                      - generic [ref=e242]: Medium
+                      - generic [ref=e243]: Pending
+                  - generic [ref=e244]: May 1, 6:00 PM
+                - link "下周小组展示准备 Low Pending May 6, 11:59 PM" [ref=e245] [cursor=pointer]:
+                  - /url: /workspace/todos
+                  - generic [ref=e246]:
+                    - generic [ref=e247]: 下周小组展示准备
+                    - paragraph [ref=e248]:
+                      - generic [ref=e249]: Low
+                      - generic [ref=e250]: Pending
+                  - generic [ref=e251]: May 6, 11:59 PM
+                - link "整理课程资料 Medium Pending" [ref=e252] [cursor=pointer]:
+                  - /url: /workspace/todos
+                  - generic [ref=e253]:
+                    - generic [ref=e254]: 整理课程资料
+                    - paragraph [ref=e255]:
+                      - generic [ref=e256]: Medium
+                      - generic [ref=e257]: Pending
+            - generic [ref=e258]:
+              - generic [ref=e259]:
+                - link "Exams" [ref=e261] [cursor=pointer]:
+                  - /url: /workspace/exams
+                - generic [ref=e263]: "0"
+              - list [ref=e265]:
+                - generic [ref=e268]: No exams in the next 7 days.
+          - generic [ref=e269]:
+            - link "This week" [ref=e272] [cursor=pointer]:
+              - /url: /workspace/calendar
+            - generic [ref=e277]:
+              - generic [ref=e278]:
+                - generic [ref=e280]:
+                  - generic [ref=e281]: Jul 19
+                  - generic [ref=e282]: Sun
+                - generic [ref=e284]: Open
+              - generic [ref=e285]:
+                - generic [ref=e287]:
+                  - generic [ref=e288]: Jul 20
+                  - generic [ref=e289]: Mon
+                - generic [ref=e291]: Open
+              - generic [ref=e292]:
+                - generic [ref=e294]:
+                  - generic [ref=e295]: Jul 21
+                  - generic [ref=e296]: Tue
+                - generic [ref=e298]: Open
+              - generic [ref=e299]:
+                - generic [ref=e301]:
+                  - generic [ref=e302]: Jul 22
+                  - generic [ref=e303]: Wed
+                - generic [ref=e305]: Open
+              - generic [ref=e306]:
+                - generic [ref=e308]:
+                  - generic [ref=e309]: Jul 23
+                  - generic [ref=e310]: Thu
+                - generic [ref=e312]: Open
+              - generic [ref=e313]:
+                - generic [ref=e315]:
+                  - generic [ref=e316]: Jul 24
+                  - generic [ref=e317]: Fri
+                - generic [ref=e319]: Open
+              - generic [ref=e320]:
+                - generic [ref=e322]:
+                  - generic [ref=e323]: Jul 25
+                  - generic [ref=e324]: Sat
+                - generic [ref=e326]: Open
+          - generic [ref=e327]:
+            - generic [ref=e328]:
+              - button "Academic Affairs System Course selection, grades, and teaching affairs." [ref=e330]:
+                - generic [ref=e331]: CL
+                - generic [ref=e332]:
+                  - generic [ref=e333]: Academic Affairs System
+                  - paragraph [ref=e334]: Course selection, grades, and teaching affairs.
+              - button "Unpin" [ref=e337]:
+                - img
+            - generic [ref=e338]:
+              - button "Confession Wall Anonymous campus discussion platform." [ref=e340]:
+                - generic [ref=e341]: US
+                - generic [ref=e342]:
+                  - generic [ref=e343]: Confession Wall
+                  - paragraph [ref=e344]: Anonymous campus discussion platform.
+              - button "Unpin" [ref=e347]:
+                - img
+            - generic [ref=e348]:
+              - button "USTC Email USTC email service." [ref=e350]:
+                - generic [ref=e351]: ML
+                - generic [ref=e352]:
+                  - generic [ref=e353]: USTC Email
+                  - paragraph [ref=e354]: USTC email service.
+              - button "Unpin" [ref=e357]:
+                - img
+            - generic [ref=e358]:
+              - button "USTC Official Site University news and announcements." [ref=e360]:
+                - generic [ref=e361]: SC
+                - generic [ref=e362]:
+                  - generic [ref=e363]: USTC Official Site
+                  - paragraph [ref=e364]: University news and announcements.
+              - button "Unpin" [ref=e367]:
+                - img
+  - generic [ref=e368]: Overview - Life@USTC
+```
+
+# Test source
+
+```ts
+  1   | /**
+  2   |  * E2E tests for GET /api/workspace/subscriptions/current
+  3   |  *
+  4   |  * ## Endpoint
+  5   |  * - `GET /api/workspace/subscriptions/current` — Get the current user's subscribed sections
+  6   |  *
+  7   |  * ## Response
+  8   |  * - 200: `{ subscription: { userId: string, sections: { id: number }[] } }`
+  9   |  * - 200: `{ subscription: null }` when user record is missing
+  10  |  * - 401: unauthorized when not signed in
+  11  |  *
+  12  |  * ## Auth Requirements
+  13  |  * - Requires session authentication
+  14  |  *
+  15  |  * ## Edge Cases
+  16  |  * - The dev seed user already has subscribed sections from seed data
+  17  |  * - Returns subscription: null only if user row itself is missing (unlikely in normal flow)
+  18  |  */
+  19  | import { expect, test } from "@playwright/test";
+  20  | import { signInAsDebugUser } from "../../../../../utils/auth";
+  21  | import { DEV_SEED } from "../../../../../utils/dev-seed";
+  22  | import { assertApiContract } from "../../../_shared/api-contract";
+  23  | 
+  24  | const BASE = "/api/workspace/subscriptions/current";
+  25  | 
+  26  | test.describe("GET /api/workspace/subscriptions/current 接口", () => {
+  27  |   test.describe.configure({ mode: "serial" });
+  28  | 
+  29  |   test("接口契约", async ({ request }) => {
+  30  |     await assertApiContract(request, { routePath: BASE });
+  31  |   });
+  32  | 
+  33  |   test("未登录时返回 401", async ({ request }) => {
+  34  |     const response = await request.get(BASE);
+  35  |     expect(response.status()).toBe(401);
+  36  |   });
+  37  | 
+  38  |   test("登录用户返回包含 seed 课程的订阅", async ({ page }) => {
+  39  |     await signInAsDebugUser(page, "/");
+  40  | 
+  41  |     // Resolve seed section ID
+  42  |     const matchRes = await page.request.post(
+  43  |       "/api/catalog/sections/match-codes",
+  44  |       {
+  45  |         data: { codes: [DEV_SEED.section.code] },
+  46  |       },
+  47  |     );
+  48  |     expect(matchRes.status()).toBe(200);
+  49  |     const matchBody = (await matchRes.json()) as {
+  50  |       sections?: Array<{ id?: number; code?: string | null }>;
+  51  |     };
+  52  |     const seedSection = matchBody.sections?.find(
+  53  |       (s) => s.code === DEV_SEED.section.code,
+  54  |     );
+  55  |     expect(seedSection?.id).toBeDefined();
+  56  | 
+  57  |     const response = await page.request.get(BASE);
+  58  |     expect(response.status()).toBe(200);
+  59  | 
+  60  |     const body = (await response.json()) as {
+  61  |       subscription?: {
+  62  |         userId?: string;
+  63  |         note?: string | null;
+  64  |         sections?: Array<{ id?: number }>;
+  65  |         calendarPath?: string;
+  66  |         calendarUrl?: string;
+  67  |       } | null;
+  68  |     };
+  69  |     expect(body.subscription).not.toBeNull();
+  70  |     expect(body.subscription?.userId).toBeTruthy();
+  71  |     expect(Array.isArray(body.subscription?.sections)).toBe(true);
+  72  |     expect(
+  73  |       body.subscription?.sections?.some((s) => s.id === seedSection?.id),
+  74  |     ).toBe(true);
+  75  | 
+  76  |     // Verify CalendarSubscription fields
+  77  |     const sub = body.subscription as Record<string, unknown>;
+  78  |     expect(Object.hasOwn(sub, "note")).toBe(true);
+  79  |     expect(typeof sub.calendarPath).toBe("string");
+  80  |     expect(
+  81  |       (sub.calendarPath as string).startsWith("/api/community/users/"),
+> 82  |     ).toBe(true);
+      |       ^ Error: expect(received).toBe(expected) // Object.is equality
+  83  |     expect(typeof sub.calendarUrl).toBe("string");
+  84  |     expect((sub.calendarUrl as string).startsWith("http")).toBe(true);
+  85  |     expect(sub.calendarUrl as string).toContain("/api/community/users/");
+  86  |     expect(sub.calendarUrl as string).not.toContain(
+  87  |       "/api/auth/api/community/users/",
+  88  |     );
+  89  |   });
+  90  | 
+  91  |   test("反映 POST 修改后的状态", async ({ page }) => {
+  92  |     await signInAsDebugUser(page, "/");
+  93  | 
+  94  |     // Save original state
+  95  |     const originalRes = await page.request.get(BASE);
+  96  |     const originalBody = (await originalRes.json()) as {
+  97  |       subscription?: { sections?: Array<{ id?: number }> } | null;
+  98  |     };
+  99  |     const originalIds =
+  100 |       originalBody.subscription?.sections?.map((s) => s.id as number) ?? [];
+  101 | 
+  102 |     try {
+  103 |       // Clear subscriptions
+  104 |       await page.request.post("/api/workspace/subscriptions", {
+  105 |         data: { sectionIds: [] },
+  106 |       });
+  107 | 
+  108 |       const emptyRes = await page.request.get(BASE);
+  109 |       expect(emptyRes.status()).toBe(200);
+  110 |       const emptyBody = (await emptyRes.json()) as {
+  111 |         subscription?: { sections?: Array<{ id?: number }> } | null;
+  112 |       };
+  113 |       expect(emptyBody.subscription?.sections).toEqual([]);
+  114 |     } finally {
+  115 |       // Restore original subscriptions
+  116 |       await page.request.post("/api/workspace/subscriptions", {
+  117 |         data: { sectionIds: originalIds },
+  118 |       });
+  119 |     }
+  120 |   });
+  121 | });
+  122 | 
+```

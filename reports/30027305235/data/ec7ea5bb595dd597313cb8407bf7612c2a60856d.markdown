@@ -1,0 +1,494 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: src/app/sections/[jwId]/test.ts >> /catalog/sections/[jwId] 班级详情页 >> 日历导出弹窗显示 iCal URL 与订阅 URL
+- Location: tests/e2e/src/app/sections/[jwId]/test.ts:894:3
+
+# Error details
+
+```
+Error: expect(received).toMatch(expected)
+
+Expected pattern: /\/api\/community\/users\/[^/]+:[A-Za-z0-9_-]+\/calendar\.ics$/
+Received string:  "http://localhost:3000/api/calendar-feeds/cmqw1sr9g0001bqt44c3s0kqa:s6cXLJO_JFl62ar-Ba7yWQPBtapSGW-A.ics"
+```
+
+# Page snapshot
+
+```yaml
+- generic:
+  - generic:
+    - generic:
+      - link "Skip to main content":
+        - /url: "#main-content"
+      - generic:
+        - generic:
+          - generic:
+            - navigation "Primary navigation":
+              - generic:
+                - list:
+                  - listitem:
+                    - link "Life@USTC":
+                      - /url: /
+                      - img
+                      - generic: Life@USTC
+              - generic:
+                - generic:
+                  - generic:
+                    - button "Workspace" [expanded]:
+                      - text: Workspace
+                      - img
+                    - generic:
+                      - generic:
+                        - list:
+                          - listitem:
+                            - link "Today":
+                              - /url: /workspace/overview
+                              - img
+                              - generic: Today
+                          - listitem:
+                            - link "Calendar":
+                              - /url: /workspace/calendar
+                              - img
+                              - generic: Calendar
+                          - listitem:
+                            - link "Homework":
+                              - /url: /workspace/homeworks
+                              - img
+                              - generic: Homework
+                          - listitem:
+                            - link "Todos":
+                              - /url: /workspace/todos
+                              - img
+                              - generic: Todos
+                          - listitem:
+                            - link "Exams":
+                              - /url: /workspace/exams
+                              - img
+                              - generic: Exams
+                          - listitem:
+                            - link "Section Subscriptions":
+                              - /url: /workspace/subscriptions
+                              - img
+                              - generic: Section Subscriptions
+                - generic:
+                  - generic:
+                    - button "Explore" [expanded]:
+                      - text: Explore
+                      - img
+                    - generic:
+                      - generic:
+                        - list:
+                          - listitem:
+                            - link "Courses":
+                              - /url: /catalog/courses
+                              - img
+                              - generic: Courses
+                          - listitem:
+                            - link "Sections":
+                              - /url: /catalog/sections
+                              - img
+                              - generic: Sections
+                            - list:
+                              - listitem:
+                                - 'link "Cryptographic Engineering: Principles and Practice"':
+                                  - /url: /catalog/sections/9902001
+                                  - generic: "Cryptographic Engineering: Principles and Practice"
+                          - listitem:
+                            - link "Teachers":
+                              - /url: /catalog/teachers
+                              - img
+                              - generic: Teachers
+                          - listitem:
+                            - link "Shuttle Bus":
+                              - /url: /catalog/bus
+                              - img
+                              - generic: Shuttle Bus
+                          - listitem:
+                            - link "Websites":
+                              - /url: /catalog/links
+                              - img
+                              - generic: Websites
+                          - listitem:
+                            - link "Mobile App":
+                              - /url: /mobile-app
+                              - img
+                              - generic: Mobile App
+            - button "Toggle Sidebar"
+            - generic:
+              - list:
+                - listitem:
+                  - button "Profile menu":
+                    - generic:
+                      - img "Dev User"
+                    - generic:
+                      - generic: Dev User
+                      - generic: "@dev-user"
+                    - img
+      - main:
+        - generic:
+          - generic:
+            - button "Menu" [expanded]:
+              - img
+              - generic: Toggle Sidebar
+            - generic:
+              - generic:
+                - button "Language selector":
+                  - img
+                - button "Theme selector":
+                  - img
+        - generic:
+          - generic:
+            - generic:
+              - generic:
+                - generic:
+                  - generic:
+                    - generic:
+                      - generic:
+                        - generic:
+                          - generic:
+                            - generic: Teaching section
+                            - generic: IS3003.01
+                        - 'heading "Cryptographic Engineering: Principles and Practice" [level=1]'
+                        - paragraph: 密码工程原理与实践
+                      - generic:
+                        - generic:
+                          - button "Add to Calendar":
+                            - img
+                            - text: Add to Calendar
+                          - generic:
+                            - button "Subscribe to section":
+                              - img
+                              - text: Subscribe to section
+                    - generic:
+                      - generic:
+                        - generic:
+                          - generic: 2026年春季学期
+                          - generic: East Campus
+                          - generic: 58 / 80
+                - generic:
+                  - generic:
+                    - generic:
+                      - generic "Teaching section":
+                        - generic:
+                          - generic: Teaching section
+                          - generic:
+                            - list:
+                              - listitem:
+                                - link "Section Information":
+                                  - /url: /catalog/sections/9902001
+                                  - img
+                                  - generic: Section Information
+                              - listitem:
+                                - link "Description":
+                                  - /url: /catalog/sections/9902001/introduction
+                                  - img
+                                  - generic: Description
+                              - listitem:
+                                - link "Calendar":
+                                  - /url: /catalog/sections/9902001/calendar
+                                  - img
+                                  - generic: Calendar
+                                - generic: "4"
+                              - listitem:
+                                - link "Exams":
+                                  - /url: /catalog/sections/9902001/exams
+                                  - img
+                                  - generic: Exams
+                                - generic: "1"
+                              - listitem:
+                                - link "Homework":
+                                  - /url: /catalog/sections/9902001/homework
+                                  - img
+                                  - generic: Homework
+                              - listitem:
+                                - link "Teachers":
+                                  - /url: /catalog/sections/9902001/teachers
+                                  - img
+                                  - generic: Teachers
+                                - generic: "2"
+                              - listitem:
+                                - link "Comments":
+                                  - /url: /catalog/sections/9902001/comments
+                                  - img
+                                  - generic: Comments
+                  - generic:
+                    - generic:
+                      - generic:
+                        - generic:
+                          - generic:
+                            - term: Section Code
+                            - definition: IS3003.01
+                          - generic:
+                            - term: Semester
+                            - definition: 2026年春季学期
+                          - generic:
+                            - term: Credits
+                            - definition: "2.5"
+                          - generic:
+                            - term: Course Period
+                            - definition: 40 / N/A
+                          - generic:
+                            - term: Exam Mode
+                            - definition: Closed Book
+                          - generic:
+                            - term: Remark
+                            - definition: 结合密码协议与工程实现，强调课堂演示和实验复盘。
+                        - generic:
+                          - generic:
+                            - heading "More Details" [level=3]:
+                              - button "More Details":
+                                - text: More Details
+                                - img
+                        - generic:
+                          - generic:
+                            - heading "Admin Classes" [level=3]:
+                              - button "Admin Classes" [expanded]:
+                                - text: Admin Classes
+                                - img
+                            - generic:
+                              - generic:
+                                - generic:
+                                  - generic: CS Class 01
+                        - link "View All Sections":
+                          - /url: /catalog/courses/9901001
+  - dialog "Add to Calendar" [ref=e2]:
+    - generic [ref=e3]:
+      - heading "Add to Calendar" [level=2] [ref=e4]
+      - generic [ref=e5]: Copy the link below and add this calendar in your calendar app
+    - generic [ref=e6]:
+      - group [ref=e7]:
+        - generic [ref=e8]: Single Section Calendar URL
+        - group [ref=e9]:
+          - textbox "Single Section Calendar URL" [active] [ref=e10]: http://localhost:3000/api/catalog/sections/9902001/calendar.ics
+          - group [ref=e11]:
+            - button "Copy" [ref=e12]:
+              - img
+              - text: Copy
+      - group [ref=e13]:
+        - generic [ref=e14]: Section Subscription Calendar URL
+        - group [ref=e15]:
+          - textbox "Section Subscription Calendar URL" [ref=e16]: http://localhost:3000/api/calendar-feeds/cmqw1sr9g0001bqt44c3s0kqa:s6cXLJO_JFl62ar-Ba7yWQPBtapSGW-A.ics
+          - group [ref=e17]:
+            - button "Copy" [ref=e18]:
+              - img
+              - text: Copy
+      - link "View section subscriptions" [ref=e19] [cursor=pointer]:
+        - /url: /workspace/subscriptions
+    - button "Close" [ref=e21]
+    - button "Close" [ref=e22]:
+      - img
+      - generic [ref=e23]: Close
+```
+
+# Test source
+
+```ts
+  827  |   test("未登录时关注弹出登录对话框", async ({ page }, testInfo) => {
+  828  |     await gotoAndWaitForReady(page, SECTION_URL);
+  829  | 
+  830  |     const subscribeButton = page
+  831  |       .getByRole("button", { name: /订阅教学班|Subscribe to section/i })
+  832  |       .first();
+  833  |     if ((await subscribeButton.count()) === 0) {
+  834  |       await expect(page.locator("#main-content")).toBeVisible();
+  835  |       return;
+  836  |     }
+  837  | 
+  838  |     await subscribeButton.click();
+  839  |     const loginDialog = page
+  840  |       .getByRole("dialog")
+  841  |       .or(page.getByRole("alertdialog"))
+  842  |       .first();
+  843  |     await expect(loginDialog).toBeVisible();
+  844  |     await captureStepScreenshot(
+  845  |       page,
+  846  |       testInfo,
+  847  |       "section/subscribe-login-required",
+  848  |     );
+  849  |   });
+  850  | 
+  851  |   test("已登录用户可订阅与取消订阅", async ({ page }, testInfo) => {
+  852  |     test.setTimeout(60_000);
+  853  |     await signInAsDebugUser(page, SECTION_URL);
+  854  | 
+  855  |     const subscribe = page.getByRole("button", {
+  856  |       name: /订阅教学班|Subscribe to section/i,
+  857  |     });
+  858  |     const unsubscribe = page.getByRole("button", {
+  859  |       name: /取消订阅|Unsubscribe from section/i,
+  860  |     });
+  861  | 
+  862  |     if ((await subscribe.count()) === 0 && (await unsubscribe.count()) === 0) {
+  863  |       await expect(page.locator("#main-content")).toBeVisible();
+  864  |       return;
+  865  |     }
+  866  | 
+  867  |     if ((await subscribe.count()) > 0) {
+  868  |       await subscribe.first().click();
+  869  |       const subscribeDialog = page.getByRole("dialog").first();
+  870  |       await expect(subscribeDialog).toBeVisible();
+  871  |       await expect(
+  872  |         subscribeDialog
+  873  |           .getByText(/非官方|非正式|not.*official|not.*enrollment/i)
+  874  |           .first(),
+  875  |       ).toBeVisible();
+  876  |       await subscribeDialog
+  877  |         .getByRole("button", { name: /订阅教学班|Subscribe to section/i })
+  878  |         .click();
+  879  |       await expect(unsubscribe.first()).toBeVisible({ timeout: 15_000 });
+  880  |       await page.keyboard.press("Escape");
+  881  |       await expect(subscribeDialog).toBeHidden({ timeout: 5_000 });
+  882  |       await captureStepScreenshot(page, testInfo, "section/subscribed");
+  883  |     }
+  884  | 
+  885  |     if ((await unsubscribe.count()) > 0) {
+  886  |       await unsubscribe.first().click();
+  887  |       await expect(subscribe.first()).toBeVisible({ timeout: 15_000 });
+  888  |       await captureStepScreenshot(page, testInfo, "section/unsubscribed");
+  889  |     }
+  890  |   });
+  891  | 
+  892  |   // ── Calendar export ─────────────────────────────────────────────────────────
+  893  | 
+  894  |   test("日历导出弹窗显示 iCal URL 与订阅 URL", async ({ page }, testInfo) => {
+  895  |     test.setTimeout(60_000);
+  896  |     await page
+  897  |       .context()
+  898  |       .grantPermissions(["clipboard-read", "clipboard-write"]);
+  899  |     await signInAsDebugUser(page, SECTION_URL);
+  900  | 
+  901  |     const calendarButton = page
+  902  |       .getByTestId("detail-pinned-summary")
+  903  |       .getByRole("button", { name: /添加到日历|Add to calendar/i })
+  904  |       .first();
+  905  |     if ((await calendarButton.count()) === 0) {
+  906  |       await expect(page.locator("#main-content")).toBeVisible();
+  907  |       return;
+  908  |     }
+  909  | 
+  910  |     await calendarButton.click();
+  911  |     const calDialog = page.locator('[data-slot="dialog-content"]').first();
+  912  |     await expect(calDialog).toBeVisible();
+  913  | 
+  914  |     // iCalendar URL (ical.yml → section-calendar-dialog.display.fields)
+  915  |     const singleUrl = calDialog.locator("#calendar-url");
+  916  |     const subscriptionUrl = calDialog.locator("#subscription-url");
+  917  |     await expect(singleUrl).toBeVisible();
+  918  | 
+  919  |     // Single section URL
+  920  |     const singleValue = await singleUrl.inputValue();
+  921  |     expect(singleValue).toContain(
+  922  |       `/api/catalog/sections/${DEV_SEED.section.jwId}/calendar.ics`,
+  923  |     );
+  924  | 
+  925  |     // Subscription URL includes a user-specific tokenized feed path
+  926  |     const subscriptionValue = await subscriptionUrl.inputValue();
+> 927  |     expect(subscriptionValue).toMatch(
+       |                               ^ Error: expect(received).toMatch(expected)
+  928  |       /\/api\/community\/users\/[^/]+:[A-Za-z0-9_-]+\/calendar\.ics$/,
+  929  |     );
+  930  | 
+  931  |     // Copy single URL
+  932  |     await calDialog
+  933  |       .getByRole("button", { name: /复制|Copy/i })
+  934  |       .nth(0)
+  935  |       .click();
+  936  |     const singleClipboard = await page.evaluate(async () =>
+  937  |       navigator.clipboard.readText(),
+  938  |     );
+  939  |     expect(singleClipboard).toBe(singleValue);
+  940  | 
+  941  |     // Copy subscription URL
+  942  |     await calDialog
+  943  |       .getByRole("button", { name: /复制|Copy/i })
+  944  |       .nth(1)
+  945  |       .click();
+  946  |     const subscriptionClipboard = await page.evaluate(async () =>
+  947  |       navigator.clipboard.readText(),
+  948  |     );
+  949  |     expect(subscriptionClipboard).toBe(subscriptionValue);
+  950  | 
+  951  |     await expect(
+  952  |       calDialog.getByRole("link", {
+  953  |         name: /查看教学班订阅|View section subscriptions/i,
+  954  |       }),
+  955  |     ).toHaveAttribute("href", "/workspace/subscriptions");
+  956  | 
+  957  |     await captureStepScreenshot(page, testInfo, "section/calendar-dialog");
+  958  |   });
+  959  | 
+  960  |   // ── Homework CRUD ───────────────────────────────────────────────────────────
+  961  | 
+  962  |   test("移动端新建与编辑作业显示同一份中文填写规范", async ({
+  963  |     page,
+  964  |   }, testInfo) => {
+  965  |     await page.setViewportSize({ width: 390, height: 844 });
+  966  |     await signInAsDebugUser(page, SECTION_URL);
+  967  |     const localeResponse = await page.request.post("/api/account/preferences", {
+  968  |       data: { locale: "zh-cn" },
+  969  |     });
+  970  |     expect(localeResponse.status()).toBe(200);
+  971  |     await gotoAndWaitForReady(page, SECTION_URL);
+  972  |     await jumpToSection(page, /作业|Homework/i, "#tab-homework");
+  973  | 
+  974  |     await page
+  975  |       .getByRole("button", { name: /新建|创建作业|Create/i })
+  976  |       .first()
+  977  |       .click();
+  978  |     const createDialog = page.locator('[data-slot="dialog-content"]').first();
+  979  |     const createTrigger = createDialog.getByTestId(
+  980  |       "section-create-homework-style-guide-trigger",
+  981  |     );
+  982  |     await expect(createTrigger).toHaveAttribute("aria-expanded", "false");
+  983  |     await createTrigger.click();
+  984  |     const createGuide = createDialog.getByTestId(
+  985  |       "section-create-homework-style-guide-content",
+  986  |     );
+  987  |     await expect(createGuide).toBeVisible();
+  988  |     await expect(createGuide).toContainText("第{N}次作业");
+  989  |     await expect(createGuide).toContainText("{主题}作业");
+  990  |     await expect(createGuide).toContainText(
+  991  |       "避免使用“第一章作业”等仅按章节命名的标题",
+  992  |     );
+  993  |     await expect(createGuide).toContainText(
+  994  |       "不要在标题中包含课程名称或课程代码",
+  995  |     );
+  996  |     await expect(createGuide.locator("pre")).toContainText(
+  997  |       "- 题目：...\n- 提交方式：...\n- 提交地址：...\n- 备注：...",
+  998  |     );
+  999  |     await expect(createGuide).toContainText("不会阻止保存");
+  1000 |     await expect(
+  1001 |       createDialog.getByRole("button", { name: /创建作业|Create homework/i }),
+  1002 |     ).toBeVisible();
+  1003 |     expect(
+  1004 |       await page.evaluate(
+  1005 |         () => document.documentElement.scrollWidth <= window.innerWidth,
+  1006 |       ),
+  1007 |     ).toBe(true);
+  1008 |     await captureStepScreenshot(
+  1009 |       page,
+  1010 |       testInfo,
+  1011 |       "section/homework-style-guide-create-mobile",
+  1012 |     );
+  1013 | 
+  1014 |     await page.keyboard.press("Escape");
+  1015 |     await expect(createDialog).toHaveCount(0);
+  1016 | 
+  1017 |     const homeworkCard = page
+  1018 |       .getByRole("button", {
+  1019 |         name: new RegExp(escapeForRegExp(DEV_SEED.homeworks.title)),
+  1020 |       })
+  1021 |       .first();
+  1022 |     await homeworkCard.click();
+  1023 |     const detailDialog = page.locator('[data-slot="dialog-content"]').first();
+  1024 |     await detailDialog
+  1025 |       .getByRole("button", { name: /编辑信息|Edit details/i })
+  1026 |       .click();
+  1027 |     const editTrigger = detailDialog.getByTestId(
+```

@@ -1,0 +1,179 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: src/app/api/openapi/test.ts >> GET /api/openapi - OpenAPI 规范 >> 规范暴露认证安全元数据
+- Location: tests/e2e/src/app/api/openapi/test.ts:179:3
+
+# Error details
+
+```
+Error: expect(received).toBe(expected) // Object.is equality
+
+Expected: "admin"
+Received: undefined
+```
+
+# Test source
+
+```ts
+  118 |               >;
+  119 |             };
+  120 |           };
+  121 |         }
+  122 |       >;
+  123 |     };
+  124 | 
+  125 |     expect(
+  126 |       body.paths?.["/api/workspace/todos"]?.post?.requestBody?.required,
+  127 |     ).toBe(true);
+  128 |     expect(
+  129 |       body.paths?.["/api/workspace/todos"]?.post?.requestBody?.content?.[
+  130 |         "application/json"
+  131 |       ]?.schema?.$ref,
+  132 |     ).toBe("#/components/schemas/todoCreateRequestSchema");
+  133 |     expect(
+  134 |       body.paths?.["/api/workspace/uploads/object"]?.put?.requestBody
+  135 |         ?.content?.["application/octet-stream"]?.schema,
+  136 |     ).toEqual({ type: "string", format: "binary" });
+  137 |     expect(
+  138 |       body.paths?.["/api/workspace/uploads/{id}/download"]?.get?.responses?.[
+  139 |         "200"
+  140 |       ],
+  141 |     ).toBeTruthy();
+  142 |     expect(
+  143 |       body.paths?.["/api/workspace/uploads/{id}/download"]?.get?.responses?.[
+  144 |         "302"
+  145 |       ],
+  146 |     ).toBeUndefined();
+  147 |     expect(
+  148 |       body.paths?.["/api/catalog/links/resolve"]?.get?.responses?.["307"],
+  149 |     ).toBeTruthy();
+  150 |     expect(
+  151 |       body.paths?.["/api/catalog/links/resolve"]?.post?.responses?.["303"],
+  152 |     ).toBeTruthy();
+  153 |     expect(
+  154 |       body.paths?.["/api/workspace/link-pins"]?.post?.requestBody?.content?.[
+  155 |         "application/x-www-form-urlencoded"
+  156 |       ]?.schema?.$ref,
+  157 |     ).toBe("#/components/schemas/dashboardLinkPinRequestSchema");
+  158 |     expect(
+  159 |       body.paths?.["/api/workspace/link-pins"]?.post?.responses?.["200"],
+  160 |     ).toBeTruthy();
+  161 |     expect(
+  162 |       body.paths?.["/api/workspace/link-pins"]?.post?.responses?.["303"],
+  163 |     ).toBeTruthy();
+  164 |     expect(
+  165 |       body.paths?.["/api/workspace/link-pins"]?.post?.responses?.["400"],
+  166 |     ).toBeTruthy();
+  167 |     expect(
+  168 |       body.paths?.["/api/workspace/link-pins"]?.post?.responses?.["401"],
+  169 |     ).toBeTruthy();
+  170 |     expect(
+  171 |       body.paths?.["/api/workspace/link-pins"]?.post?.responses?.["500"],
+  172 |     ).toBeTruthy();
+  173 |     expect(
+  174 |       body.paths?.["/api/auth/oauth2/device-authorization"]?.options
+  175 |         ?.responses?.["204"],
+  176 |     ).toBeTruthy();
+  177 |   });
+  178 | 
+  179 |   test("规范暴露认证安全元数据", async ({ request }) => {
+  180 |     const response = await request.get("/api/openapi");
+  181 |     expect(response.status()).toBe(200);
+  182 |     const body = (await response.json()) as {
+  183 |       components?: { securitySchemes?: Record<string, unknown> };
+  184 |       paths?: Record<
+  185 |         string,
+  186 |         {
+  187 |           get?: {
+  188 |             parameters?: unknown[];
+  189 |             security?: unknown[];
+  190 |             "x-auth-role"?: string;
+  191 |           };
+  192 |           options?: { security?: unknown[] };
+  193 |           patch?: { security?: unknown[]; "x-auth-role"?: string };
+  194 |           post?: { security?: unknown[]; "x-auth-role"?: string };
+  195 |         }
+  196 |       >;
+  197 |     };
+  198 | 
+  199 |     expect(Object.keys(body.components?.securitySchemes ?? {})).toEqual(
+  200 |       expect.arrayContaining([
+  201 |         "bearerAuth",
+  202 |         "sessionCookie",
+  203 |         "mcpBearerAuth",
+  204 |         "calendarFeedToken",
+  205 |       ]),
+  206 |     );
+  207 |     expect(body.paths?.["/api/workspace/uploads"]?.get?.security).toEqual([
+  208 |       { bearerAuth: [] },
+  209 |       { sessionCookie: [] },
+  210 |     ]);
+  211 |     expect(body.paths?.["/api/workspace/todos"]?.get?.security).toEqual([
+  212 |       { bearerAuth: [] },
+  213 |       { sessionCookie: [] },
+  214 |     ]);
+  215 |     expect(body.paths?.["/api/admin/users"]?.get?.security).toEqual([
+  216 |       { sessionCookie: [] },
+  217 |     ]);
+> 218 |     expect(body.paths?.["/api/admin/users"]?.get?.["x-auth-role"]).toBe(
+      |                                                                    ^ Error: expect(received).toBe(expected) // Object.is equality
+  219 |       "admin",
+  220 |     );
+  221 |     expect(
+  222 |       body.paths?.["/api/admin/comments/{id}"]?.patch?.["x-auth-role"],
+  223 |     ).toBe("admin");
+  224 |     expect(
+  225 |       body.paths?.["/api/catalog/links/resolve"]?.get?.security,
+  226 |     ).toBeUndefined();
+  227 |     expect(
+  228 |       body.paths?.["/api/catalog/links/resolve"]?.post?.security,
+  229 |     ).toBeUndefined();
+  230 |     const mcpGetOperation = body.paths?.["/api/mcp"]?.get as
+  231 |       | { responses?: Record<string, unknown>; security?: unknown[] }
+  232 |       | undefined;
+  233 |     expect(mcpGetOperation?.security).toBeUndefined();
+  234 |     expect(mcpGetOperation?.responses?.["405"]).toBeDefined();
+  235 |     expect(body.paths?.["/api/readiness"]).toBeUndefined();
+  236 |     expect(body.paths?.["/api/accounttrics"]).toBeUndefined();
+  237 |     expect(body.paths?.["/api/health"]?.get?.security).toBeUndefined();
+  238 |     expect(
+  239 |       body.paths?.["/api/calendar-feeds/{userId}.ics"]?.get?.security,
+  240 |     ).toEqual([
+  241 |       { bearerAuth: [] },
+  242 |       { sessionCookie: [] },
+  243 |       { calendarFeedToken: [] },
+  244 |     ]);
+  245 |     expect(body.paths?.["/api/mcp"]?.options?.security).toBeUndefined();
+  246 |     expect(body.paths?.["/api/account/profile"]?.get?.security).toBeUndefined();
+  247 |     expect(
+  248 |       body.paths?.["/api/auth/oauth2/token"]?.post?.security,
+  249 |     ).toBeUndefined();
+  250 |     expect(
+  251 |       body.paths?.["/api/calendar-feeds/{userId}.ics"]?.get?.parameters,
+  252 |     ).toEqual(
+  253 |       expect.arrayContaining([
+  254 |         expect.objectContaining({ in: "query", name: "token" }),
+  255 |       ]),
+  256 |     );
+  257 |   });
+  258 | 
+  259 |   test("静态 openapi.generated.json 可访问", async ({ request }) => {
+  260 |     const response = await request.get("/openapi.generated.json");
+  261 |     expect(response.status()).toBe(200);
+  262 |     expect(response.headers()["content-type"]).toContain("application/json");
+  263 |     const body = (await response.json()) as {
+  264 |       openapi?: string;
+  265 |       info?: { title?: string };
+  266 |     };
+  267 |     expect(body.openapi).toBe("3.0.0");
+  268 |     expect(body.info?.title).toBe("Life@USTC API");
+  269 |   });
+  270 | });
+  271 | 
+```

@@ -1,0 +1,293 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: src/app/dashboard/calendar/test.ts >> 仪表盘日历 >> 移动端使用可读周日程且导航控件满足触控尺寸
+- Location: tests/e2e/src/app/dashboard/calendar/test.ts:205:3
+
+# Error details
+
+```
+Error: expect(received).toMatch(expected)
+
+Expected pattern: /\/api\/community\/users\/[^/]+:[^/]+\/calendar\.ics$/
+Received string:  "http://localhost:3000/api/calendar-feeds/cmqw1sr9g0001bqt44c3s0kqa:s6cXLJO_JFl62ar-Ba7yWQPBtapSGW-A.ics"
+```
+
+# Page snapshot
+
+```yaml
+- generic [ref=e3]:
+  - link "Skip to main content" [ref=e4] [cursor=pointer]:
+    - /url: "#main-content"
+  - main "Calendar" [ref=e5]:
+    - generic [ref=e7]:
+      - button "Menu" [ref=e8]:
+        - img
+        - generic [ref=e9]: Toggle Sidebar
+      - link "Life@USTC" [ref=e10] [cursor=pointer]:
+        - /url: /
+        - img [ref=e11]
+        - generic [ref=e12]: Life@USTC
+      - generic [ref=e14]:
+        - button "Language selector" [ref=e15]:
+          - img
+        - button "Theme selector" [ref=e16]:
+          - img
+    - generic [ref=e19]:
+      - heading "Calendar" [level=1] [ref=e20]
+      - alert [ref=e21]:
+        - generic [ref=e22]: "Link Copied: Calendar link has been copied to clipboard"
+      - generic [ref=e23]:
+        - generic [ref=e24]:
+          - generic [ref=e25]:
+            - generic [ref=e26]:
+              - button "Previous week" [ref=e27]:
+                - img
+              - button "Today" [ref=e28]
+              - button "Next week" [ref=e29]:
+                - img
+            - button "More calendar actions" [active] [ref=e30]:
+              - img
+          - paragraph [ref=e31]: Week of 2026-04-26
+        - region "Weekly agenda" [ref=e33]:
+          - region "Sunday Apr 26" [ref=e34]:
+            - heading "Sunday Apr 26" [level=2] [ref=e36]
+            - paragraph [ref=e37]: No events
+          - region "Monday Apr 27" [ref=e38]:
+            - heading "Monday Apr 27" [level=2] [ref=e40]
+            - list [ref=e41]:
+              - link "迭代一需求拆解 Homework · 12:00 PM · 作业要求：提交仓库链接和测试截图。" [ref=e42] [cursor=pointer]:
+                - /url: /catalog/sections/9902001/homework#homework-cmqw1srez0002bqt4l5neqtsa
+                - generic [ref=e43]:
+                  - generic [ref=e44]: 迭代一需求拆解
+                  - paragraph [ref=e45]: Homework · 12:00 PM · 作业要求：提交仓库链接和测试截图。
+          - region "Tuesday Apr 28" [ref=e46]:
+            - heading "Tuesday Apr 28" [level=2] [ref=e48]
+            - list [ref=e49]:
+              - link "补交培养方案确认 To-do · 01:00 AM · High · 用于验证逾期待办展示" [ref=e50] [cursor=pointer]:
+                - /url: /workspace/todos
+                - generic [ref=e51]:
+                  - generic [ref=e52]: 补交培养方案确认
+                  - paragraph [ref=e53]: To-do · 01:00 AM · High · 用于验证逾期待办展示
+              - link "逾期实验数据补交 Homework · 02:00 PM · 逾期补交实验数据，保留原始记录并说明补交原因。" [ref=e54] [cursor=pointer]:
+                - /url: /catalog/sections/9902001/homework#homework-cmqw1srez0003bqt45qjilal7
+                - generic [ref=e55]:
+                  - generic [ref=e56]: 逾期实验数据补交
+                  - paragraph [ref=e57]: Homework · 02:00 PM · 逾期补交实验数据，保留原始记录并说明补交原因。
+          - region "Wednesday Apr 29" [ref=e58]:
+            - heading "Wednesday Apr 29" [level=2] [ref=e60]
+            - list [ref=e61]:
+              - 'link "Cryptographic Engineering: Principles and Practice Courses · 08:30-10:15 · Room 101 · Teaching Building 1 · East Campus · Lin Jingqiang, Wang Wei" [ref=e62] [cursor=pointer]':
+                - /url: /catalog/sections/9902001
+                - generic [ref=e63]:
+                  - generic [ref=e64]: "Cryptographic Engineering: Principles and Practice"
+                  - paragraph [ref=e65]: Courses · 08:30-10:15 · Room 101 · Teaching Building 1 · East Campus · Lin Jingqiang, Wang Wei
+              - link "今日课堂反馈整理 Homework · 03:00 PM · 整理今日课堂反馈，标注需要二次确认的问题。" [ref=e66] [cursor=pointer]:
+                - /url: /catalog/sections/9902001/homework#homework-cmqw1srez0004bqt4qy3jviis
+                - generic [ref=e67]:
+                  - generic [ref=e68]: 今日课堂反馈整理
+                  - paragraph [ref=e69]: Homework · 03:00 PM · 整理今日课堂反馈，标注需要二次确认的问题。
+              - link "期末报告提交 To-do · 03:59 PM · High · 需今日完成" [ref=e70] [cursor=pointer]:
+                - /url: /workspace/todos
+                - generic [ref=e71]:
+                  - generic [ref=e72]: 期末报告提交
+                  - paragraph [ref=e73]: To-do · 03:59 PM · High · 需今日完成
+          - region "Thursday Apr 30" [ref=e74]:
+            - heading "Thursday Apr 30" [level=2] [ref=e76]
+            - list [ref=e77]:
+              - link "Introduction to Astrophysics Courses · 08:30-10:15 · Room 101 · Teaching Building 1 · East Campus · Wang Wei" [ref=e78] [cursor=pointer]:
+                - /url: /catalog/sections/9902002
+                - generic [ref=e79]:
+                  - generic [ref=e80]: Introduction to Astrophysics
+                  - paragraph [ref=e81]: Courses · 08:30-10:15 · Room 101 · Teaching Building 1 · East Campus · Wang Wei
+              - 'link "Cryptographic Engineering: Principles and Practice Courses · 14:00-15:45 · Room 101 · Teaching Building 1 · East Campus · Lin Jingqiang, Wang Wei" [ref=e82] [cursor=pointer]':
+                - /url: /catalog/sections/9902001
+                - generic [ref=e83]:
+                  - generic [ref=e84]: "Cryptographic Engineering: Principles and Practice"
+                  - paragraph [ref=e85]: Courses · 14:00-15:45 · Room 101 · Teaching Building 1 · East Campus · Lin Jingqiang, Wang Wei
+          - region "Friday May 1" [ref=e86]:
+            - heading "Friday May 1" [level=2] [ref=e88]
+            - list [ref=e89]:
+              - link "Environmental Microbiology Courses · 08:30-10:15 · Room 101 · Teaching Building 1 · East Campus · Tong Zhonghua" [ref=e90] [cursor=pointer]:
+                - /url: /catalog/sections/9902003
+                - generic [ref=e91]:
+                  - generic [ref=e92]: Environmental Microbiology
+                  - paragraph [ref=e93]: Courses · 08:30-10:15 · Room 101 · Teaching Building 1 · East Campus · Tong Zhonghua
+              - link "三天内复习安排 To-do · 10:00 AM · Medium" [ref=e94] [cursor=pointer]:
+                - /url: /workspace/todos
+                - generic [ref=e95]:
+                  - generic [ref=e96]: 三天内复习安排
+                  - paragraph [ref=e97]: To-do · 10:00 AM · Medium
+              - link "Introduction to Astrophysics Courses · 14:00-15:45 · Room 101 · Teaching Building 1 · East Campus · Wang Wei" [ref=e98] [cursor=pointer]:
+                - /url: /catalog/sections/9902002
+                - generic [ref=e99]:
+                  - generic [ref=e100]: Introduction to Astrophysics
+                  - paragraph [ref=e101]: Courses · 14:00-15:45 · Room 101 · Teaching Building 1 · East Campus · Wang Wei
+              - link "线性变换证明题 Homework · 02:00 PM · 证明题需写出完整推导过程，可参考教材第三章习题 3.2。" [ref=e102] [cursor=pointer]:
+                - /url: /catalog/sections/9902002/homework#homework-cmqw1srez0006bqt4j01p7cwx
+                - generic [ref=e103]:
+                  - generic [ref=e104]: 线性变换证明题
+                  - paragraph [ref=e105]: Homework · 02:00 PM · 证明题需写出完整推导过程，可参考教材第三章习题 3.2。
+              - 'link "Cryptographic Engineering: Principles and Practice Courses · 15:30-17:00 · 东校区体育场 · Lin Jingqiang, Wang Wei" [ref=e106] [cursor=pointer]':
+                - /url: /catalog/sections/9902001
+                - generic [ref=e107]:
+                  - generic [ref=e108]: "Cryptographic Engineering: Principles and Practice"
+                  - paragraph [ref=e109]: Courses · 15:30-17:00 · 东校区体育场 · Lin Jingqiang, Wang Wei
+          - region "Saturday May 2" [ref=e110]:
+            - heading "Saturday May 2" [level=2] [ref=e112]
+            - list [ref=e113]:
+              - link "实验报告与误差分析 Homework · 01:00 PM · 实验报告需包含：实验目的、步骤、数据记录、误差分析与结论。" [ref=e114] [cursor=pointer]:
+                - /url: /catalog/sections/9902003/homework#homework-cmqw1srez0008bqt467yuqdec
+                - generic [ref=e115]:
+                  - generic [ref=e116]: 实验报告与误差分析
+                  - paragraph [ref=e117]: Homework · 01:00 PM · 实验报告需包含：实验目的、步骤、数据记录、误差分析与结论。
+              - link "Environmental Microbiology Courses · 14:00-15:45 · Room 101 · Teaching Building 1 · East Campus · Tong Zhonghua" [ref=e118] [cursor=pointer]:
+                - /url: /catalog/sections/9902003
+                - generic [ref=e119]:
+                  - generic [ref=e120]: Environmental Microbiology
+                  - paragraph [ref=e121]: Courses · 14:00-15:45 · Room 101 · Teaching Building 1 · East Campus · Tong Zhonghua
+  - navigation "Mobile primary navigation" [ref=e122]:
+    - link "Today" [ref=e123] [cursor=pointer]:
+      - /url: /workspace/overview
+      - img [ref=e124]
+      - generic [ref=e127]: Today
+    - link "Calendar" [ref=e128] [cursor=pointer]:
+      - /url: /workspace/calendar
+      - img [ref=e129]
+      - generic [ref=e131]: Calendar
+    - link "Tasks" [ref=e132] [cursor=pointer]:
+      - /url: /workspace/homeworks
+      - img [ref=e133]
+      - generic [ref=e137]: Tasks
+    - link "Explore" [ref=e138] [cursor=pointer]:
+      - /url: /catalog/courses
+      - img [ref=e139]
+      - generic [ref=e142]: Explore
+```
+
+# Test source
+
+```ts
+  153 |       testInfo,
+  154 |       screenshotLabel: "calendar",
+  155 |     });
+  156 | 
+  157 |     // calendar.yml: View tabs
+  158 |     const calendarTabs = page.getByRole("group", {
+  159 |       name: /日历|Calendar/i,
+  160 |     });
+  161 |     const monthTab = calendarTabs.getByRole("radio", {
+  162 |       name: /本月|This month/i,
+  163 |     });
+  164 |     await monthTab.click();
+  165 |     await expect(page).toHaveURL(/calendarView=month/);
+  166 |     await expect(monthTab).toHaveAttribute("aria-checked", "true");
+  167 |     await captureStepScreenshot(page, testInfo, "calendar/month-view");
+  168 | 
+  169 |     const weekTab = calendarTabs.getByRole("radio", {
+  170 |       name: /本周|This week/i,
+  171 |     });
+  172 |     await weekTab.click();
+  173 |     await expect(page).toHaveURL(/calendarView=week/);
+  174 |     await expect(weekTab).toHaveAttribute("aria-checked", "true");
+  175 |     await captureStepScreenshot(page, testInfo, "calendar/week-view");
+  176 |   });
+  177 | 
+  178 |   test("复制日历链接生成有效的 iCal URL", async ({ page }) => {
+  179 |     await page
+  180 |       .context()
+  181 |       .grantPermissions(["clipboard-read", "clipboard-write"]);
+  182 |     await signInAsDebugUser(page, "/workspace/calendar");
+  183 |     await ensureSeedSectionSubscription(page);
+  184 |     await gotoAndWaitForReady(page, "/workspace/calendar");
+  185 | 
+  186 |     const copyButton = page.getByRole("button", { name: /复制日历链接|iCal/i });
+  187 |     await expect(copyButton).toBeVisible();
+  188 |     await copyButton.click();
+  189 | 
+  190 |     const clipboardText = await page.evaluate(async () =>
+  191 |       navigator.clipboard.readText(),
+  192 |     );
+  193 |     expect(clipboardText).toMatch(
+  194 |       /\/api\/community\/users\/[^/]+:[^/]+\/calendar\.ics$/,
+  195 |     );
+  196 | 
+  197 |     const calendarResponse = await page.request.get(clipboardText);
+  198 |     expect(calendarResponse.status()).toBe(200);
+  199 |     expect(calendarResponse.headers()["content-type"]).toContain(
+  200 |       "text/calendar",
+  201 |     );
+  202 |     await expect(page.getByText(/已复制链接|Link Copied/i)).toBeVisible();
+  203 |   });
+  204 | 
+  205 |   test("移动端使用可读周日程且导航控件满足触控尺寸", async ({
+  206 |     page,
+  207 |   }, testInfo) => {
+  208 |     await page
+  209 |       .context()
+  210 |       .grantPermissions(["clipboard-read", "clipboard-write"]);
+  211 |     await page.setViewportSize({ height: 844, width: 390 });
+  212 |     const agendaUrl = `/workspace/calendar?calendarView=week&calendarWeek=${DEV_SEED_ANCHOR.date}`;
+  213 |     await signInAsDebugUser(page, agendaUrl);
+  214 |     await ensureSeedSectionSubscription(page);
+  215 |     await gotoAndWaitForReady(page, agendaUrl, {
+  216 |       testInfo,
+  217 |       screenshotLabel: "calendar-mobile-agenda",
+  218 |     });
+  219 | 
+  220 |     const agenda = page.getByTestId("dashboard-calendar-agenda");
+  221 |     await expect(agenda).toBeVisible();
+  222 |     await expect(agenda.locator("section")).toHaveCount(7);
+  223 |     await expect(agenda.locator("a").first()).toBeVisible();
+  224 |     await expect(
+  225 |       agenda.getByText(DEV_SEED.homeworks.overdueTitle).first(),
+  226 |     ).toBeVisible();
+  227 |     await expect(
+  228 |       page.getByRole("group", { name: /日历|Calendar/i }),
+  229 |     ).toBeHidden();
+  230 | 
+  231 |     const previous = page.getByRole("button", {
+  232 |       name: /上一周|Previous week/i,
+  233 |     });
+  234 |     const today = page.getByRole("button", { name: /今天|Today/i });
+  235 |     const next = page.getByRole("button", { name: /下一周|Next week/i });
+  236 |     const more = page.getByRole("button", {
+  237 |       name: /更多日历操作|More calendar actions/i,
+  238 |     });
+  239 |     for (const control of [previous, today, next, more]) {
+  240 |       const box = await control.boundingBox();
+  241 |       expect(box?.width).toBeGreaterThanOrEqual(44);
+  242 |       expect(box?.height).toBeGreaterThanOrEqual(44);
+  243 |     }
+  244 | 
+  245 |     await more.click();
+  246 |     const iCalAction = page.getByRole("menuitem", {
+  247 |       name: /复制日历链接|iCal/i,
+  248 |     });
+  249 |     await expect(iCalAction).toBeVisible();
+  250 |     await iCalAction.click();
+  251 |     expect(
+  252 |       await page.evaluate(async () => navigator.clipboard.readText()),
+> 253 |     ).toMatch(/\/api\/community\/users\/[^/]+:[^/]+\/calendar\.ics$/);
+      |       ^ Error: expect(received).toMatch(expected)
+  254 | 
+  255 |     await next.click();
+  256 |     await expect(page).toHaveURL(/calendarView=week/);
+  257 |     await expect(page).toHaveURL(/calendarWeek=\d{4}-\d{2}-\d{2}/);
+  258 |     await expect(agenda).toBeVisible();
+  259 |     expect(
+  260 |       await page.evaluate(
+  261 |         () => document.documentElement.scrollWidth <= window.innerWidth,
+  262 |       ),
+  263 |     ).toBe(true);
+  264 | 
+  265 |     await captureStepScreenshot(page, testInfo, "calendar/mobile-agenda");
+  266 |   });
+  267 | });
+  268 | 
+```
