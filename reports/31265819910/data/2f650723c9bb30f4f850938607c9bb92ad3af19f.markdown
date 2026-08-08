@@ -1,0 +1,485 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: src/app/admin/oauth/test.ts >> /admin/oauth 可创建三种固定客户端且密钥只显示一次
+- Location: tests/e2e/src/app/admin/oauth/test.ts:117:1
+
+# Error details
+
+```
+Error: expect(locator).toBeVisible() failed
+
+Locator: getByRole('dialog', { name: /客户端凭据|Client Credentials/i })
+Expected: visible
+Timeout: 15000ms
+Error: element(s) not found
+
+Call log:
+  - Expect "toBeVisible" with timeout 15000ms
+  - waiting for getByRole('dialog', { name: /客户端凭据|Client Credentials/i })
+
+```
+
+```yaml
+- link "Skip to main content":
+  - /url: "#main-content"
+- navigation "Primary navigation":
+  - list:
+    - listitem:
+      - link "Life@USTC":
+        - /url: /
+  - button "Workspace" [expanded]
+  - list:
+    - listitem:
+      - link "Today":
+        - /url: /workspace/overview
+    - listitem:
+      - link "Calendar":
+        - /url: /workspace/calendar
+    - listitem:
+      - link "Homework":
+        - /url: /workspace/homeworks
+    - listitem:
+      - link "Todos":
+        - /url: /workspace/todos
+    - listitem:
+      - link "Exams":
+        - /url: /workspace/exams
+    - listitem:
+      - link "Section Subscriptions":
+        - /url: /workspace/subscriptions
+  - button "Catalog" [expanded]
+  - list:
+    - listitem:
+      - link "Courses":
+        - /url: /catalog/courses
+    - listitem:
+      - link "Sections":
+        - /url: /catalog/sections
+    - listitem:
+      - link "Teachers":
+        - /url: /catalog/teachers
+    - listitem:
+      - link "Shuttle Bus":
+        - /url: /catalog/bus
+    - listitem:
+      - link "Websites":
+        - /url: /catalog/links
+  - button "Campus" [expanded]
+  - list:
+    - listitem:
+      - link "Mobile App":
+        - /url: /mobile-app
+  - button "Admin tools" [expanded]
+  - list:
+    - listitem:
+      - link "User Management":
+        - /url: /admin/users
+    - listitem:
+      - link "Moderation":
+        - /url: /admin/moderation
+    - listitem:
+      - link "OAuth Clients":
+        - /url: /admin/oauth
+    - listitem:
+      - link "Bus Management":
+        - /url: /admin/bus
+- button "Toggle Sidebar"
+- list:
+  - listitem:
+    - button "Profile menu":
+      - img "校园管理员"
+      - text: 校园管理员 @dev-admin
+- main:
+  - button "Open search": Search sections, teachers, courses, homework, todos… Ctrl K
+  - button "Language selector"
+  - button "Theme selector"
+  - text: Admin
+  - heading "OAuth Clients" [level=1]
+  - paragraph: Manage OAuth client applications that can authenticate via Life@USTC.
+  - button "Create Client"
+  - alert: "web clients require https redirect URIs on non-loopback hosts: http://localhost:3000/oauth-e2e/trusted/callback"
+  - text: 0 clients No OAuth clients have been created yet. Create a client to register a trusted service, CLI, or native application.
+  - button "Create Client"
+- text: OAuth Clients - Life@USTC
+- dialog "Create Client":
+  - heading "Create Client" [level=2]
+  - text: Enter the application name, exact callback addresses, and required scopes, then choose one fixed safe client type.
+  - group:
+    - group:
+      - text: Client Type
+      - paragraph: Use trusted confidential for first-party services, public PKCE when an app cannot keep a secret, and an external confidential connector only when explicitly required.
+      - group "Client Type":
+        - radio "Trusted First-Party App"
+        - radio "MCP, Native, Or CLI"
+        - radio "External Confidential Connector"
+      - paragraph: Create a trusted confidential client for internal dashboards, server-rendered apps, and first-party services that can safely keep a secret.
+    - group:
+      - text: Application Name
+      - textbox "Application Name":
+        - /placeholder: My Application
+        - text: e2e-oauth-pattern-1786205357847-trusted
+    - group:
+      - text: Redirect URIs
+      - paragraph: 1 redirect URI
+      - textbox "Redirect URIs":
+        - /placeholder: https://example.com/callback
+        - text: http://localhost:3000/oauth-e2e/trusted/callback
+      - paragraph: One URI per line.
+    - group:
+      - text: Permissions
+      - paragraph: 8 scopes selected
+      - button "Authorize all"
+      - paragraph: Select exactly which scopes this client should be allowed to request.
+      - heading "Identity" [level=3]
+      - button "Select group"
+      - group:
+        - checkbox "View your profile information" [checked]
+        - text: View your profile information
+      - group:
+        - checkbox "View your email address" [checked]
+        - text: View your email address
+      - group:
+        - checkbox "Stay signed in and refresh access automatically"
+        - text: Stay signed in and refresh access automatically
+      - heading "Account" [level=3]
+      - button "Select group"
+      - paragraph: Profile
+      - checkbox "Read" [checked]
+      - text: Read
+      - checkbox "Manage"
+      - text: Manage
+      - heading "Catalog" [level=3]
+      - button "Select group"
+      - paragraph: Shuttle
+      - checkbox "Read"
+      - text: Read
+      - checkbox "Manage"
+      - text: Manage
+      - paragraph: Courses
+      - checkbox "Read"
+      - text: Read
+      - checkbox "Manage"
+      - text: Manage
+      - paragraph: Exams
+      - checkbox "Read"
+      - text: Read
+      - checkbox "Manage"
+      - text: Manage
+      - paragraph: Websites
+      - checkbox "Read"
+      - text: Read
+      - checkbox "Manage"
+      - text: Manage
+      - paragraph: Class schedules
+      - checkbox "Read"
+      - text: Read
+      - checkbox "Manage"
+      - text: Manage
+      - paragraph: Sections
+      - checkbox "Read"
+      - text: Read
+      - checkbox "Manage"
+      - text: Manage
+      - paragraph: Teachers
+      - checkbox "Read"
+      - text: Read
+      - checkbox "Manage"
+      - text: Manage
+      - heading "Community" [level=3]
+      - button "Select group"
+      - paragraph: Comments
+      - checkbox "Read"
+      - text: Read
+      - checkbox "Manage"
+      - text: Manage
+      - paragraph: Descriptions
+      - checkbox "Read"
+      - text: Read
+      - checkbox "Manage"
+      - text: Manage
+      - paragraph: Section homework
+      - checkbox "Read"
+      - text: Read
+      - checkbox "Manage"
+      - text: Manage
+      - paragraph: User profiles
+      - checkbox "Read"
+      - text: Read
+      - checkbox "Manage"
+      - text: Manage
+      - heading "Workspace" [level=3]
+      - button "Select group"
+      - paragraph: Shuttle preferences
+      - checkbox "Read"
+      - text: Read
+      - checkbox "Manage"
+      - text: Manage
+      - paragraph: Calendar
+      - checkbox "Read"
+      - text: Read
+      - checkbox "Manage"
+      - text: Manage
+      - paragraph: Exams
+      - checkbox "Read"
+      - text: Read
+      - checkbox "Manage"
+      - text: Manage
+      - paragraph: Homework
+      - checkbox "Read" [checked]
+      - text: Read
+      - checkbox "Manage" [checked]
+      - text: Manage
+      - paragraph: Pinned websites
+      - checkbox "Read"
+      - text: Read
+      - checkbox "Manage"
+      - text: Manage
+      - paragraph: Overview
+      - checkbox "Read"
+      - text: Read
+      - checkbox "Manage"
+      - text: Manage
+      - paragraph: Schedule
+      - checkbox "Read"
+      - text: Read
+      - checkbox "Manage"
+      - text: Manage
+      - paragraph: Subscriptions
+      - checkbox "Read"
+      - text: Read
+      - checkbox "Manage"
+      - text: Manage
+      - paragraph: Todos
+      - checkbox "Read" [checked]
+      - text: Read
+      - checkbox "Manage" [checked]
+      - text: Manage
+      - paragraph: Uploads
+      - checkbox "Read"
+      - text: Read
+      - checkbox "Manage"
+      - text: Manage
+      - heading "Admin" [level=3]
+      - button "Select group"
+      - paragraph: Admin backend
+      - checkbox "Read"
+      - text: Read
+      - checkbox "Manage"
+      - text: Manage
+  - button "Cancel"
+  - button "Create Client"
+  - button "Close"
+```
+
+# Test source
+
+```ts
+  55  |     choice: /外部机密连接器|External Confidential Connector/i,
+  56  |     method: "client_secret_post",
+  57  |     skipConsent: false,
+  58  |     enableEndSession: false,
+  59  |     expectSecret: true,
+  60  |     typeLabel:
+  61  |       /机密客户端（请求体携带密钥）|Confidential \(client secret in body\)/i,
+  62  |     trustLabel: /需用户授权|Consent required/i,
+  63  |   },
+  64  | ] as const;
+  65  | 
+  66  | async function openCreateDialog(page: Page) {
+  67  |   await page.getByRole("button", { name: CREATE_BUTTON }).first().click();
+  68  |   const dialog = page.getByRole("dialog", { name: CREATE_BUTTON });
+  69  |   await expect(dialog).toBeVisible();
+  70  |   return dialog;
+  71  | }
+  72  | 
+  73  | async function readClientSecret(
+  74  |   credentialsDialog: Locator,
+  75  |   expectSecret: boolean,
+  76  | ) {
+  77  |   const secretField = credentialsDialog
+  78  |     .locator('[data-slot="item"]')
+  79  |     .filter({ hasText: /客户端密钥|Client Secret/i });
+  80  |   const value = (
+  81  |     await secretField.locator('[data-slot="item-description"]').textContent()
+  82  |   )?.trim();
+  83  | 
+  84  |   if (expectSecret) {
+  85  |     expect(value).toBeTruthy();
+  86  |     await expect(
+  87  |       secretField.getByRole("button", { name: /复制密钥|Copy secret/i }),
+  88  |     ).toBeVisible();
+  89  |   } else {
+  90  |     await expect(
+  91  |       secretField.getByText(
+  92  |         /公共客户端不会签发客户端密钥|No client secret is issued for public clients/i,
+  93  |       ),
+  94  |     ).toBeVisible();
+  95  |     await expect(
+  96  |       secretField.getByRole("button", { name: /复制密钥|Copy secret/i }),
+  97  |     ).toHaveCount(0);
+  98  |   }
+  99  | 
+  100 |   return expectSecret ? value : undefined;
+  101 | }
+  102 | 
+  103 | test("/admin/oauth 未登录重定向到登录页", async ({ page }, testInfo) => {
+  104 |   await expectRequiresSignIn(page, "/admin/oauth");
+  105 |   await captureStepScreenshot(page, testInfo, "admin-oauth-unauthorized");
+  106 | });
+  107 | 
+  108 | test("/admin/oauth 普通用户访问返回 404", async ({ page }, testInfo) => {
+  109 |   await signInAsDebugUser(page, "/admin/oauth", "/admin/oauth");
+  110 |   await expect(page.getByText("404").first()).toBeVisible();
+  111 |   await expect(
+  112 |     page.getByRole("heading", { name: /页面不存在|Page Not Found/i }),
+  113 |   ).toBeVisible();
+  114 |   await captureStepScreenshot(page, testInfo, "admin-oauth-404");
+  115 | });
+  116 | 
+  117 | test("/admin/oauth 可创建三种固定客户端且密钥只显示一次", async ({
+  118 |   page,
+  119 | }, testInfo) => {
+  120 |   test.setTimeout(90_000);
+  121 |   const prefix = `e2e-oauth-pattern-${Date.now()}`;
+  122 |   const names = CLIENT_PATTERNS.map(({ suffix }) => `${prefix}-${suffix}`);
+  123 |   const secrets: string[] = [];
+  124 | 
+  125 |   try {
+  126 |     await signInAsDevAdmin(page, "/admin/oauth");
+  127 |     await expect(
+  128 |       page.getByRole("heading", { name: /OAuth 客户端管理|OAuth Clients/i }),
+  129 |     ).toBeVisible();
+  130 | 
+  131 |     for (const [index, pattern] of CLIENT_PATTERNS.entries()) {
+  132 |       const name = names[index];
+  133 |       const dialog = await openCreateDialog(page);
+  134 |       await expect(
+  135 |         dialog.getByRole("button", { name: /取消|Cancel/i }),
+  136 |       ).toBeVisible();
+  137 |       await dialog.getByRole("radio", { name: pattern.choice }).click();
+  138 |       await dialog.getByLabel(/应用名称|Application Name/i).fill(name);
+  139 |       await dialog
+  140 |         .getByLabel(/重定向 URI|Redirect URIs/i)
+  141 |         .fill(`${PLAYWRIGHT_BASE_URL}/oauth-e2e/${pattern.suffix}/callback`);
+  142 | 
+  143 |       const emailScope = dialog.getByRole("checkbox", {
+  144 |         name: /查看您的邮箱地址|View your email address/i,
+  145 |       });
+  146 |       if ((await emailScope.getAttribute("data-state")) !== "checked") {
+  147 |         await emailScope.click();
+  148 |       }
+  149 | 
+  150 |       await dialog.getByRole("button", { name: CREATE_BUTTON }).click();
+  151 | 
+  152 |       const credentialsDialog = page.getByRole("dialog", {
+  153 |         name: CREDENTIALS_DIALOG,
+  154 |       });
+> 155 |       await expect(credentialsDialog).toBeVisible({ timeout: 15_000 });
+      |                                       ^ Error: expect(locator).toBeVisible() failed
+  156 |       const secret = await readClientSecret(
+  157 |         credentialsDialog,
+  158 |         pattern.expectSecret,
+  159 |       );
+  160 |       if (secret) secrets.push(secret);
+  161 | 
+  162 |       const persisted = await getOAuthClientByName(name);
+  163 |       expect(persisted).toMatchObject({
+  164 |         disabled: false,
+  165 |         enableEndSession: pattern.enableEndSession,
+  166 |         requirePKCE: true,
+  167 |         skipConsent: pattern.skipConsent,
+  168 |         tokenEndpointAuthMethod: pattern.method,
+  169 |       });
+  170 |       expect(persisted?.scopes).toContain("email");
+  171 | 
+  172 |       await credentialsDialog
+  173 |         .getByRole("button", { name: /完成|Done/i })
+  174 |         .click();
+  175 |       await expect(credentialsDialog).toBeHidden();
+  176 |       if (secret) {
+  177 |         await expect(page.getByText(secret, { exact: true })).toHaveCount(0);
+  178 |       }
+  179 | 
+  180 |       const row = page.getByRole("row").filter({ hasText: name });
+  181 |       await expect(row).toBeVisible();
+  182 |       if (index === 0) {
+  183 |         await expect(
+  184 |           page.getByRole("columnheader", { name: /客户端|Client/i }),
+  185 |         ).toBeVisible();
+  186 |         await expect(
+  187 |           page.getByRole("columnheader", {
+  188 |             name: /信任 \/ 类型|Trust \/ Type/i,
+  189 |           }),
+  190 |         ).toBeVisible();
+  191 |       }
+  192 |       await expect(row).toContainText(persisted?.clientId ?? "");
+  193 |       await expect(row.getByText(pattern.typeLabel)).toBeVisible();
+  194 |       await expect(
+  195 |         row
+  196 |           .locator('[data-slot="badge"]')
+  197 |           .filter({ hasText: pattern.trustLabel }),
+  198 |       ).toBeVisible();
+  199 |       await expect(row.getByText(/已启用|Enabled/i)).toBeVisible();
+  200 |       await expect(
+  201 |         row.locator("td").nth(2).locator('[data-slot="truncated-text"]'),
+  202 |       ).toContainText("openid");
+  203 |     }
+  204 | 
+  205 |     await gotoAndWaitForReady(page, "/admin/oauth");
+  206 |     for (const secret of secrets) {
+  207 |       await expect(page.getByText(secret, { exact: true })).toHaveCount(0);
+  208 |     }
+  209 |     await expectNoPageHorizontalOverflow(page);
+  210 | 
+  211 |     await captureStepScreenshot(page, testInfo, "admin-oauth/simple-table");
+  212 |   } finally {
+  213 |     for (const name of names) {
+  214 |       await deleteOAuthClientsByName(name);
+  215 |     }
+  216 |   }
+  217 | });
+  218 | 
+  219 | test("/admin/oauth 显示 disabled 客户端并确认删除", async ({
+  220 |   page,
+  221 | }, testInfo) => {
+  222 |   const name = `e2e-oauth-disabled-${Date.now()}`;
+  223 | 
+  224 |   try {
+  225 |     await createOAuthClientFixture({ name });
+  226 |     await disableOAuthClientByName(name);
+  227 |     await signInAsDevAdmin(page, "/admin/oauth");
+  228 | 
+  229 |     const row = page.getByRole("row").filter({ hasText: name });
+  230 |     await expect(row).toBeVisible();
+  231 |     await expect(
+  232 |       row
+  233 |         .locator('[data-slot="badge"]')
+  234 |         .filter({ hasText: /已禁用|Disabled/i }),
+  235 |     ).toBeVisible();
+  236 |     await row.getByRole("button", { name: /删除|Delete/i }).click();
+  237 | 
+  238 |     const deleteDialog = page.getByRole("alertdialog", {
+  239 |       name: /删除客户端|Delete client|删除|Delete/i,
+  240 |     });
+  241 |     await expect(deleteDialog).toBeVisible();
+  242 |     await deleteDialog.getByRole("button", { name: /取消|Cancel/i }).click();
+  243 |     await expect(deleteDialog).toBeHidden();
+  244 |     expect(await getOAuthClientByName(name)).not.toBeNull();
+  245 | 
+  246 |     await row.getByRole("button", { name: /删除|Delete/i }).click();
+  247 |     await deleteDialog.getByRole("button", { name: /删除|Delete/i }).click();
+  248 | 
+  249 |     await expect(page.getByText(name)).toHaveCount(0, { timeout: 15_000 });
+  250 |     expect(await getOAuthClientByName(name)).toBeNull();
+  251 |     await captureStepScreenshot(page, testInfo, "admin-oauth/disabled-delete");
+  252 |   } finally {
+  253 |     await deleteOAuthClientsByName(name);
+  254 |   }
+  255 | });
+```

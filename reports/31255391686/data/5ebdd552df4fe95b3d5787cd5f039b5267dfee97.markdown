@@ -1,0 +1,317 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: src/app/settings/danger/test.ts >> 页面契约
+- Location: tests/e2e/src/app/settings/danger/test.ts:159:1
+
+# Error details
+
+```
+Error: expect(locator).toBeVisible() failed
+
+Locator: getByRole('heading', { name: /危险|Danger/i })
+Expected: visible
+Timeout: 5000ms
+Error: element(s) not found
+
+Call log:
+  - Expect "toBeVisible" with timeout 5000ms
+  - waiting for getByRole('heading', { name: /危险|Danger/i })
+
+```
+
+```yaml
+- link "Skip to main content":
+  - /url: "#main-content"
+- navigation "Primary navigation":
+  - list:
+    - listitem:
+      - link "Life@USTC":
+        - /url: /
+  - button "Workspace" [expanded]
+  - list:
+    - listitem:
+      - link "Today":
+        - /url: /workspace/overview
+    - listitem:
+      - link "Calendar":
+        - /url: /workspace/calendar
+    - listitem:
+      - link "Homework":
+        - /url: /workspace/homeworks
+    - listitem:
+      - link "Todos":
+        - /url: /workspace/todos
+    - listitem:
+      - link "Exams":
+        - /url: /workspace/exams
+    - listitem:
+      - link "Section Subscriptions":
+        - /url: /workspace/subscriptions
+  - button "Catalog" [expanded]
+  - list:
+    - listitem:
+      - link "Courses":
+        - /url: /catalog/courses
+    - listitem:
+      - link "Sections":
+        - /url: /catalog/sections
+    - listitem:
+      - link "Teachers":
+        - /url: /catalog/teachers
+    - listitem:
+      - link "Shuttle Bus":
+        - /url: /catalog/bus
+    - listitem:
+      - link "Websites":
+        - /url: /catalog/links
+  - button "Campus" [expanded]
+  - list:
+    - listitem:
+      - link "Mobile App":
+        - /url: /mobile-app
+- button "Toggle Sidebar"
+- list:
+  - listitem:
+    - button "Profile menu":
+      - img "Dev User"
+      - text: Dev User @dev-user
+- main:
+  - button "Open search": Search sections, teachers, courses, homework, todos… Ctrl K
+  - button "Language selector"
+  - button "Theme selector"
+  - heading "Settings" [level=1]
+  - paragraph: Manage account, content, and safety options here.
+  - list:
+    - listitem:
+      - link "Profile":
+        - /url: /account/settings/profile
+    - listitem:
+      - link "Preferences":
+        - /url: /account/settings/preferences
+    - listitem:
+      - link "Linked accounts":
+        - /url: /account/settings/accounts
+    - listitem:
+      - link "Authorized apps":
+        - /url: /account/settings/authorizations
+    - listitem:
+      - link "Danger zone":
+        - /url: /account/settings/danger
+  - region "Delete Account":
+    - heading "Delete Account" [level=2]
+    - paragraph: Permanently delete your account and all associated data. This action cannot be undone.
+    - button "Delete Account"
+```
+
+# Test source
+
+```ts
+  2   | import {
+  3   |   expectRequiresSignIn,
+  4   |   signInAsDebugUser,
+  5   |   signInAsDevAdmin,
+  6   | } from "../../../utils/auth";
+  7   | import { DEV_SEED } from "../../../utils/dev-seed";
+  8   | import {
+  9   |   expandWorkspaceSidebarGroup,
+  10  |   sidebarNavigationLink,
+  11  |   visibleText,
+  12  | } from "../../../utils/locators";
+  13  | import {
+  14  |   gotoAndWaitForReady,
+  15  |   waitForUiSettled,
+  16  | } from "../../../utils/page-ready";
+  17  | import { captureStepScreenshot } from "../../../utils/screenshot";
+  18  | import {
+  19  |   resolveSeedSectionId,
+  20  |   resolveSeedTeacherId,
+  21  | } from "../../../utils/seed-lookups";
+  22  | 
+  23  | type PageContractCase = {
+  24  |   routePath: string;
+  25  |   testInfo?: TestInfo;
+  26  | };
+  27  | 
+  28  | function getContractWaitUntil(routePath: string) {
+  29  |   if (
+  30  |     routePath === "/api/docs/tag/catalog-section" ||
+  31  |     routePath === "/guides/markdown-support"
+  32  |   ) {
+  33  |     return "load" as const;
+  34  |   }
+  35  |   return "domcontentloaded" as const;
+  36  | }
+  37  | 
+  38  | async function maybeCapture(
+  39  |   page: Page,
+  40  |   testInfo: TestInfo | undefined,
+  41  |   name: string,
+  42  | ) {
+  43  |   if (!testInfo) {
+  44  |     return;
+  45  |   }
+  46  |   await captureStepScreenshot(page, testInfo, name);
+  47  | }
+  48  | 
+  49  | async function gotoContractPage(
+  50  |   page: Page,
+  51  |   path: string,
+  52  |   testInfo: TestInfo | undefined,
+  53  | ) {
+  54  |   const response = await gotoAndWaitForReady(page, path, {
+  55  |     waitUntil: getContractWaitUntil(path),
+  56  |     testInfo,
+  57  |     screenshotLabel: "contract",
+  58  |   });
+  59  | 
+  60  |   if (response) {
+  61  |     expect(response.status()).toBeLessThan(500);
+  62  |   }
+  63  | 
+  64  |   return response;
+  65  | }
+  66  | 
+  67  | async function expectMainContent(page: Page) {
+  68  |   await expect(page.locator("#main-content")).toBeVisible();
+  69  | }
+  70  | 
+  71  | export async function assertPageContract(
+  72  |   page: Page,
+  73  |   { routePath, testInfo }: PageContractCase,
+  74  | ) {
+  75  |   if (routePath.startsWith("/account/settings/")) {
+  76  |     if (routePath === "/account/settings") {
+  77  |       // handled explicitly below for explicitness
+  78  |     } else {
+  79  |       await signInAsDebugUser(page, routePath);
+  80  |       await gotoContractPage(page, routePath, testInfo);
+  81  |       await expectMainContent(page);
+  82  |       const expectedTab = routePath.split("/").pop();
+  83  |       const tabMarker =
+  84  |         expectedTab === "profile"
+  85  |           ? page.getByRole("heading", { name: /编辑个人资料|Edit Profile/i })
+  86  |           : expectedTab === "accounts"
+  87  |             ? page.getByRole("region", {
+  88  |                 name: /关联账户|Linked accounts/i,
+  89  |               })
+  90  |             : expectedTab === "preferences"
+  91  |               ? page.getByText(/外观|Appearance/i).first()
+  92  |               : expectedTab === "authorizations"
+  93  |                 ? page.getByRole("region", {
+  94  |                     name: /已授权的 OAuth 应用|Authorized OAuth applications/i,
+  95  |                   })
+  96  |                 : expectedTab === "danger"
+  97  |                   ? page.getByRole("heading", { name: /危险|Danger/i })
+  98  |                   : page.getByRole("heading", { name: /设置|Settings/i });
+  99  |       await expect(
+  100 |         page.getByRole("heading", { name: /设置|Settings/i, level: 1 }),
+  101 |       ).toBeVisible();
+> 102 |       await expect(tabMarker).toBeVisible();
+      |                               ^ Error: expect(locator).toBeVisible() failed
+  103 |       return;
+  104 |     }
+  105 |   }
+  106 | 
+  107 |   if (routePath === "/workspace/subscriptions/sections") {
+  108 |     await signInAsDebugUser(page, "/workspace/subscriptions");
+  109 |     await gotoContractPage(page, routePath, testInfo);
+  110 |     await expect(page).toHaveURL(/\/workspace\/subscriptions(?:\?.*)?$/);
+  111 |     await expectMainContent(page);
+  112 |     return;
+  113 |   }
+  114 | 
+  115 |   if (
+  116 |     routePath === "/workspace/[tab]" ||
+  117 |     routePath.startsWith("/workspace/") ||
+  118 |     routePath === "/workspace"
+  119 |   ) {
+  120 |     await signInAsDebugUser(page, routePath === "/workspace" ? "/" : routePath);
+  121 |     await gotoContractPage(page, routePath, testInfo);
+  122 |     await expectMainContent(page);
+  123 |     await expandWorkspaceSidebarGroup(page);
+  124 |     await expect(sidebarNavigationLink(page, /^(今天|Today)$/i)).toBeVisible({
+  125 |       timeout: 10_000,
+  126 |     });
+  127 |     return;
+  128 |   }
+  129 | 
+  130 |   switch (routePath) {
+  131 |     case "/admin": {
+  132 |       await signInAsDevAdmin(page, "/admin");
+  133 |       await gotoContractPage(page, routePath, testInfo);
+  134 |       await expect(page).toHaveURL(/\/admin\/users(?:\?.*)?$/);
+  135 |       await expectMainContent(page);
+  136 |       await expect(
+  137 |         page.getByRole("link", { name: /用户管理|User Management/i }),
+  138 |       ).toBeVisible();
+  139 |       await expect(
+  140 |         page.getByRole("link", { name: /内容审核|Moderation/i }),
+  141 |       ).toBeVisible();
+  142 |       await expect(
+  143 |         page.getByRole("link", { name: /OAuth|OAuth 客户端/i }),
+  144 |       ).toBeVisible();
+  145 |       await expect(
+  146 |         page.getByRole("link", { name: /校车管理|Bus Management/i }),
+  147 |       ).toBeVisible();
+  148 |       await maybeCapture(page, testInfo, "admin-entry");
+  149 |       return;
+  150 |     }
+  151 | 
+  152 |     case "/admin/bus": {
+  153 |       await signInAsDevAdmin(page, "/admin/bus");
+  154 |       await gotoContractPage(page, routePath, testInfo);
+  155 |       await expectMainContent(page);
+  156 |       await expect(
+  157 |         page.getByRole("heading", { name: /校车管理|Bus Management/i }),
+  158 |       ).toBeVisible();
+  159 |       await expect(
+  160 |         page.getByRole("button", { name: /导入|Import/i }),
+  161 |       ).toBeVisible();
+  162 |       await maybeCapture(page, testInfo, "admin-bus");
+  163 |       return;
+  164 |     }
+  165 | 
+  166 |     case "/admin/moderation": {
+  167 |       await signInAsDevAdmin(page, "/admin/moderation");
+  168 |       await gotoContractPage(page, routePath, testInfo);
+  169 |       await expectMainContent(page);
+  170 |       await expect(
+  171 |         page.getByRole("heading", { name: /内容审核|Moderation/i }),
+  172 |       ).toBeVisible();
+  173 |       await expect(
+  174 |         page.getByRole("link", { name: /评论|Comments/i }),
+  175 |       ).toBeVisible();
+  176 |       await maybeCapture(page, testInfo, "admin-moderation");
+  177 |       return;
+  178 |     }
+  179 | 
+  180 |     case "/admin/oauth": {
+  181 |       await signInAsDevAdmin(page, "/admin/oauth");
+  182 |       await gotoContractPage(page, routePath, testInfo);
+  183 |       await expectMainContent(page);
+  184 |       await expect(
+  185 |         page.getByRole("heading", { name: /OAuth|OAuth 客户端/i }),
+  186 |       ).toBeVisible();
+  187 |       // Header + empty-state both expose Create Client; L1 only needs one.
+  188 |       await expect(
+  189 |         page.getByRole("button", { name: /创建客户端|Create Client/i }).first(),
+  190 |       ).toBeVisible();
+  191 |       await maybeCapture(page, testInfo, "admin-oauth");
+  192 |       return;
+  193 |     }
+  194 | 
+  195 |     case "/admin/users": {
+  196 |       await signInAsDevAdmin(page, "/admin/users");
+  197 |       await gotoContractPage(page, routePath, testInfo);
+  198 |       await expectMainContent(page);
+  199 |       await expect(
+  200 |         page.getByRole("heading", {
+  201 |           name: /用户管理|User Management|用户列表|Users/i,
+  202 |         }),
+```

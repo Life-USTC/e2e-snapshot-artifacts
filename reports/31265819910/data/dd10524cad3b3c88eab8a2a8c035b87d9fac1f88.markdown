@@ -1,0 +1,159 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: src/app/api/oauth/register/test.ts >> OAuth 提供者 >> loopback 授权接受 127.0.0.1 DCR 客户端的 localhost 别名
+- Location: tests/e2e/src/app/api/oauth/register/test.ts:324:3
+
+# Error details
+
+```
+Error: expect(received).toBe(expected) // Object.is equality
+
+Expected: 201
+Received: 400
+```
+
+# Test source
+
+```ts
+  242 | 
+  243 |     const callbackUrl = new URL(page.url());
+  244 |     const code = callbackUrl.searchParams.get("code");
+  245 |     expect(typeof code).toBe("string");
+  246 |     if (typeof code !== "string") {
+  247 |       throw new Error("Missing OAuth authorization code");
+  248 |     }
+  249 | 
+  250 |     // Exchange code for token.
+  251 |     const tokenResponse = await request.post("/api/auth/oauth2/token", {
+  252 |       form: {
+  253 |         grant_type: OAUTH_AUTHORIZATION_CODE_GRANT_TYPE,
+  254 |         client_id: clientId,
+  255 |         code,
+  256 |         code_verifier: CODE_VERIFIER,
+  257 |         redirect_uri: REDIRECT_URI,
+  258 |         resource: RESOURCE,
+  259 |       },
+  260 |     });
+  261 |     expect(tokenResponse.status()).toBe(200);
+  262 |     const tokenBody = (await tokenResponse.json()) as {
+  263 |       access_token?: string;
+  264 |     };
+  265 |     expect(typeof tokenBody.access_token).toBe("string");
+  266 | 
+  267 |     // Userinfo should return profile claims when openid scope exists.
+  268 |     const userinfoResponse = await request.get("/api/auth/oauth2/userinfo", {
+  269 |       headers: { authorization: `Bearer ${tokenBody.access_token}` },
+  270 |     });
+  271 |     expect(userinfoResponse.status()).toBe(200);
+  272 |     const userinfoBody = (await userinfoResponse.json()) as { sub?: string };
+  273 |     expect(typeof userinfoBody.sub).toBe("string");
+  274 |   });
+  275 | 
+  276 |   test("动态注册接受无 redirect URI 的纯 device 客户端", async ({
+  277 |     request,
+  278 |   }) => {
+  279 |     const registrationResponse = await request.post(
+  280 |       "/api/auth/oauth2/register",
+  281 |       {
+  282 |         data: {
+  283 |           client_name: `e2e-device-${Date.now()}`,
+  284 |           token_endpoint_auth_method: OAUTH_PUBLIC_CLIENT_AUTH_METHOD,
+  285 |           grant_types: [OAUTH_DEVICE_CODE_GRANT_TYPE],
+  286 |           scope: `${OAUTH_OPENID_SCOPE} ${OAUTH_PROFILE_SCOPE}`,
+  287 |         },
+  288 |       },
+  289 |     );
+  290 | 
+  291 |     expect(registrationResponse.status()).toBe(201);
+  292 |     const registrationBody = (await registrationResponse.json()) as {
+  293 |       client_id?: string;
+  294 |       grant_types?: string[];
+  295 |       redirect_uris?: string[];
+  296 |     };
+  297 |     expect(typeof registrationBody.client_id).toBe("string");
+  298 |     expect(registrationBody.grant_types).toEqual([
+  299 |       OAUTH_DEVICE_CODE_GRANT_TYPE,
+  300 |     ]);
+  301 |     expect(registrationBody.redirect_uris).toEqual([]);
+  302 |   });
+  303 | 
+  304 |   test("Bearer-only 资源服务器拒绝强制 DPoP 的动态注册", async ({
+  305 |     request,
+  306 |   }) => {
+  307 |     const response = await request.post("/api/auth/oauth2/register", {
+  308 |       data: {
+  309 |         client_name: `e2e-dpop-only-${Date.now()}`,
+  310 |         dpop_bound_access_tokens: true,
+  311 |         redirect_uris: [REDIRECT_URI],
+  312 |         token_endpoint_auth_method: OAUTH_PUBLIC_CLIENT_AUTH_METHOD,
+  313 |       },
+  314 |     });
+  315 | 
+  316 |     expect(response.status()).toBe(400);
+  317 |     await expect(response.json()).resolves.toEqual({
+  318 |       error: "invalid_client_metadata",
+  319 |       error_description:
+  320 |         "DPoP-bound access tokens are not supported by this Bearer-only resource server",
+  321 |     });
+  322 |   });
+  323 | 
+  324 |   test("loopback 授权接受 127.0.0.1 DCR 客户端的 localhost 别名", async ({
+  325 |     page,
+  326 |     request,
+  327 |   }) => {
+  328 |     const registrationResponse = await request.post(
+  329 |       "/api/auth/oauth2/register",
+  330 |       {
+  331 |         data: {
+  332 |           client_name: `e2e-loopback-${Date.now()}`,
+  333 |           redirect_uris: [LOOPBACK_REDIRECT_URI],
+  334 |           token_endpoint_auth_method: OAUTH_PUBLIC_CLIENT_AUTH_METHOD,
+  335 |           grant_types: [OAUTH_AUTHORIZATION_CODE_GRANT_TYPE],
+  336 |           response_types: [OAUTH_CODE_RESPONSE_TYPE],
+  337 |           scope: DCR_CLIENT_SCOPE,
+  338 |           type: "native",
+  339 |         },
+  340 |       },
+  341 |     );
+> 342 |     expect(registrationResponse.status()).toBe(201);
+      |                                           ^ Error: expect(received).toBe(expected) // Object.is equality
+  343 |     const registrationBody = (await registrationResponse.json()) as {
+  344 |       client_id?: string;
+  345 |     };
+  346 |     const clientId = registrationBody.client_id;
+  347 |     expect(typeof clientId).toBe("string");
+  348 |     if (typeof clientId !== "string") {
+  349 |       throw new Error("Missing OAuth client_id");
+  350 |     }
+  351 | 
+  352 |     await signInAsDebugUser(page, "/");
+  353 | 
+  354 |     const authorizeResponse = await page.request.get(
+  355 |       "/api/auth/oauth2/authorize",
+  356 |       {
+  357 |         params: {
+  358 |           response_type: OAUTH_CODE_RESPONSE_TYPE,
+  359 |           client_id: clientId,
+  360 |           redirect_uri: LOOPBACK_LOCALHOST_REDIRECT_URI,
+  361 |           scope: DCR_CLIENT_SCOPE,
+  362 |           state: "e2e-loopback-state",
+  363 |           prompt: "consent",
+  364 |           code_challenge: await generateCodeChallenge(CODE_VERIFIER),
+  365 |           code_challenge_method: "S256",
+  366 |         },
+  367 |         maxRedirects: 0,
+  368 |       },
+  369 |     );
+  370 | 
+  371 |     expect(authorizeResponse.status()).toBe(302);
+  372 |     expect(authorizeResponse.headers().location).toContain("/oauth/authorize?");
+  373 |   });
+  374 | });
+  375 | 
+```

@@ -1,0 +1,298 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: src/app/oauth/authorize/test.ts >> 页面契约
+- Location: tests/e2e/src/app/oauth/authorize/test.ts:214:1
+
+# Error details
+
+```
+Error: expect(locator).toBeVisible() failed
+
+Locator: getByRole('heading', { name: /OAuth|授权|Authorize/i })
+Expected: visible
+Timeout: 5000ms
+Error: element(s) not found
+
+Call log:
+  - Expect "toBeVisible" with timeout 5000ms
+  - waiting for getByRole('heading', { name: /OAuth|授权|Authorize/i })
+
+```
+
+```yaml
+- link "Skip to main content":
+  - /url: "#main-content"
+- navigation "Primary navigation":
+  - list:
+    - listitem:
+      - link "Life@USTC":
+        - /url: /
+  - button "Catalog" [expanded]
+  - list:
+    - listitem:
+      - link "Courses":
+        - /url: /catalog/courses
+    - listitem:
+      - link "Sections":
+        - /url: /catalog/sections
+    - listitem:
+      - link "Teachers":
+        - /url: /catalog/teachers
+    - listitem:
+      - link "Shuttle Bus":
+        - /url: /catalog/bus
+    - listitem:
+      - link "Websites":
+        - /url: /catalog/links
+  - button "Campus" [expanded]
+  - list:
+    - listitem:
+      - link "Mobile App":
+        - /url: /mobile-app
+- button "Toggle Sidebar"
+- main:
+  - button "Open search": Search sections, teachers, courses… Ctrl K
+  - button "Language selector"
+  - button "Theme selector"
+  - link "Sign In":
+    - /url: /account/sign-in
+  - heading "Sign In" [level=1]
+  - button "US Sign in with USTC"
+  - button "GI Sign in with GitHub"
+  - button "GO Sign in with Google"
+  - button "Sign in with Debug User (Dev)"
+  - button "Sign in with Admin User (Dev)"
+  - button "Sign in with a passkey"
+  - paragraph:
+    - text: By signing in, you agree to our
+    - link "Terms of Service":
+      - /url: /terms
+    - text: and
+    - link "Privacy Policy":
+      - /url: /privacy
+    - text: .
+- contentinfo:
+  - navigation "Footer navigation":
+    - link "Terms of Service":
+      - /url: /terms
+    - link "Privacy Policy":
+      - /url: /privacy
+    - link "GitHub":
+      - /url: https://github.com/Life-USTC/server
+    - link "Mobile App":
+      - /url: /mobile-app
+  - paragraph: Life@USTC
+```
+
+# Test source
+
+```ts
+  422 |       );
+  423 |       await expect(page).toHaveURL(
+  424 |         new RegExp(`/catalog/teachers/${teacherId}#introduction$`),
+  425 |       );
+  426 |       await expectMainContent(page);
+  427 |       return;
+  428 |     }
+  429 | 
+  430 |     case "/catalog/sections": {
+  431 |       await gotoContractPage(
+  432 |         page,
+  433 |         `/catalog/sections?search=${encodeURIComponent(DEV_SEED.section.code)}`,
+  434 |         testInfo,
+  435 |       );
+  436 |       await expectMainContent(page);
+  437 |       // section-list.display.fields: code, course.namePrimary, campus.namePrimary
+  438 |       await expect(visibleText(page, DEV_SEED.section.code)).toBeVisible();
+  439 |       await expect(
+  440 |         page
+  441 |           .getByText(DEV_SEED.course.nameCn)
+  442 |           .or(page.getByText(DEV_SEED.course.nameEn))
+  443 |           .filter({ visible: true })
+  444 |           .first(),
+  445 |       ).toBeVisible();
+  446 |       await expect(
+  447 |         page
+  448 |           .getByText(DEV_SEED.campus.nameCn)
+  449 |           .or(page.getByText(DEV_SEED.campus.nameEn))
+  450 |           .filter({ visible: true })
+  451 |           .first(),
+  452 |       ).toBeVisible();
+  453 |       await maybeCapture(page, testInfo, "sections");
+  454 |       return;
+  455 |     }
+  456 | 
+  457 |     case "/catalog/teachers": {
+  458 |       await gotoContractPage(
+  459 |         page,
+  460 |         `/catalog/teachers?search=${encodeURIComponent(DEV_SEED.teacher.nameCn)}`,
+  461 |         testInfo,
+  462 |       );
+  463 |       await expectMainContent(page);
+  464 |       // teacher-list.display.fields: namePrimary, department, title, email, _count.sections
+  465 |       await expect(
+  466 |         page
+  467 |           .getByText(DEV_SEED.teacher.nameCn)
+  468 |           .or(page.getByText(DEV_SEED.teacher.nameEn))
+  469 |           .filter({ visible: true })
+  470 |           .first(),
+  471 |       ).toBeVisible();
+  472 |       await expect(
+  473 |         page
+  474 |           .getByText(DEV_SEED.teacher.departmentNameCn)
+  475 |           .or(page.getByText(DEV_SEED.teacher.departmentNameEn))
+  476 |           .filter({ visible: true })
+  477 |           .first(),
+  478 |       ).toBeVisible();
+  479 |       await maybeCapture(page, testInfo, "teachers");
+  480 |       return;
+  481 |     }
+  482 | 
+  483 |     case "/catalog/courses": {
+  484 |       await gotoContractPage(
+  485 |         page,
+  486 |         `/catalog/courses?search=${encodeURIComponent(DEV_SEED.course.code)}`,
+  487 |         testInfo,
+  488 |       );
+  489 |       await expectMainContent(page);
+  490 |       await expect(visibleText(page, DEV_SEED.course.nameCn)).toBeVisible();
+  491 |       await maybeCapture(page, testInfo, "courses");
+  492 |       return;
+  493 |     }
+  494 | 
+  495 |     case "/guides/markdown-support": {
+  496 |       await gotoContractPage(page, routePath, testInfo);
+  497 |       await waitForUiSettled(page);
+  498 |       await expect(page.locator("pre").first()).toBeVisible();
+  499 |       await expect(page.locator("table").first()).toBeVisible();
+  500 |       await maybeCapture(page, testInfo, "guides-markdown-support");
+  501 |       return;
+  502 |     }
+  503 | 
+  504 |     case "/mobile-app": {
+  505 |       await gotoContractPage(page, routePath, testInfo);
+  506 |       await expectMainContent(page);
+  507 |       await expect(
+  508 |         page.getByRole("link", { name: /App Store|下载/i }),
+  509 |       ).toBeVisible();
+  510 |       await expect(
+  511 |         page.locator('img[src="/images/mobile-app/screenshot-01.png"]').first(),
+  512 |       ).toBeVisible();
+  513 |       await maybeCapture(page, testInfo, "mobile-app");
+  514 |       return;
+  515 |     }
+  516 | 
+  517 |     case "/oauth/authorize": {
+  518 |       await gotoContractPage(page, routePath, testInfo);
+  519 |       await expectMainContent(page);
+  520 |       await expect(
+  521 |         page.getByRole("heading", { name: /OAuth|授权|Authorize/i }),
+> 522 |       ).toBeVisible();
+      |         ^ Error: expect(locator).toBeVisible() failed
+  523 |       await maybeCapture(page, testInfo, "oauth-authorize");
+  524 |       return;
+  525 |     }
+  526 | 
+  527 |     case "/oauth/device": {
+  528 |       await gotoContractPage(page, routePath, testInfo);
+  529 |       await expectMainContent(page);
+  530 |       await expect(
+  531 |         page.locator('input#code, input[type="text"][name="code"]').first(),
+  532 |       ).toBeVisible();
+  533 |       await maybeCapture(page, testInfo, "oauth-device");
+  534 |       return;
+  535 |     }
+  536 | 
+  537 |     case "/privacy": {
+  538 |       await gotoContractPage(page, routePath, testInfo);
+  539 |       await expect(page.locator("h1")).toBeVisible();
+  540 |       await expect(page.locator("h2").first()).toBeVisible();
+  541 |       await expect(page.locator("li").first()).toBeVisible();
+  542 |       await maybeCapture(page, testInfo, "privacy");
+  543 |       return;
+  544 |     }
+  545 | 
+  546 |     case "/account/settings": {
+  547 |       await signInAsDebugUser(page, "/account/settings/profile");
+  548 |       await gotoContractPage(page, routePath, testInfo);
+  549 |       await expectMainContent(page);
+  550 |       await expect(
+  551 |         page.getByRole("heading", { name: /设置|Settings/i }),
+  552 |       ).toBeVisible();
+  553 |       await expect(
+  554 |         page.getByRole("link", { name: /个人资料|Profile/i }),
+  555 |       ).toBeVisible();
+  556 |       await expect(
+  557 |         page.getByRole("link", { name: /账号关联|Accounts/i }),
+  558 |       ).toBeVisible();
+  559 |       await expect(
+  560 |         page.getByRole("link", { name: /危险区|Danger/i }),
+  561 |       ).toBeVisible();
+  562 |       await maybeCapture(page, testInfo, "settings");
+  563 |       return;
+  564 |     }
+  565 | 
+  566 |     case "/terms": {
+  567 |       await gotoContractPage(page, routePath, testInfo);
+  568 |       await expect(page.locator("h1")).toBeVisible();
+  569 |       await expect(page.locator("h2").first()).toBeVisible();
+  570 |       await expect(page.locator("li").first()).toBeVisible();
+  571 |       await maybeCapture(page, testInfo, "terms");
+  572 |       return;
+  573 |     }
+  574 | 
+  575 |     case "/account/welcome": {
+  576 |       await expectRequiresSignIn(page, routePath);
+  577 |       await maybeCapture(page, testInfo, "welcome");
+  578 |       return;
+  579 |     }
+  580 | 
+  581 |     case "/": {
+  582 |       await gotoContractPage(page, routePath, testInfo);
+  583 |       await expectMainContent(page);
+  584 |       await expect(
+  585 |         page.getByRole("heading", {
+  586 |           level: 1,
+  587 |           name: /课程、课表与校园生活，一站搞定|Courses, schedules, and campus life/i,
+  588 |         }),
+  589 |       ).toBeVisible();
+  590 |       await expect(
+  591 |         page
+  592 |           .locator("#main-content")
+  593 |           .getByRole("link", { name: /^(课程|Courses)$/i }),
+  594 |       ).toBeVisible();
+  595 |       await expect(page.getByTestId("bus-compact-summary")).toHaveCount(0);
+  596 |       await maybeCapture(page, testInfo, "home");
+  597 |       return;
+  598 |     }
+  599 | 
+  600 |     case "/api/docs/tag/catalog-section": {
+  601 |       await gotoContractPage(page, routePath, testInfo);
+  602 |       await expectMainContent(page);
+  603 |       await waitForUiSettled(page);
+  604 |       await expect(page.locator("#api-reference")).toBeVisible();
+  605 |       await maybeCapture(page, testInfo, "api-docs");
+  606 |       return;
+  607 |     }
+  608 | 
+  609 |     case "/error": {
+  610 |       await gotoContractPage(page, "/error?error=consent_failed", testInfo);
+  611 |       await expectMainContent(page);
+  612 |       await expect(
+  613 |         page.getByRole("heading", {
+  614 |           name: /授权错误|Authorization Error/i,
+  615 |         }),
+  616 |       ).toBeVisible();
+  617 |       await expect(
+  618 |         page.getByRole("link", { name: /返回首页|Return home/i }),
+  619 |       ).toBeVisible();
+  620 |       return;
+  621 |     }
+  622 | 
+```

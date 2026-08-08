@@ -1,0 +1,226 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: src/app/api/oauth/register/test.ts >> OAuth 提供者 >> 动态注册 + 授权同意 + 授权码交换 + userinfo
+- Location: tests/e2e/src/app/api/oauth/register/test.ts:171:3
+
+# Error details
+
+```
+Error: expect(received).toBe(expected) // Object.is equality
+
+Expected: 201
+Received: 400
+```
+
+# Test source
+
+```ts
+  90  |       }),
+  91  |       request.fetch("/api/auth/.well-known/openid-configuration", {
+  92  |         method: "OPTIONS",
+  93  |       }),
+  94  |       request.get("/.well-known/oauth-authorization-server", {
+  95  |         maxRedirects: 0,
+  96  |       }),
+  97  |       request.get("/.well-known/openid-configuration", { maxRedirects: 0 }),
+  98  |       request.get("/.well-known/oauth-protected-resource", {
+  99  |         maxRedirects: 0,
+  100 |       }),
+  101 |     ]);
+  102 | 
+  103 |     expect(authServer.status()).toBe(200);
+  104 |     expect(openid.status()).toBe(200);
+  105 |     expect(openidCompatibility.status()).toBe(200);
+  106 |     expect(protectedResource.status()).toBe(200);
+  107 |     expect(protectedResourceHead.status()).toBe(200);
+  108 |     expect(await protectedResourceHead.body()).toHaveLength(0);
+  109 |     expect(authServerMcpCompatibility.status()).toBe(307);
+  110 |     expect(openidMcpCompatibility.status()).toBe(307);
+  111 |     expect(authServerMcpRelative.status()).toBe(307);
+  112 |     expect(openidMcpRelative.status()).toBe(307);
+  113 |     expect(openid.headers()["access-control-allow-origin"]).toBe("*");
+  114 |     expect(openidCompatibility.headers()["access-control-allow-origin"]).toBe(
+  115 |       "*",
+  116 |     );
+  117 |     expect(authServer.headers()["access-control-allow-origin"]).toBe("*");
+  118 |     expect(protectedResource.headers()["access-control-allow-origin"]).toBe(
+  119 |       "*",
+  120 |     );
+  121 |     expect(openidOptions.status()).toBe(204);
+  122 |     expect(openidOptions.headers()["access-control-allow-origin"]).toBe("*");
+  123 | 
+  124 |     expect(authServerAlias.status()).toBe(307);
+  125 |     expect(new URL(authServerAlias.headers().location ?? "").pathname).toBe(
+  126 |       "/.well-known/oauth-authorization-server/api/auth",
+  127 |     );
+  128 |     expect(authServerAlias.headers()["access-control-allow-origin"]).toBe("*");
+  129 | 
+  130 |     expect(openidAlias.status()).toBe(307);
+  131 |     expect(new URL(openidAlias.headers().location ?? "").pathname).toBe(
+  132 |       "/api/auth/.well-known/openid-configuration",
+  133 |     );
+  134 |     expect(openidAlias.headers()["access-control-allow-origin"]).toBe("*");
+  135 | 
+  136 |     expect(protectedResourceAlias.status()).toBe(307);
+  137 |     expect(
+  138 |       new URL(protectedResourceAlias.headers().location ?? "").pathname,
+  139 |     ).toBe("/.well-known/oauth-protected-resource/api/mcp");
+  140 |     expect(
+  141 |       protectedResourceAlias.headers()["access-control-allow-origin"],
+  142 |     ).toBe("*");
+  143 | 
+  144 |     const protectedResourceBody = (await protectedResource.json()) as {
+  145 |       scopes_supported?: string[];
+  146 |     };
+  147 |     expect(protectedResourceBody.scopes_supported).toContain(
+  148 |       "workspace.todo:read",
+  149 |     );
+  150 |     expect(protectedResourceBody.scopes_supported).toContain(
+  151 |       "workspace.todo:write",
+  152 |     );
+  153 |     expect(protectedResourceBody.scopes_supported).not.toContain("admin:read");
+  154 |     expect(protectedResourceBody.scopes_supported).not.toContain("admin:write");
+  155 |     expect(protectedResourceBody.scopes_supported).not.toContain("mcp:tools");
+  156 | 
+  157 |     expect(
+  158 |       new URL(authServerMcpCompatibility.headers().location ?? "").pathname,
+  159 |     ).toBe("/.well-known/oauth-authorization-server/api/auth");
+  160 |     expect(
+  161 |       new URL(openidMcpCompatibility.headers().location ?? "").pathname,
+  162 |     ).toBe("/api/auth/.well-known/openid-configuration");
+  163 |     expect(
+  164 |       new URL(authServerMcpRelative.headers().location ?? "").pathname,
+  165 |     ).toBe("/.well-known/oauth-authorization-server/api/auth");
+  166 |     expect(new URL(openidMcpRelative.headers().location ?? "").pathname).toBe(
+  167 |       "/api/auth/.well-known/openid-configuration",
+  168 |     );
+  169 |   });
+  170 | 
+  171 |   test("动态注册 + 授权同意 + 授权码交换 + userinfo", async ({
+  172 |     page,
+  173 |     request,
+  174 |   }) => {
+  175 |     test.setTimeout(60_000);
+  176 |     // Register a public client (no secret) for PKCE.
+  177 |     const registrationResponse = await request.post(
+  178 |       "/api/auth/oauth2/register",
+  179 |       {
+  180 |         data: {
+  181 |           client_name: `e2e-public-${Date.now()}`,
+  182 |           redirect_uris: [REDIRECT_URI],
+  183 |           token_endpoint_auth_method: OAUTH_PUBLIC_CLIENT_AUTH_METHOD,
+  184 |           grant_types: [OAUTH_AUTHORIZATION_CODE_GRANT_TYPE],
+  185 |           response_types: [OAUTH_CODE_RESPONSE_TYPE],
+  186 |           scope: DCR_CLIENT_SCOPE,
+  187 |         },
+  188 |       },
+  189 |     );
+> 190 |     expect(registrationResponse.status()).toBe(201);
+      |                                           ^ Error: expect(received).toBe(expected) // Object.is equality
+  191 |     const registrationBody = (await registrationResponse.json()) as {
+  192 |       client_id?: string;
+  193 |       client_name?: string;
+  194 |     };
+  195 |     const clientId = registrationBody.client_id;
+  196 |     expect(typeof clientId).toBe("string");
+  197 |     if (typeof clientId !== "string") {
+  198 |       throw new Error("Missing OAuth client_id");
+  199 |     }
+  200 |     expect(registrationBody.client_name).toMatch(/^e2e-public-/);
+  201 | 
+  202 |     await signInAsDebugUser(page, "/");
+  203 | 
+  204 |     // Start authorize flow (will redirect to consent page).
+  205 |     const authorizeResponse = await page.request.get(
+  206 |       "/api/auth/oauth2/authorize",
+  207 |       {
+  208 |         params: {
+  209 |           response_type: OAUTH_CODE_RESPONSE_TYPE,
+  210 |           client_id: clientId,
+  211 |           redirect_uri: REDIRECT_URI,
+  212 |           scope: DCR_CLIENT_SCOPE,
+  213 |           state: "e2e-state",
+  214 |           prompt: "consent",
+  215 |           code_challenge: await generateCodeChallenge(CODE_VERIFIER),
+  216 |           code_challenge_method: "S256",
+  217 |           resource: RESOURCE,
+  218 |         },
+  219 |         maxRedirects: 0,
+  220 |       },
+  221 |     );
+  222 |     expect(authorizeResponse.status()).toBe(302);
+  223 |     const consentLocation = authorizeResponse.headers().location;
+  224 |     expect(consentLocation).toContain("/oauth/authorize?");
+  225 | 
+  226 |     // Complete consent UI.
+  227 |     await page.goto(consentLocation);
+  228 |     await page.waitForLoadState("domcontentloaded");
+  229 |     const allowButton = page.getByRole("button", {
+  230 |       name: /allow|允许|授权/i,
+  231 |     });
+  232 |     if ((await allowButton.count()) === 0) {
+  233 |       await page
+  234 |         .getByRole("button", { name: /Debug User \(Dev\)|调试用户（开发）/i })
+  235 |         .first()
+  236 |         .click();
+  237 |       await page.waitForURL("**/oauth/authorize**");
+  238 |     }
+  239 |     await expect(allowButton).toBeVisible();
+  240 |     await allowButton.click();
+  241 |     await page.waitForURL("**/e2e/oauth/callback**");
+  242 | 
+  243 |     const callbackUrl = new URL(page.url());
+  244 |     const code = callbackUrl.searchParams.get("code");
+  245 |     expect(typeof code).toBe("string");
+  246 |     if (typeof code !== "string") {
+  247 |       throw new Error("Missing OAuth authorization code");
+  248 |     }
+  249 | 
+  250 |     // Exchange code for token.
+  251 |     const tokenResponse = await request.post("/api/auth/oauth2/token", {
+  252 |       form: {
+  253 |         grant_type: OAUTH_AUTHORIZATION_CODE_GRANT_TYPE,
+  254 |         client_id: clientId,
+  255 |         code,
+  256 |         code_verifier: CODE_VERIFIER,
+  257 |         redirect_uri: REDIRECT_URI,
+  258 |         resource: RESOURCE,
+  259 |       },
+  260 |     });
+  261 |     expect(tokenResponse.status()).toBe(200);
+  262 |     const tokenBody = (await tokenResponse.json()) as {
+  263 |       access_token?: string;
+  264 |     };
+  265 |     expect(typeof tokenBody.access_token).toBe("string");
+  266 | 
+  267 |     // Userinfo should return profile claims when openid scope exists.
+  268 |     const userinfoResponse = await request.get("/api/auth/oauth2/userinfo", {
+  269 |       headers: { authorization: `Bearer ${tokenBody.access_token}` },
+  270 |     });
+  271 |     expect(userinfoResponse.status()).toBe(200);
+  272 |     const userinfoBody = (await userinfoResponse.json()) as { sub?: string };
+  273 |     expect(typeof userinfoBody.sub).toBe("string");
+  274 |   });
+  275 | 
+  276 |   test("动态注册接受无 redirect URI 的纯 device 客户端", async ({
+  277 |     request,
+  278 |   }) => {
+  279 |     const registrationResponse = await request.post(
+  280 |       "/api/auth/oauth2/register",
+  281 |       {
+  282 |         data: {
+  283 |           client_name: `e2e-device-${Date.now()}`,
+  284 |           token_endpoint_auth_method: OAUTH_PUBLIC_CLIENT_AUTH_METHOD,
+  285 |           grant_types: [OAUTH_DEVICE_CODE_GRANT_TYPE],
+  286 |           scope: `${OAUTH_OPENID_SCOPE} ${OAUTH_PROFILE_SCOPE}`,
+  287 |         },
+  288 |       },
+  289 |     );
+  290 | 
+```

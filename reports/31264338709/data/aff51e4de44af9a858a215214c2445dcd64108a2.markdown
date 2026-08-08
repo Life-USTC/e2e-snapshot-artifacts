@@ -1,0 +1,333 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: src/app/welcome/test.ts >> /account/welcome 上传头像后保存处理后的 R2 图片
+- Location: tests/e2e/src/app/welcome/test.ts:105:1
+
+# Error details
+
+```
+Error: expect(page).toHaveURL(expected) failed
+
+Expected pattern: /\/workspace\/overview(?:\?.*)?$/
+Received string:  "http://localhost:3000/account/welcome"
+Timeout: 5000ms
+
+Call log:
+  - Expect "toHaveURL" with timeout 5000ms
+    14 × unexpected value "http://localhost:3000/account/welcome"
+
+```
+
+```yaml
+- link "Skip to main content":
+  - /url: "#main-content"
+- navigation "Primary navigation":
+  - list:
+    - listitem:
+      - link "Life@USTC":
+        - /url: /
+  - button "Workspace" [expanded]
+  - list:
+    - listitem:
+      - link "Today":
+        - /url: /workspace/overview
+    - listitem:
+      - link "Calendar":
+        - /url: /workspace/calendar
+    - listitem:
+      - link "Homework":
+        - /url: /workspace/homeworks
+    - listitem:
+      - link "Todos":
+        - /url: /workspace/todos
+    - listitem:
+      - link "Exams":
+        - /url: /workspace/exams
+    - listitem:
+      - link "Section Subscriptions":
+        - /url: /workspace/subscriptions
+  - button "Catalog" [expanded]
+  - list:
+    - listitem:
+      - link "Courses":
+        - /url: /catalog/courses
+    - listitem:
+      - link "Sections":
+        - /url: /catalog/sections
+    - listitem:
+      - link "Teachers":
+        - /url: /catalog/teachers
+    - listitem:
+      - link "Shuttle Bus":
+        - /url: /catalog/bus
+    - listitem:
+      - link "Websites":
+        - /url: /catalog/links
+  - button "Campus" [expanded]
+  - list:
+    - listitem:
+      - link "Mobile App":
+        - /url: /mobile-app
+- button "Toggle Sidebar"
+- list:
+  - listitem:
+    - button "Profile menu":
+      - img "Profile menu"
+      - text: Me Me
+- main:
+  - button "Open search": Search sections, teachers, courses, homework, todos… Ctrl K
+  - button "Language selector"
+  - button "Theme selector"
+  - text: First sign-in Complete Your Profile
+  - paragraph: Set your name and username to continue.
+  - alert: Avatar processing is temporarily unavailable. Try again later or use an upstream avatar.
+  - group "Profile Picture":
+    - text: Profile Picture
+    - img "Profile Picture"
+    - group "Profile Picture":
+      - radio "Avatar option 1":
+        - img "Avatar option"
+    - group:
+      - text: Upload your own avatar
+      - button "Upload your own avatar"
+      - paragraph: JPG, PNG, WebP, or AVIF up to 5 MB. Cloudflare center-crops it to 256×256 and converts it to WebP.
+  - group:
+    - text: Name *
+    - textbox "Name *":
+      - /placeholder: Your name
+      - text: Dev User
+  - group:
+    - text: Username *
+    - textbox "Username *":
+      - /placeholder: username
+      - text: dev-user
+    - paragraph: Lowercase letters, numbers, and hyphens only, max 20 chars
+  - button "Continue"
+  - text: Build your workspace
+  - paragraph: After saving your profile, you can browse sections, jump in from courses, or match section codes in bulk.
+  - link "Browse Sections":
+    - /url: /catalog/sections
+  - link "Browse Courses":
+    - /url: /catalog/courses
+  - button "Bulk Add Subscriptions"
+  - paragraph: Subscriptions and workspace
+  - paragraph: Subscribe to sections to bring homework, exams, and course events into your workspace.
+  - paragraph: Calendar and todos
+  - paragraph: See course events beside personal todos, or export an iCal feed to your usual calendar.
+  - paragraph: Account and security
+  - paragraph: After setup, link sign-in accounts, add a passkey, and manage authorized applications.
+- text: Complete Your Profile - Life@USTC
+```
+
+# Test source
+
+```ts
+  31  | import { gotoAndWaitForReady } from "../../../utils/page-ready";
+  32  | import { captureStepScreenshot } from "../../../utils/screenshot";
+  33  | import { assertPageContract } from "../_shared/page-contract";
+  34  | 
+  35  | // These tests mutate the shared debug user profile.
+  36  | test.describe.configure({ mode: "serial" });
+  37  | 
+  38  | test("/account/welcome 未登录重定向到登录页", async ({ page }, testInfo) => {
+  39  |   await expectRequiresSignIn(page, "/account/welcome");
+  40  |   await captureStepScreenshot(page, testInfo, "welcome/unauthorized");
+  41  | });
+  42  | 
+  43  | test("/account/welcome 显示必填字段", async ({ page }, testInfo) => {
+  44  |   test.setTimeout(300_000);
+  45  |   await signInAsDebugUser(page, "/");
+  46  |   const sessionUser = await getCurrentSessionUser(page);
+  47  |   const originalUser = await getUserProfileById(sessionUser.id);
+  48  | 
+  49  |   await updateUserProfileById(sessionUser.id, { name: null, username: null });
+  50  | 
+  51  |   try {
+  52  |     await gotoAndWaitForReady(page, "/account/welcome", {
+  53  |       testInfo,
+  54  |       screenshotLabel: "welcome",
+  55  |     });
+  56  | 
+  57  |     // user.name and user.username fields (user.yml first-login-welcome.display.fields)
+  58  |     await expect(
+  59  |       page.getByRole("textbox", { name: /^(姓名|Name)\b/i }),
+  60  |     ).toBeVisible();
+  61  |     await expect(
+  62  |       page.getByRole("textbox", { name: /^(用户名|Username)\b/i }),
+  63  |     ).toBeVisible();
+  64  |     await expect(
+  65  |       page.getByLabel(/上传自己的头像|Upload your own avatar/i),
+  66  |     ).toBeVisible();
+  67  | 
+  68  |     // user.image / user.profilePictures[] — avatar area should be visible
+  69  |     const avatarArea = page
+  70  |       .locator('[data-testid="avatar-selector"], img[alt], [role="img"]')
+  71  |       .first();
+  72  |     await expect(avatarArea).toBeVisible();
+  73  | 
+  74  |     // semesters[] dropdown options (defaultSemesterId preselected)
+  75  |     // The semester selector is inside the Bulk Import dialog
+  76  |     const bulkImportBtn = page.getByRole("button", {
+  77  |       name: /批量添加订阅|Bulk Add Subscriptions/i,
+  78  |     });
+  79  |     await expect(bulkImportBtn).toBeVisible();
+  80  |     await bulkImportBtn.click();
+  81  |     // Dialog opens, semester selector inside
+  82  |     const dialog = page
+  83  |       .getByRole("dialog")
+  84  |       .or(page.getByRole("alertdialog"))
+  85  |       .first();
+  86  |     await expect(dialog).toBeVisible({ timeout: 8_000 });
+  87  |     const semesterSelector = dialog
+  88  |       .getByRole("combobox", { name: /^(学期|Semester)\b/i })
+  89  |       .first();
+  90  |     await expect(semesterSelector).toBeVisible();
+  91  |     await expect(semesterSelector).toContainText(DEV_SEED.semesterNameCn);
+  92  |     // Close dialog
+  93  |     await page.keyboard.press("Escape");
+  94  | 
+  95  |     await captureStepScreenshot(page, testInfo, "welcome/fields");
+  96  |   } finally {
+  97  |     await updateUserProfileById(sessionUser.id, {
+  98  |       name: originalUser.name ?? DEV_SEED.debugName,
+  99  |       username: originalUser.username ?? DEV_SEED.debugUsername,
+  100 |       image: originalUser.image ?? null,
+  101 |     });
+  102 |   }
+  103 | });
+  104 | 
+  105 | test("/account/welcome 上传头像后保存处理后的 R2 图片", async ({ page }) => {
+  106 |   test.setTimeout(300_000);
+  107 |   await signInAsDebugUser(page, "/");
+  108 |   const sessionUser = await getCurrentSessionUser(page);
+  109 |   const originalUser = await getUserProfileById(sessionUser.id);
+  110 |   await updateUserProfileById(sessionUser.id, { name: null, username: null });
+  111 | 
+  112 |   try {
+  113 |     await gotoAndWaitForReady(page, "/account/welcome");
+  114 |     await page
+  115 |       .getByLabel(/上传自己的头像|Upload your own avatar/i)
+  116 |       .setInputFiles({
+  117 |         name: "avatar.png",
+  118 |         mimeType: "image/png",
+  119 |         buffer: Buffer.from(
+  120 |           "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAusB9Wl6n0sAAAAASUVORK5CYII=",
+  121 |           "base64",
+  122 |         ),
+  123 |       });
+  124 |     await page
+  125 |       .getByRole("textbox", { name: /^(姓名|Name)\b/i })
+  126 |       .fill(DEV_SEED.debugName);
+  127 |     await page
+  128 |       .getByRole("textbox", { name: /^(用户名|Username)\b/i })
+  129 |       .fill(DEV_SEED.debugUsername);
+  130 |     await page.getByRole("button", { name: /继续|Continue/i }).click();
+> 131 |     await expect(page).toHaveURL(/\/workspace\/overview(?:\?.*)?$/);
+      |                        ^ Error: expect(page).toHaveURL(expected) failed
+  132 | 
+  133 |     const updatedUser = await getUserProfileById(sessionUser.id);
+  134 |     expect(updatedUser.image).toMatch(
+  135 |       new RegExp(`^/media/avatars/${sessionUser.id}/[0-9a-f-]{36}\\.webp$`),
+  136 |     );
+  137 |     const avatarResponse = await page.request.get(updatedUser.image ?? "");
+  138 |     expect(avatarResponse.status()).toBe(200);
+  139 |     expect(avatarResponse.headers()["content-type"]).toBe("image/webp");
+  140 |   } finally {
+  141 |     await updateUserProfileById(sessionUser.id, {
+  142 |       name: originalUser.name ?? DEV_SEED.debugName,
+  143 |       username: originalUser.username ?? DEV_SEED.debugUsername,
+  144 |       image: originalUser.image ?? null,
+  145 |     });
+  146 |   }
+  147 | });
+  148 | 
+  149 | test("资料不完整的登录用户从普通页面重定向到 /welcome", async ({ page }) => {
+  150 |   test.setTimeout(300_000);
+  151 |   await signInAsDebugUser(page, "/");
+  152 |   const sessionUser = await getCurrentSessionUser(page);
+  153 |   const originalUser = await getUserProfileById(sessionUser.id);
+  154 | 
+  155 |   await updateUserProfileById(sessionUser.id, {
+  156 |     name: null,
+  157 |     username: null,
+  158 |   });
+  159 | 
+  160 |   try {
+  161 |     await gotoAndWaitForReady(page, "/account/settings", {
+  162 |       expectMainContent: false,
+  163 |     });
+  164 | 
+  165 |     await expect(page).toHaveURL(
+  166 |       /\/account\/welcome\?callbackUrl=%2Faccount%2Fsettings$/,
+  167 |     );
+  168 |     await expect(
+  169 |       page.getByRole("textbox", { name: /^(姓名|Name)\b/i }),
+  170 |     ).toBeVisible();
+  171 |   } finally {
+  172 |     await updateUserProfileById(sessionUser.id, {
+  173 |       name: originalUser.name ?? DEV_SEED.debugName,
+  174 |       username: originalUser.username ?? DEV_SEED.debugUsername,
+  175 |       image: originalUser.image ?? null,
+  176 |     });
+  177 |   }
+  178 | });
+  179 | 
+  180 | test("/account/welcome 完成后返回原回调页面", async ({ page }, testInfo) => {
+  181 |   test.setTimeout(300_000);
+  182 |   await signInAsDebugUser(page, "/");
+  183 |   const sessionUser = await getCurrentSessionUser(page);
+  184 |   const originalUser = await getUserProfileById(sessionUser.id);
+  185 | 
+  186 |   await updateUserProfileById(sessionUser.id, {
+  187 |     name: null,
+  188 |     username: null,
+  189 |   });
+  190 | 
+  191 |   try {
+  192 |     await gotoAndWaitForReady(page, "/account/settings", {
+  193 |       expectMainContent: false,
+  194 |     });
+  195 | 
+  196 |     await expect(page).toHaveURL(
+  197 |       /\/account\/welcome\?callbackUrl=%2Faccount%2Fsettings$/,
+  198 |     );
+  199 |     await page
+  200 |       .getByRole("textbox", { name: /^(姓名|Name)\b/i })
+  201 |       .fill(DEV_SEED.debugName);
+  202 |     await page
+  203 |       .getByRole("textbox", { name: /^(用户名|Username)\b/i })
+  204 |       .fill(DEV_SEED.debugUsername);
+  205 | 
+  206 |     await page.getByRole("button", { name: /继续|Continue/i }).click();
+  207 | 
+  208 |     await expect(page).toHaveURL(/\/account\/settings\/profile(?:\?.*)?$/, {
+  209 |       timeout: 15_000,
+  210 |     });
+  211 |     await expect(page.locator("#main-content")).toBeVisible();
+  212 |     await captureStepScreenshot(page, testInfo, "welcome/completed-callback");
+  213 |   } finally {
+  214 |     await updateUserProfileById(sessionUser.id, {
+  215 |       name: originalUser.name ?? DEV_SEED.debugName,
+  216 |       username: originalUser.username ?? DEV_SEED.debugUsername,
+  217 |       image: originalUser.image ?? null,
+  218 |     });
+  219 |   }
+  220 | });
+  221 | 
+  222 | test("/account/welcome 未完善资料的用户可完成资料并返回首页", async ({
+  223 |   page,
+  224 | }, testInfo) => {
+  225 |   test.setTimeout(300_000);
+  226 |   await signInAsDebugUser(page, "/");
+  227 | 
+  228 |   const sessionUser = await getCurrentSessionUser(page);
+  229 |   const originalUser = await getUserProfileById(sessionUser.id);
+  230 | 
+  231 |   await updateUserProfileById(sessionUser.id, {
+```

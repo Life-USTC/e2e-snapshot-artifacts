@@ -1,0 +1,512 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: src/app/api/mcp/oauth-tokens.test.ts >> /api/mcp - OAuth token 资源绑定 >> 授权码已绑定 resource 时 token exchange 可省略 resource
+- Location: tests/e2e/src/app/api/mcp/oauth-tokens.test.ts:20:3
+
+# Error details
+
+```
+Error: expect(received).toBe(expected) // Object.is equality
+
+Expected: 201
+Received: 400
+```
+
+# Page snapshot
+
+```yaml
+- generic [ref=e2]:
+  - generic [ref=e3]:
+    - link "Skip to main content" [ref=e4] [cursor=pointer]:
+      - /url: "#main-content"
+    - generic [ref=e5]:
+      - generic [ref=e8]:
+        - navigation "Primary navigation" [ref=e9]:
+          - list [ref=e11]:
+            - listitem [ref=e12]:
+              - link "Life@USTC" [ref=e13] [cursor=pointer]:
+                - /url: /
+                - img [ref=e14]
+                - generic [ref=e15]: Life@USTC
+          - generic [ref=e16]:
+            - generic [ref=e18]:
+              - button "Workspace" [expanded] [ref=e19]:
+                - text: Workspace
+                - img [ref=e20]
+              - list [ref=e24]:
+                - listitem [ref=e25]:
+                  - link "Today" [ref=e26] [cursor=pointer]:
+                    - /url: /workspace/overview
+                    - img [ref=e27]
+                    - generic [ref=e28]: Today
+                - listitem [ref=e29]:
+                  - link "Calendar" [ref=e30] [cursor=pointer]:
+                    - /url: /workspace/calendar
+                    - img [ref=e31]
+                    - generic [ref=e32]: Calendar
+                    - generic [ref=e33]: "19"
+                - listitem [ref=e34]:
+                  - link "Homework" [ref=e35] [cursor=pointer]:
+                    - /url: /workspace/homeworks
+                    - img [ref=e36]
+                    - generic [ref=e37]: Homework
+                    - generic [ref=e38]: "6"
+                - listitem [ref=e39]:
+                  - link "Todos" [ref=e40] [cursor=pointer]:
+                    - /url: /workspace/todos
+                    - img [ref=e41]
+                    - generic [ref=e42]: Todos
+                    - generic [ref=e43]: "5"
+                - listitem [ref=e44]:
+                  - link "Exams" [ref=e45] [cursor=pointer]:
+                    - /url: /workspace/exams
+                    - img [ref=e46]
+                    - generic [ref=e47]: Exams
+                - listitem [ref=e48]:
+                  - link "Section Subscriptions" [ref=e49] [cursor=pointer]:
+                    - /url: /workspace/subscriptions
+                    - img [ref=e50]
+                    - generic [ref=e51]: Section Subscriptions
+                    - generic [ref=e52]: "4"
+            - generic [ref=e54]:
+              - button "Catalog" [expanded] [ref=e55]:
+                - text: Catalog
+                - img [ref=e56]
+              - list [ref=e60]:
+                - listitem [ref=e61]:
+                  - link "Courses" [ref=e62] [cursor=pointer]:
+                    - /url: /catalog/courses
+                    - img [ref=e63]
+                    - generic [ref=e64]: Courses
+                - listitem [ref=e65]:
+                  - link "Sections" [ref=e66] [cursor=pointer]:
+                    - /url: /catalog/sections
+                    - img [ref=e67]
+                    - generic [ref=e68]: Sections
+                - listitem [ref=e69]:
+                  - link "Teachers" [ref=e70] [cursor=pointer]:
+                    - /url: /catalog/teachers
+                    - img [ref=e71]
+                    - generic [ref=e72]: Teachers
+                - listitem [ref=e73]:
+                  - link "Shuttle Bus" [ref=e74] [cursor=pointer]:
+                    - /url: /catalog/bus
+                    - img [ref=e75]
+                    - generic [ref=e76]: Shuttle Bus
+                - listitem [ref=e77]:
+                  - link "Websites" [ref=e78] [cursor=pointer]:
+                    - /url: /catalog/links
+                    - img [ref=e79]
+                    - generic [ref=e80]: Websites
+            - generic [ref=e82]:
+              - button "Campus" [expanded] [ref=e83]:
+                - text: Campus
+                - img [ref=e84]
+              - list [ref=e87]:
+                - listitem [ref=e88]:
+                  - link "Mobile App" [ref=e89] [cursor=pointer]:
+                    - /url: /mobile-app
+                    - img [ref=e90]
+                    - generic [ref=e91]: Mobile App
+        - button "Toggle Sidebar" [ref=e92]
+        - list [ref=e94]:
+          - listitem [ref=e95]:
+            - button "Profile menu" [ref=e96]:
+              - img "Dev User" [ref=e98]
+              - generic [ref=e99]:
+                - generic [ref=e100]: Dev User
+                - generic [ref=e101]: "@dev-user"
+              - img [ref=e102]
+      - main "Overview" [ref=e103]:
+        - generic [ref=e105]:
+          - button "Open search" [ref=e107]:
+            - img
+            - generic [ref=e108]: Search sections, teachers, courses, homework, todos…
+            - generic [ref=e109]:
+              - generic: Ctrl K
+          - generic [ref=e111]:
+            - button "Language selector" [ref=e112]:
+              - img
+            - button "Theme selector" [ref=e113]:
+              - img
+        - generic [ref=e116]:
+          - heading "Overview" [level=1] [ref=e117]
+          - generic [ref=e118]:
+            - generic [ref=e119]:
+              - heading "Now & next" [level=2] [ref=e121]
+              - paragraph [ref=e122]: Nothing is due or scheduled in the next 7 days.
+            - generic [ref=e124]:
+              - heading "This week" [level=2] [ref=e126]:
+                - link "This week" [ref=e127] [cursor=pointer]:
+                  - /url: /workspace/calendar
+              - generic [ref=e131]:
+                - generic [ref=e132]:
+                  - generic [ref=e133]:
+                    - generic [ref=e134]: Aug 9
+                    - generic [ref=e135]: Sun
+                  - generic [ref=e137]: Open
+                - generic [ref=e138]:
+                  - generic [ref=e139]:
+                    - generic [ref=e140]: Aug 10
+                    - generic [ref=e141]: Mon
+                  - generic [ref=e143]: Open
+                - generic [ref=e144]:
+                  - generic [ref=e145]:
+                    - generic [ref=e146]: Aug 11
+                    - generic [ref=e147]: Tue
+                  - generic [ref=e149]: Open
+                - generic [ref=e150]:
+                  - generic [ref=e151]:
+                    - generic [ref=e152]: Aug 12
+                    - generic [ref=e153]: Wed
+                  - generic [ref=e155]: Open
+                - generic [ref=e156]:
+                  - generic [ref=e157]:
+                    - generic [ref=e158]: Aug 13
+                    - generic [ref=e159]: Thu
+                  - generic [ref=e161]: Open
+                - generic [ref=e162]:
+                  - generic [ref=e163]:
+                    - generic [ref=e164]: Aug 14
+                    - generic [ref=e165]: Fri
+                  - generic [ref=e167]: Open
+                - generic [ref=e168]:
+                  - generic [ref=e169]:
+                    - generic [ref=e170]: Aug 15
+                    - generic [ref=e171]: Sat
+                  - generic [ref=e173]: Open
+            - generic [ref=e174]:
+              - heading "Websites" [level=2] [ref=e176]:
+                - link "Websites" [ref=e177] [cursor=pointer]:
+                  - /url: /catalog/links
+              - generic [ref=e178]:
+                - generic [ref=e179]:
+                  - link "Academic Affairs System Course selection, grades, and teaching affairs." [ref=e180] [cursor=pointer]:
+                    - /url: /api/catalog/links/resolve?slug=jw
+                    - generic [ref=e181]: CL
+                    - generic [ref=e182]:
+                      - generic [ref=e183]: Academic Affairs System
+                      - generic [ref=e184]: Course selection, grades, and teaching affairs.
+                  - button "Unpin" [ref=e187]:
+                    - img
+                - generic [ref=e188]:
+                  - link "Confession Wall Anonymous campus discussion platform." [ref=e189] [cursor=pointer]:
+                    - /url: /api/catalog/links/resolve?slug=confession-wall
+                    - generic [ref=e190]: US
+                    - generic [ref=e191]:
+                      - generic [ref=e192]: Confession Wall
+                      - generic [ref=e193]: Anonymous campus discussion platform.
+                  - button "Unpin" [ref=e196]:
+                    - img
+                - generic [ref=e197]:
+                  - link "USTC Email USTC email service." [ref=e198] [cursor=pointer]:
+                    - /url: /api/catalog/links/resolve?slug=mail
+                    - generic [ref=e199]: ML
+                    - generic [ref=e200]:
+                      - generic [ref=e201]: USTC Email
+                      - generic [ref=e202]: USTC email service.
+                  - button "Unpin" [ref=e205]:
+                    - img
+                - generic [ref=e206]:
+                  - link "USTC Official Site University news and announcements." [ref=e207] [cursor=pointer]:
+                    - /url: /api/catalog/links/resolve?slug=official
+                    - generic [ref=e208]: SC
+                    - generic [ref=e209]:
+                      - generic [ref=e210]: USTC Official Site
+                      - generic [ref=e211]: University news and announcements.
+                  - button "Unpin" [ref=e214]:
+                    - img
+            - generic [ref=e215]:
+              - generic [ref=e216]:
+                - heading "Today" [level=2] [ref=e218]:
+                  - link "Today" [ref=e219] [cursor=pointer]:
+                    - /url: /workspace/calendar
+                - paragraph [ref=e220]: No classes scheduled for today.
+              - generic [ref=e221]:
+                - generic [ref=e222]:
+                  - heading "Overdue" [level=2] [ref=e223]:
+                    - link "Overdue" [ref=e224] [cursor=pointer]:
+                      - /url: /workspace/homeworks
+                  - link "View all" [ref=e226] [cursor=pointer]:
+                    - /url: /workspace/homeworks
+                - list [ref=e227]:
+                  - listitem [ref=e228]:
+                    - 'link "逾期实验数据补交 Homework Cryptographic Engineering: Principles and Practice Overdue" [ref=e229] [cursor=pointer]':
+                      - /url: /catalog/sections/9902001?homeworkId=cmqw1srez0003bqt45qjilal7#homework
+                      - generic [ref=e230]:
+                        - generic [ref=e231]: 逾期实验数据补交
+                        - generic [ref=e232]:
+                          - generic [ref=e233]: Homework
+                          - generic [ref=e234]: "Cryptographic Engineering: Principles and Practice"
+                      - generic [ref=e235]: Overdue
+                  - listitem [ref=e236]:
+                    - 'link "今日课堂反馈整理 Homework Cryptographic Engineering: Principles and Practice Overdue" [ref=e237] [cursor=pointer]':
+                      - /url: /catalog/sections/9902001?homeworkId=cmqw1srez0004bqt4qy3jviis#homework
+                      - generic [ref=e238]:
+                        - generic [ref=e239]: 今日课堂反馈整理
+                        - generic [ref=e240]:
+                          - generic [ref=e241]: Homework
+                          - generic [ref=e242]: "Cryptographic Engineering: Principles and Practice"
+                      - generic [ref=e243]: Overdue
+                  - listitem [ref=e244]:
+                    - link "实验报告与误差分析 Homework Environmental Microbiology Overdue" [ref=e245] [cursor=pointer]:
+                      - /url: /catalog/sections/9902003?homeworkId=cmqw1srez0008bqt467yuqdec#homework
+                      - generic [ref=e246]:
+                        - generic [ref=e247]: 实验报告与误差分析
+                        - generic [ref=e248]:
+                          - generic [ref=e249]: Homework
+                          - generic [ref=e250]: Environmental Microbiology
+                      - generic [ref=e251]: Overdue
+                  - listitem [ref=e252]:
+                    - 'link "迭代二系统设计评审 Homework Cryptographic Engineering: Principles and Practice Overdue" [ref=e253] [cursor=pointer]':
+                      - /url: /catalog/sections/9902001?homeworkId=cmqw1srez0005bqt41y0wbcrp#homework
+                      - generic [ref=e254]:
+                        - generic [ref=e255]: 迭代二系统设计评审
+                        - generic [ref=e256]:
+                          - generic [ref=e257]: Homework
+                          - generic [ref=e258]: "Cryptographic Engineering: Principles and Practice"
+                      - generic [ref=e259]: Overdue
+                  - listitem [ref=e260]:
+                    - link "特征值综合练习 Homework Introduction to Astrophysics Overdue" [ref=e261] [cursor=pointer]:
+                      - /url: /catalog/sections/9902002?homeworkId=cmqw1srez0007bqt4p55o2ara#homework
+                      - generic [ref=e262]:
+                        - generic [ref=e263]: 特征值综合练习
+                        - generic [ref=e264]:
+                          - generic [ref=e265]: Homework
+                          - generic [ref=e266]: Introduction to Astrophysics
+                      - generic [ref=e267]: Overdue
+            - generic [ref=e268]:
+              - generic [ref=e269]:
+                - heading "Incomplete homework" [level=2] [ref=e271]:
+                  - link "Incomplete homework" [ref=e272] [cursor=pointer]:
+                    - /url: /workspace/homeworks
+                - paragraph [ref=e273]: No incomplete homework.
+              - generic [ref=e274]:
+                - generic [ref=e275]:
+                  - heading "Todos" [level=2] [ref=e276]:
+                    - link "Todos" [ref=e277] [cursor=pointer]:
+                      - /url: /workspace/todos
+                  - generic [ref=e279]:
+                    - generic [ref=e280]: Due today 0
+                    - generic [ref=e281]: ·
+                    - generic [ref=e282]: Due in 3 days 0
+                - list [ref=e283]:
+                  - listitem [ref=e284]:
+                    - link "整理课程资料 Medium Pending" [ref=e285] [cursor=pointer]:
+                      - /url: /workspace/todos
+                      - generic [ref=e286]:
+                        - generic [ref=e287]: 整理课程资料
+                        - generic [ref=e288]:
+                          - generic [ref=e289]: Medium
+                          - generic [ref=e290]: Pending
+              - generic [ref=e291]:
+                - generic [ref=e292]:
+                  - heading "Exam and deadline radar" [level=2] [ref=e293]:
+                    - link "Exam and deadline radar" [ref=e294] [cursor=pointer]:
+                      - /url: /workspace/exams
+                  - generic [ref=e296]: "0"
+                - paragraph [ref=e297]: No exams in the next 7 days.
+  - generic [ref=e298]: Overview - Life@USTC
+```
+
+# Test source
+
+```ts
+  1   | import { Client } from "@modelcontextprotocol/sdk/client/index.js";
+  2   | import { StreamableHTTPClientTransport } from "@modelcontextprotocol/sdk/client/streamableHttp.js";
+  3   | import { expect, type Page } from "@playwright/test";
+  4   | import {
+  5   |   DEFAULT_OAUTH_CLIENT_SCOPES,
+  6   |   OAUTH_AUTHORIZATION_CODE_GRANT_TYPE,
+  7   |   OAUTH_CODE_RESPONSE_TYPE,
+  8   |   OAUTH_PUBLIC_CLIENT_AUTH_METHOD,
+  9   |   PUBLIC_REST_FEATURES,
+  10  |   restReadScope,
+  11  |   restWriteScope,
+  12  | } from "@/lib/oauth/constants";
+  13  | import { sha256Base64Url } from "../../../../../shared/crypto";
+  14  | import { signInAsDebugUser } from "../../../../utils/auth";
+  15  | import { DEV_SEED } from "../../../../utils/dev-seed";
+  16  | import {
+  17  |   getCurrentSessionUser,
+  18  |   PLAYWRIGHT_BASE_URL,
+  19  | } from "../../../../utils/e2e-db";
+  20  | 
+  21  | async function generateCodeChallenge(codeVerifier: string) {
+  22  |   return sha256Base64Url(codeVerifier);
+  23  | }
+  24  | 
+  25  | const REDIRECT_URI = `${PLAYWRIGHT_BASE_URL}/e2e/oauth/callback`;
+  26  | export const MCP_CLIENT_SCOPES = [
+  27  |   ...DEFAULT_OAUTH_CLIENT_SCOPES,
+  28  |   ...PUBLIC_REST_FEATURES.flatMap((feature) => [
+  29  |     restReadScope(feature),
+  30  |     restWriteScope(feature),
+  31  |   ]),
+  32  | ];
+  33  | export const MCP_CLIENT_SCOPE = MCP_CLIENT_SCOPES.join(" ");
+  34  | export const DEFAULT_CLIENT_SCOPE = DEFAULT_OAUTH_CLIENT_SCOPES.join(" ");
+  35  | export const TRUSTED_BROWSER_ORIGIN = PLAYWRIGHT_BASE_URL.includes("127.0.0.1")
+  36  |   ? PLAYWRIGHT_BASE_URL.replace("127.0.0.1", "localhost")
+  37  |   : PLAYWRIGHT_BASE_URL.replace("localhost", "127.0.0.1");
+  38  | 
+  39  | async function resumeConsentIfSignInPage(page: Page) {
+  40  |   const allowButton = page.getByRole("button", { name: /允许|Allow/i });
+  41  |   const debugSignInButton = page
+  42  |     .getByRole("button", {
+  43  |       name: /Sign in with Debug User \(Dev\)|调试用户（开发）/i,
+  44  |     })
+  45  |     .first();
+  46  |   const expectConsentDestination = async () => {
+  47  |     await expect(page.getByText(/回调主机|Redirect host/i)).toBeVisible();
+  48  |     await expect(
+  49  |       page.getByText(/本地应用|application on your device/i),
+  50  |     ).toBeVisible();
+  51  |   };
+  52  | 
+  53  |   for (let attempt = 0; attempt < 3; attempt += 1) {
+  54  |     const visibleTarget = await Promise.race([
+  55  |       allowButton
+  56  |         .waitFor({ state: "visible", timeout: attempt === 0 ? 5_000 : 1_500 })
+  57  |         .then(() => "allow" as const)
+  58  |         .catch(() => null),
+  59  |       debugSignInButton
+  60  |         .waitFor({ state: "visible", timeout: attempt === 0 ? 5_000 : 1_500 })
+  61  |         .then(() => "signin" as const)
+  62  |         .catch(() => null),
+  63  |     ]);
+  64  | 
+  65  |     if (visibleTarget === "allow") {
+  66  |       await expectConsentDestination();
+  67  |       return;
+  68  |     }
+  69  |     if (visibleTarget === "signin") {
+  70  |       await debugSignInButton.click();
+  71  |       await page.waitForURL(/\/oauth\/authorize\?/);
+  72  |     }
+  73  |   }
+  74  | 
+  75  |   await allowButton.waitFor({ state: "visible" });
+  76  |   await expectConsentDestination();
+  77  | }
+  78  | 
+  79  | async function registerPublicClient(request: Page["request"], scope: string) {
+  80  |   const response = await request.post("/api/auth/oauth2/register", {
+  81  |     data: {
+  82  |       client_name: `mcp-e2e-${Date.now()}`,
+  83  |       redirect_uris: [REDIRECT_URI],
+  84  |       token_endpoint_auth_method: OAUTH_PUBLIC_CLIENT_AUTH_METHOD,
+  85  |       grant_types: [OAUTH_AUTHORIZATION_CODE_GRANT_TYPE],
+  86  |       response_types: [OAUTH_CODE_RESPONSE_TYPE],
+  87  |       scope,
+  88  |     },
+  89  |   });
+> 90  |   expect(response.status()).toBe(201);
+      |                             ^ Error: expect(received).toBe(expected) // Object.is equality
+  91  |   const body = (await response.json()) as { client_id?: string };
+  92  |   expect(typeof body.client_id).toBe("string");
+  93  |   return body.client_id as string;
+  94  | }
+  95  | 
+  96  | async function authorizeAndGetCode(
+  97  |   page: Page,
+  98  |   clientId: string,
+  99  |   options: {
+  100 |     scope: string;
+  101 |     codeChallenge?: string;
+  102 |     resource?: string;
+  103 |   },
+  104 | ) {
+  105 |   const authorizeResponse = await page.request.get(
+  106 |     "/api/auth/oauth2/authorize",
+  107 |     {
+  108 |       params: {
+  109 |         response_type: OAUTH_CODE_RESPONSE_TYPE,
+  110 |         client_id: clientId,
+  111 |         redirect_uri: REDIRECT_URI,
+  112 |         scope: options.scope,
+  113 |         state: `mcp-e2e-state-${Date.now()}`,
+  114 |         prompt: "consent",
+  115 |         ...(options.codeChallenge
+  116 |           ? {
+  117 |               code_challenge: options.codeChallenge,
+  118 |               code_challenge_method: "S256",
+  119 |             }
+  120 |           : {}),
+  121 |         ...(options.resource ? { resource: options.resource } : {}),
+  122 |       },
+  123 |       maxRedirects: 0,
+  124 |     },
+  125 |   );
+  126 | 
+  127 |   expect(authorizeResponse.status()).toBe(302);
+  128 |   const consentLocation = authorizeResponse.headers().location;
+  129 |   expect(typeof consentLocation).toBe("string");
+  130 |   expect(consentLocation).toContain("/oauth/authorize?");
+  131 | 
+  132 |   await page.goto(consentLocation);
+  133 |   await resumeConsentIfSignInPage(page);
+  134 |   await page.getByRole("button", { name: /允许|Allow/i }).click();
+  135 |   await page.waitForURL("**/e2e/oauth/callback**");
+  136 | 
+  137 |   const callbackUrl = new URL(page.url());
+  138 |   const code = callbackUrl.searchParams.get("code");
+  139 |   expect(typeof code).toBe("string");
+  140 |   return code as string;
+  141 | }
+  142 | 
+  143 | export async function issueAccessToken(
+  144 |   page: Page,
+  145 |   request: Page["request"],
+  146 |   options: {
+  147 |     scope: string;
+  148 |     clientScopes: string[];
+  149 |     resource?: string;
+  150 |     /** Whether to repeat the authorization request's `resource` at token exchange. */
+  151 |     includeResourceInTokenExchange?: boolean;
+  152 |   },
+  153 | ) {
+  154 |   const clientId = await registerPublicClient(
+  155 |     request,
+  156 |     options.clientScopes.join(" "),
+  157 |   );
+  158 | 
+  159 |   const codeVerifier =
+  160 |     "mcp-public-client-verifier-012345678901234567890123456789";
+  161 |   const codeChallenge = await generateCodeChallenge(codeVerifier);
+  162 | 
+  163 |   const code = await authorizeAndGetCode(page, clientId, {
+  164 |     scope: options.scope,
+  165 |     codeChallenge,
+  166 |     resource: options.resource,
+  167 |   });
+  168 | 
+  169 |   const includeResourceInToken =
+  170 |     options.includeResourceInTokenExchange !== false && options.resource;
+  171 | 
+  172 |   const tokenResponse = await request.post("/api/auth/oauth2/token", {
+  173 |     form: {
+  174 |       grant_type: OAUTH_AUTHORIZATION_CODE_GRANT_TYPE,
+  175 |       client_id: clientId,
+  176 |       code,
+  177 |       code_verifier: codeVerifier,
+  178 |       redirect_uri: REDIRECT_URI,
+  179 |       ...(includeResourceInToken ? { resource: options.resource } : {}),
+  180 |     },
+  181 |   });
+  182 | 
+  183 |   expect(tokenResponse.status()).toBe(200);
+  184 |   const tokenBody = (await tokenResponse.json()) as {
+  185 |     access_token?: string;
+  186 |     refresh_token?: string;
+  187 |   };
+  188 |   expect(typeof tokenBody.access_token).toBe("string");
+  189 | 
+  190 |   return {
+```
